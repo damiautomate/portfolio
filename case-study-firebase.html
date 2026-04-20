@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CHANGE TITLE FOR EACH PROJECT -->
+    <title>Zoho CRM & Bookings for NJS Royale — Damilare Babalola</title>
+    <meta name="description" content="Case study: End-to-end venue booking automation for NJS Royale Event Centre — from tour scheduling to event completion using Zoho CRM & Bookings.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           CSS VARIABLES — SAME AS ALL PAGES
+           ============================================================ */
+        :root {
+            --accent: #00D4AA;
+            --accent-dim: #00D4AA22;
+            --accent-glow: #00D4AA40;
+            --dark-bg: #0A0A0F;
+            --dark-bg-secondary: #12121A;
+            --dark-bg-card: #16161F;
+            --dark-text: #E8E8ED;
+            --dark-text-muted: #8888A0;
+            --dark-border: #2A2A3A;
+            --light-bg: #F5F3F0;
+            --light-bg-secondary: #EDEAE6;
+            --light-bg-card: #FFFFFF;
+            --light-text: #1A1A2E;
+            --light-text-muted: #6B6B80;
+            --light-border: #D8D5D0;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --container-width: 900px;
+        }
+        [data-theme="dark"] {
+            --bg: var(--dark-bg); --bg-secondary: var(--dark-bg-secondary);
+            --bg-card: var(--dark-bg-card); --text: var(--dark-text);
+            --text-muted: var(--dark-text-muted); --border: var(--dark-border);
+        }
+        [data-theme="light"] {
+            --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary);
+            --bg-card: var(--light-bg-card); --text: var(--light-text);
+            --text-muted: var(--light-text-muted); --border: var(--light-border);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            transition: background 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+        }
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; display: block; }
+        ul { list-style: none; }
+        .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+        }
+        .container-wide {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+        }
+
+        /* ============================================================
+           READING PROGRESS BAR (STICKY)
+           ============================================================ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 1100;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 3px;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: background 0.3s, backdrop-filter 0.3s, box-shadow 0.3s;
+        }
+        .navbar.scrolled {
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 var(--border);
+        }
+        [data-theme="dark"] .navbar.scrolled { background: rgba(10,10,15,0.85); }
+        [data-theme="light"] .navbar.scrolled { background: rgba(245,243,240,0.85); }
+        .navbar .container-wide { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; align-items: center; gap: 2rem; }
+        .nav-links a { font-size: 0.88rem; font-weight: 500; color: var(--text-muted); transition: color 0.3s; letter-spacing: 0.02em; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        .nav-actions { display: flex; align-items: center; gap: 1rem; }
+        .theme-toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--border); border: none; cursor: pointer; position: relative; transition: background 0.3s; }
+        .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); transition: transform 0.3s ease; }
+        [data-theme="light"] .theme-toggle::after { transform: translateX(20px); }
+        .theme-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 0.65rem; line-height: 1; pointer-events: none; }
+        .theme-icon.moon { left: 5px; } .theme-icon.sun { right: 5px; }
+        .btn-nav { padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; font-family: var(--font-body); background: var(--accent); color: #0A0A0F; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-nav:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+        .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+        .nav-hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+        .mobile-nav { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+        .mobile-nav.active { display: flex; }
+        .mobile-nav a { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--text); transition: color 0.3s; }
+        .mobile-nav a:hover { color: var(--accent); }
+        .mobile-nav-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 1.8rem; color: var(--text); cursor: pointer; }
+
+        /* ============================================================
+           REVEAL ANIMATION
+           ============================================================ */
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================================
+           HERO BANNER
+           ============================================================ */
+        .case-hero {
+            padding-top: calc(60px + 3rem);
+            padding-bottom: 0;
+        }
+        .case-hero-inner {
+            position: relative;
+        }
+        .case-breadcrumb {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.2rem;
+            animation: fadeInUp 0.5s ease both;
+        }
+        .case-breadcrumb a { color: var(--accent); transition: opacity 0.3s; }
+        .case-breadcrumb a:hover { opacity: 0.7; }
+
+        .case-tag {
+            display: inline-block; padding: 0.3rem 0.8rem; border-radius: 6px;
+            font-size: 0.72rem; font-weight: 600; background: var(--accent);
+            color: #0A0A0F; text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 1rem; animation: fadeInUp 0.5s 0.05s ease both;
+        }
+
+        .case-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 800; letter-spacing: -0.03em;
+            line-height: 1.15; margin-bottom: 0.8rem;
+            animation: fadeInUp 0.6s 0.1s ease both;
+        }
+        .case-hero-subtitle {
+            font-size: 1rem; color: var(--text-muted); line-height: 1.75;
+            max-width: 620px; margin-bottom: 1.5rem;
+            animation: fadeInUp 0.6s 0.2s ease both;
+        }
+
+        /* Key metric callout in hero */
+        .hero-metric {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.6rem 1.2rem; border-radius: 10px;
+            background: var(--accent-dim); border: 1px solid var(--accent);
+            animation: fadeInUp 0.6s 0.3s ease both;
+        }
+        .hero-metric-number {
+            font-family: var(--font-display); font-size: 1.5rem;
+            font-weight: 800; color: var(--accent);
+        }
+        .hero-metric-label {
+            font-size: 0.85rem; color: var(--text-muted);
+        }
+
+        /* Hero image */
+        .case-hero-image {
+            margin-top: 2.5rem; border-radius: 14px; overflow: hidden;
+            border: 1px solid var(--border); background: var(--bg-secondary);
+            max-height: 420px; display: flex; align-items: center; justify-content: center;
+            animation: fadeInUp 0.7s 0.4s ease both;
+        }
+        .case-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+        .case-hero-image .placeholder {
+            padding: 4rem 2rem; color: var(--text-muted); font-size: 0.85rem; text-align: center;
+        }
+
+        /* ============================================================
+           QUICK FACTS STRIP
+           ============================================================ */
+        .quick-facts {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .facts-grid {
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
+        }
+        .fact-item { flex: 1; min-width: 120px; }
+        .fact-label {
+            font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.3rem;
+        }
+        .fact-value { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+        .fact-tools { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+        .fact-tool {
+            padding: 0.2rem 0.55rem; border-radius: 5px; font-size: 0.7rem;
+            font-weight: 500; border: 1px solid var(--border);
+            background: var(--bg-secondary); color: var(--text-muted);
+        }
+
+        /* ============================================================
+           CASE STUDY CONTENT — 3-ACT STRUCTURE
+           ============================================================ */
+        .case-content { padding: 3.5rem 0; }
+
+        .case-section { margin-bottom: 3.5rem; }
+        .case-section:last-child { margin-bottom: 0; }
+
+        .case-section-label {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: var(--font-display); font-size: 0.72rem; font-weight: 600;
+            letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+            margin-bottom: 0.8rem;
+        }
+        .case-section-label::before {
+            content: ''; width: 18px; height: 1.5px; background: var(--accent);
+        }
+
+        .case-section h2 {
+            font-family: var(--font-display); font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+            font-weight: 800; letter-spacing: -0.02em; line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .case-section p {
+            font-size: 0.95rem; color: var(--text-muted); line-height: 1.85;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Screenshot / visual evidence */
+        .case-image {
+            margin: 2rem 0; border-radius: 12px; overflow: hidden;
+            border: 1px solid var(--border); background: var(--bg-secondary);
+        }
+        .case-image img { width: 100%; display: block; }
+        .case-image .placeholder {
+            padding: 3rem 2rem; text-align: center; color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .case-image-caption {
+            padding: 0.8rem 1.2rem; font-size: 0.78rem; color: var(--text-muted);
+            background: var(--bg-card); border-top: 1px solid var(--border);
+        }
+
+        /* Highlight / callout box */
+        .case-callout {
+            padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent);
+            background: var(--bg-card); margin: 1.5rem 0;
+        }
+        .case-callout p {
+            font-size: 0.92rem; color: var(--text); margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           RESULTS METRICS
+           ============================================================ */
+        .results-metrics {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.2rem; margin: 2rem 0;
+        }
+        .result-card {
+            padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);
+            background: var(--bg-card); text-align: center;
+        }
+        .result-number {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 800; color: var(--accent); line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+        .result-label {
+            font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;
+        }
+
+        /* ============================================================
+           CLIENT TESTIMONIAL
+           ============================================================ */
+        .case-testimonial {
+            padding: 2.5rem 0; border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border); margin: 2rem 0;
+        }
+        .testimonial-inner {
+            position: relative; padding-left: 1.5rem;
+            border-left: 3px solid var(--accent);
+        }
+        .testimonial-inner::before {
+            content: '\201C'; font-family: var(--font-display); font-size: 4rem;
+            font-weight: 800; color: var(--accent); opacity: 0.15;
+            position: absolute; top: -1.2rem; left: 1.5rem; line-height: 1;
+        }
+        .testimonial-quote {
+            font-size: 1.05rem; color: var(--text); line-height: 1.85;
+            font-style: italic; margin-bottom: 1.2rem;
+        }
+        .testimonial-author { display: flex; align-items: center; gap: 0.8rem; }
+        .testimonial-avatar {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--accent-dim); display: flex; align-items: center;
+            justify-content: center; font-family: var(--font-display);
+            font-weight: 700; font-size: 0.85rem; color: var(--accent);
+        }
+        .testimonial-name { font-weight: 600; font-size: 0.9rem; }
+        .testimonial-role { font-size: 0.78rem; color: var(--text-muted); }
+
+        /* ============================================================
+           TOOLS USED STRIP
+           ============================================================ */
+        .tools-section {
+            padding: 2rem 0; border-top: 1px solid var(--border);
+        }
+        .tools-section-label {
+            font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.8rem;
+        }
+        .tools-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .tool-badge {
+            padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-secondary); font-size: 0.82rem; font-weight: 500;
+            color: var(--text); transition: border-color 0.3s, background 0.3s;
+        }
+        .tool-badge:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+        /* ============================================================
+           PREV / NEXT PROJECT NAVIGATION
+           ============================================================ */
+        .project-nav {
+            padding: 2.5rem 0; border-top: 1px solid var(--border);
+        }
+        .project-nav-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+        }
+        .project-nav-item {
+            padding: 1.5rem; border-radius: 14px; border: 1px solid var(--border);
+            background: var(--bg-card); transition: border-color 0.3s, transform 0.2s;
+            display: flex; flex-direction: column;
+        }
+        .project-nav-item:hover {
+            border-color: var(--accent); transform: translateY(-2px);
+        }
+        .project-nav-item.next { text-align: right; align-items: flex-end; }
+        .project-nav-direction {
+            font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.4rem;
+        }
+        .project-nav-title {
+            font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+        }
+        .project-nav-category {
+            font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;
+        }
+
+        /* ============================================================
+           CTA SECTION
+           ============================================================ */
+        .cta-section {
+            text-align: center; padding: clamp(3rem, 8vw, 5rem) 0;
+            position: relative; overflow: hidden;
+        }
+        .cta-section::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); width: 500px; height: 500px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+            border-radius: 50%; pointer-events: none;
+        }
+        .cta-content { position: relative; z-index: 1; }
+        .section-label {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
+            letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .section-label::before { content: ''; width: 20px; height: 1.5px; background: var(--accent); }
+        .section-title {
+            font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 0.8rem;
+        }
+        .section-subtitle {
+            font-size: 0.92rem; color: var(--text-muted); max-width: 460px;
+            margin: 0 auto 2rem; line-height: 1.7;
+        }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.85rem 2rem; border-radius: 10px; font-family: var(--font-body);
+            font-size: 0.95rem; font-weight: 600; background: var(--accent);
+            color: #0A0A0F; border: none; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        footer { border-top: 1px solid var(--border); padding: 3rem 0; }
+        .footer-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+        .footer-left { font-size: 0.85rem; color: var(--text-muted); }
+        .footer-left strong { color: var(--text); font-family: var(--font-display); }
+        .footer-socials { display: flex; gap: 0.6rem; }
+        .social-icon { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, background 0.3s, transform 0.2s; color: var(--text-muted); }
+        .social-icon:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); transform: translateY(-2px); }
+        .social-icon svg { width: 18px; height: 18px; }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+            .btn-nav { display: none; }
+            .project-nav-grid { grid-template-columns: 1fr; }
+            .project-nav-item.next { text-align: left; align-items: flex-start; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .footer-socials { justify-content: center; flex-wrap: wrap; }
+        }
+        @media (max-width: 600px) {
+            .case-hero h1 { font-size: 1.6rem; }
+            .facts-grid { flex-direction: column; gap: 1rem; }
+            .results-metrics { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- NAV -->
+    <nav class="navbar" id="navbar">
+        <div class="container-wide">
+            <a href="index.html" class="nav-logo" id="navLogo">Damilare<span>.</span></a>
+            <div class="nav-links">
+                <a href="index.html#about">About</a>
+                <a href="index.html#services">Services</a>
+                <a href="projects.html" class="active">Projects</a>
+                <a href="index.html#testimonials">Reviews</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon moon">🌙</span>
+                    <span class="theme-icon sun">☀️</span>
+                </button>
+                <a href="#" target="_blank" class="btn-nav" id="navBookBtn">Book a Call</a>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
+        <a href="index.html#about" onclick="closeMobileNav()">About</a>
+        <a href="index.html#services" onclick="closeMobileNav()">Services</a>
+        <a href="projects.html" onclick="closeMobileNav()">Projects</a>
+        <a href="index.html#testimonials" onclick="closeMobileNav()">Reviews</a>
+        <a href="index.html#contact" onclick="closeMobileNav()">Contact</a>
+    </div>
+
+    <!-- MAIN CONTENT (all rendered from data) -->
+    <div id="caseContent"></div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container-wide">
+            <div class="footer-content">
+                <div class="footer-left" id="footerLeft"></div>
+                <div class="footer-socials" id="footerSocials"></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="site-data.js"></script>
+
+    <script>
+    const SOCIAL_ICONS = {
+        twitter: '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>',
+        linkedin: '<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>',
+        instagram: '<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>',
+        facebook: '<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>',
+        tiktok: '<path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>',
+        upwork: '<path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/>'
+    };
+
+    function esc(s) {
+        if (s == null) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // Get case study ID from URL: case-study.html?id=njs-royale
+    function getCaseStudyId() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id') || '';
+    }
+
+    function renderNotFound(message) {
+        document.getElementById('caseContent').innerHTML = `
+            <section style="padding: 8rem 0; text-align: center;">
+                <div class="container">
+                    <h1 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 1rem;">Case Study Not Found</h1>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">${esc(message || 'The case study you\'re looking for doesn\'t exist or has been removed.')}</p>
+                    <a href="projects.html" class="btn-primary">
+                        Back to Projects
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </section>`;
+    }
+
+    // ============================================================
+    // RENDER CASE STUDY FROM DATA
+    // ============================================================
+    function renderCaseStudy(data, caseId) {
+        // Setup theme
+        try { const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.setAttribute('data-theme', data.theme.defaultTheme); } catch(e) {}
+        if (data.theme.accentColor !== '#00D4AA') {
+            document.documentElement.style.setProperty('--accent', data.theme.accentColor);
+            document.documentElement.style.setProperty('--accent-dim', data.theme.accentColor + '22');
+            document.documentElement.style.setProperty('--accent-glow', data.theme.accentColor + '40');
+        }
+
+        // Nav
+        document.getElementById('navLogo').innerHTML = data.nav.logo + '<span>.</span>';
+        const bookBtn = document.getElementById('navBookBtn');
+        bookBtn.href = data.nav.bookingUrl; bookBtn.textContent = data.nav.bookingText;
+
+        // Footer
+        document.getElementById('footerLeft').innerHTML = `<strong>${esc(data.footer.name)}</strong><br>&copy; ${data.footer.year} — All rights reserved.`;
+        document.getElementById('footerSocials').innerHTML = data.footer.socials.map(s =>
+            `<a href="${s.url}" target="_blank" class="social-icon" aria-label="${esc(s.platform)}"><svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS[s.icon] || ''}</svg></a>`
+        ).join('');
+
+        // Find the case study
+        const cs = (data.caseStudies || {})[caseId];
+        if (!cs) {
+            renderNotFound(`No case study with ID "${caseId}".`);
+            return;
+        }
+
+        // Set page title + meta
+        document.title = cs.meta.title;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', cs.meta.description);
+
+        // Build main content
+        const heroImage = cs.hero.heroImage
+            ? `<img src="${esc(cs.hero.heroImage)}" alt="${esc(cs.hero.title)}">`
+            : `<div class="placeholder">${esc(cs.hero.heroCaption || 'Hero screenshot')}</div>`;
+
+        const challengeBullets = (cs.challenge.bullets || []).length > 0
+            ? `<ul class="case-bullets">${cs.challenge.bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul>`
+            : '';
+
+        const challengeCallout = cs.challenge.callout
+            ? `<div class="case-callout"><p>${esc(cs.challenge.callout)}</p></div>`
+            : '';
+
+        const solutionPhases = (cs.solution.phases || []).map(phase => {
+            const imgHtml = phase.image
+                ? `<div class="case-image"><img src="${esc(phase.image)}" alt="${esc(phase.title)}"><div class="case-image-caption">${esc(phase.imageCaption || '')}</div></div>`
+                : (phase.imageCaption ? `<div class="case-image"><div class="placeholder">${esc(phase.imageCaption)}</div><div class="case-image-caption">${esc(phase.imageCaption)}</div></div>` : '');
+            return `<p><strong>Phase ${esc(phase.number)} — ${esc(phase.title)}:</strong> ${esc(phase.description)}</p>${imgHtml}`;
+        }).join('');
+
+        const metricsHtml = cs.results.metrics.map(m =>
+            `<div class="result-card">
+                <div class="result-number" data-target="${m.number}" data-suffix="${esc(m.suffix)}">0${esc(m.suffix)}</div>
+                <div class="result-label">${esc(m.label)}</div>
+            </div>`
+        ).join('');
+
+        const resultsParagraphs = cs.results.paragraphs.map(p => `<p>${esc(p)}</p>`).join('');
+
+        const toolsHtml = (cs.tools || []).map(t => `<span class="tool-badge">${esc(t)}</span>`).join('');
+
+        // Prev/next nav
+        const allIds = Object.keys(data.caseStudies);
+        let prevId = cs.nav?.prevId, nextId = cs.nav?.nextId;
+        if (!prevId && !nextId && allIds.length > 1) {
+            // Auto-derive from order
+            const idx = allIds.indexOf(caseId);
+            prevId = idx > 0 ? allIds[idx - 1] : '';
+            nextId = idx < allIds.length - 1 ? allIds[idx + 1] : '';
+        }
+        const prevCase = prevId ? data.caseStudies[prevId] : null;
+        const nextCase = nextId ? data.caseStudies[nextId] : null;
+        let prevNextHtml = '';
+        if (prevCase || nextCase) {
+            prevNextHtml = `<section class="project-nav"><div class="container"><div class="project-nav-grid">`;
+            if (prevCase) {
+                prevNextHtml += `<a href="case-study.html?id=${encodeURIComponent(prevId)}" class="project-nav-item prev">
+                    <span class="project-nav-direction">← Previous Project</span>
+                    <span class="project-nav-title">${esc(prevCase.hero.title)}</span>
+                    <span class="project-nav-category">${esc(prevCase.hero.tag)}</span>
+                </a>`;
+            } else {
+                prevNextHtml += `<div></div>`;
+            }
+            if (nextCase) {
+                prevNextHtml += `<a href="case-study.html?id=${encodeURIComponent(nextId)}" class="project-nav-item next">
+                    <span class="project-nav-direction">Next Project →</span>
+                    <span class="project-nav-title">${esc(nextCase.hero.title)}</span>
+                    <span class="project-nav-category">${esc(nextCase.hero.tag)}</span>
+                </a>`;
+            } else {
+                prevNextHtml += `<div></div>`;
+            }
+            prevNextHtml += `</div></div></section>`;
+        }
+
+        // Full HTML
+        document.getElementById('caseContent').innerHTML = `
+            <!-- HERO -->
+            <section class="case-hero">
+                <div class="container">
+                    <div class="case-breadcrumb">
+                        <a href="index.html">Home</a> <span>/</span>
+                        <a href="projects.html">Projects</a> <span>/</span>
+                        <span>${esc(cs.hero.client || cs.hero.title)}</span>
+                    </div>
+                    <span class="case-tag">${esc(cs.hero.tag)}</span>
+                    <h1>${esc(cs.hero.title)}</h1>
+                    ${cs.hero.client ? `<div class="case-hero-client">${esc(cs.hero.client)}</div>` : ''}
+                    <p class="case-hero-subtitle">${esc(cs.hero.subtitle)}</p>
+                    ${cs.hero.metric ? `<div class="hero-metric">
+                        <span class="hero-metric-number">${esc(cs.hero.metric.number)}</span>
+                        <span class="hero-metric-label">${esc(cs.hero.metric.label)}</span>
+                    </div>` : ''}
+                    <div class="case-hero-image">${heroImage}</div>
+                </div>
+            </section>
+
+            <!-- QUICK FACTS -->
+            <section class="quick-facts">
+                <div class="container">
+                    <div class="facts-grid reveal">
+                        ${cs.quickFacts.client ? `<div class="fact-item"><div class="fact-label">Client</div><div class="fact-value">${esc(cs.quickFacts.client)}</div></div>` : ''}
+                        <div class="fact-item"><div class="fact-label">Industry</div><div class="fact-value">${esc(cs.quickFacts.industry)}</div></div>
+                        <div class="fact-item"><div class="fact-label">Timeline</div><div class="fact-value">${esc(cs.quickFacts.timeline)}</div></div>
+                        <div class="fact-item"><div class="fact-label">My Role</div><div class="fact-value">${esc(cs.quickFacts.role)}</div></div>
+                        <div class="fact-item"><div class="fact-label">Tools</div><div class="fact-tools">
+                            ${(cs.quickFacts.tools || []).map(t => `<span class="fact-tool">${esc(t)}</span>`).join('')}
+                        </div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTENT -->
+            <article class="case-content">
+                <div class="container">
+                    <!-- ACT 1 -->
+                    <div class="case-section reveal">
+                        <span class="case-section-label">${esc(cs.challenge.label)}</span>
+                        <h2>${esc(cs.challenge.title)}</h2>
+                        ${cs.challenge.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}
+                        ${challengeBullets}
+                        ${challengeCallout}
+                    </div>
+
+                    <!-- ACT 2 -->
+                    <div class="case-section reveal">
+                        <span class="case-section-label">${esc(cs.solution.label)}</span>
+                        <h2>${esc(cs.solution.title)}</h2>
+                        ${cs.solution.intro ? `<p>${esc(cs.solution.intro)}</p>` : ''}
+                        ${solutionPhases}
+                    </div>
+
+                    <!-- ACT 3 -->
+                    <div class="case-section reveal">
+                        <span class="case-section-label">${esc(cs.results.label)}</span>
+                        <h2>${esc(cs.results.title)}</h2>
+                        <div class="results-metrics" id="resultsMetrics">${metricsHtml}</div>
+                        ${resultsParagraphs}
+                    </div>
+                </div>
+            </article>
+
+            ${cs.testimonial && cs.testimonial.quote ? `
+            <!-- TESTIMONIAL -->
+            <section class="case-testimonial">
+                <div class="container">
+                    <div class="testimonial-inner reveal">
+                        <p class="testimonial-quote">"${esc(cs.testimonial.quote)}"</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">${esc(cs.testimonial.initials)}</div>
+                            <div>
+                                <div class="testimonial-name">${esc(cs.testimonial.name)}</div>
+                                <div class="testimonial-role">${esc(cs.testimonial.role)}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>` : ''}
+
+            <!-- TOOLS -->
+            ${toolsHtml ? `<section class="tools-section">
+                <div class="container">
+                    <div class="tools-section-label">Tools & Platforms Used</div>
+                    <div class="tools-list">${toolsHtml}</div>
+                </div>
+            </section>` : ''}
+
+            ${prevNextHtml}
+
+            <!-- CTA -->
+            ${cs.cta ? `<section class="cta-section">
+                <div class="container">
+                    <div class="cta-content reveal">
+                        <span class="section-label">${esc(cs.cta.sectionLabel)}</span>
+                        <h2 class="section-title">${esc(cs.cta.title)}</h2>
+                        <p class="section-subtitle">${esc(cs.cta.subtitle)}</p>
+                        <a href="${esc(cs.cta.buttonUrl)}" target="_blank" class="btn-primary">
+                            ${esc(cs.cta.buttonText)}
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </section>` : ''}
+        `;
+
+        initInteractions();
+    }
+
+    function initInteractions() {
+        // Reveal
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        // Counter animation
+        const rm = document.getElementById('resultsMetrics');
+        if (rm) {
+            const ro = new IntersectionObserver((entries) => {
+                entries.forEach(en => {
+                    if (en.isIntersecting) {
+                        en.target.querySelectorAll('[data-target]').forEach(el => {
+                            if (el.dataset.animated) return;
+                            el.dataset.animated = '1';
+                            const t = parseInt(el.dataset.target), s = el.dataset.suffix || '', d = 3000, st = performance.now();
+                            function ease(x) { return 1 - Math.pow(1 - x, 3); }
+                            function tick(now) { const p = Math.min((now - st) / d, 1); el.textContent = Math.floor(ease(p) * t) + s; if (p < 1) requestAnimationFrame(tick); else el.textContent = t + s; }
+                            requestAnimationFrame(tick);
+                        });
+                        ro.unobserve(en.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            ro.observe(rm);
+        }
+    }
+
+    // Static elements
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        const n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', n);
+        try { localStorage.setItem('theme', n); } catch(e) {}
+    });
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        const p = document.documentElement.scrollHeight - window.innerHeight;
+        document.getElementById('progressBar').style.width = (p > 0 ? (window.scrollY / p) * 100 : 0) + '%';
+    });
+    document.getElementById('navHamburger').addEventListener('click', () => document.getElementById('mobileNav').classList.add('active'));
+    document.getElementById('mobileNavClose').addEventListener('click', () => document.getElementById('mobileNav').classList.remove('active'));
+    function closeMobileNav() { document.getElementById('mobileNav').classList.remove('active'); }
+
+    // Boot
+    const FIRESTORE_CACHE_KEY = 'siteContentCache';
+    function bootSite() {
+        const caseId = getCaseStudyId();
+        if (!caseId) { renderNotFound('No case study ID specified in the URL.'); return; }
+
+        let rendered = false, oldCacheJson = null;
+        try {
+            oldCacheJson = localStorage.getItem(FIRESTORE_CACHE_KEY);
+            if (oldCacheJson) {
+                const cached = JSON.parse(oldCacheJson);
+                if (cached.caseStudies) { renderCaseStudy(cached, caseId); rendered = true; }
+            }
+        } catch(e) {}
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+            firebase.firestore().collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const fresh = doc.data();
+                        const freshJson = JSON.stringify(fresh);
+                        if (!rendered || freshJson !== oldCacheJson) {
+                            renderCaseStudy(fresh, caseId);
+                        }
+                        try { localStorage.setItem(FIRESTORE_CACHE_KEY, freshJson); } catch(e) {}
+                    } else if (!rendered && typeof SITE_DATA !== 'undefined') {
+                        renderCaseStudy(SITE_DATA, caseId);
+                    }
+                })
+                .catch(() => { if (!rendered && typeof SITE_DATA !== 'undefined') renderCaseStudy(SITE_DATA, caseId); });
+        } catch(e) {
+            if (!rendered && typeof SITE_DATA !== 'undefined') renderCaseStudy(SITE_DATA, caseId);
+        }
+    }
+    bootSite();
+    </script>
+
+</body>
+</html>

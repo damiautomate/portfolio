@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — Damilare Babalola</title>
+    <meta name="robots" content="noindex,nofollow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           ADMIN PANEL — FULL VISUAL EDITOR
+           Theme matches your site: accent #00D4AA, dark/light modes
+           ============================================================ */
+        :root {
+            --accent: #00D4AA;
+            --accent-dim: #00D4AA22;
+            --accent-glow: #00D4AA40;
+            --dark-bg: #0A0A0F;
+            --dark-bg-secondary: #12121A;
+            --dark-bg-card: #16161F;
+            --dark-text: #E8E8ED;
+            --dark-text-muted: #8888A0;
+            --dark-border: #2A2A3A;
+            --light-bg: #F5F3F0;
+            --light-bg-secondary: #EDEAE6;
+            --light-bg-card: #FFFFFF;
+            --light-text: #1A1A2E;
+            --light-text-muted: #6B6B80;
+            --light-border: #D8D5D0;
+            --danger: #FF5A5A;
+            --success: #4ADE80;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --sidebar-width: 260px;
+        }
+        [data-theme="dark"] { --bg: var(--dark-bg); --bg-secondary: var(--dark-bg-secondary); --bg-card: var(--dark-bg-card); --text: var(--dark-text); --text-muted: var(--dark-text-muted); --border: var(--dark-border); }
+        [data-theme="light"] { --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary); --bg-card: var(--light-bg-card); --text: var(--light-text); --text-muted: var(--light-text-muted); --border: var(--light-border); }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; min-height: 100vh; }
+        a { color: var(--accent); text-decoration: none; }
+        button { font-family: var(--font-body); cursor: pointer; }
+
+        /* ============================================================
+           LOGIN SCREEN
+           ============================================================ */
+        .login-screen {
+            position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+            background: var(--bg); z-index: 9999; padding: 1rem;
+        }
+        .login-screen.hidden { display: none; }
+        .login-card {
+            width: 100%; max-width: 400px; padding: 2.5rem;
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+        }
+        .login-logo {
+            font-family: var(--font-display); font-size: 1.8rem; font-weight: 800;
+            text-align: center; margin-bottom: 0.4rem; letter-spacing: -0.02em;
+        }
+        .login-logo span { color: var(--accent); }
+        .login-subtitle { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
+        .login-input {
+            width: 100%; padding: 0.85rem 1rem; border-radius: 10px;
+            border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text);
+            font-family: var(--font-body); font-size: 0.95rem; margin-bottom: 1rem;
+            transition: border-color 0.2s;
+        }
+        .login-input:focus { outline: none; border-color: var(--accent); }
+        .login-error { color: var(--danger); font-size: 0.85rem; margin-bottom: 1rem; text-align: center; min-height: 1.2rem; }
+        .login-btn {
+            width: 100%; padding: 0.85rem; border-radius: 10px;
+            background: var(--accent); color: #0A0A0F; border: none;
+            font-size: 0.95rem; font-weight: 600; transition: transform 0.15s, box-shadow 0.2s;
+        }
+        .login-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-glow); }
+        .login-hint { text-align: center; color: var(--text-muted); font-size: 0.78rem; margin-top: 1.2rem; }
+
+        /* ============================================================
+           LAYOUT — SIDEBAR + MAIN
+           ============================================================ */
+        .app { display: flex; min-height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: var(--sidebar-width); flex-shrink: 0;
+            background: var(--bg-secondary); border-right: 1px solid var(--border);
+            position: sticky; top: 0; height: 100vh; overflow-y: auto;
+            padding: 1.5rem 0; display: flex; flex-direction: column;
+        }
+        .sidebar-header {
+            padding: 0 1.5rem 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem;
+        }
+        .sidebar-logo {
+            font-family: var(--font-display); font-size: 1.3rem; font-weight: 800;
+            letter-spacing: -0.02em; margin-bottom: 0.2rem;
+        }
+        .sidebar-logo span { color: var(--accent); }
+        .sidebar-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); font-weight: 600; }
+        .sidebar-nav { padding: 0 0.75rem; flex: 1; }
+        .sidebar-group-label {
+            padding: 1rem 0.75rem 0.5rem; font-size: 0.68rem; text-transform: uppercase;
+            letter-spacing: 0.12em; color: var(--text-muted); font-weight: 600;
+        }
+        .sidebar-item {
+            display: flex; align-items: center; gap: 0.7rem;
+            padding: 0.65rem 0.75rem; border-radius: 8px; font-size: 0.88rem;
+            color: var(--text-muted); border: none; background: none; width: 100%; text-align: left;
+            transition: background 0.2s, color 0.2s;
+        }
+        .sidebar-item:hover { background: var(--bg-card); color: var(--text); }
+        .sidebar-item.active { background: var(--accent-dim); color: var(--accent); font-weight: 600; }
+        .sidebar-item-icon { width: 18px; height: 18px; flex-shrink: 0; }
+        .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); margin-top: 1rem; }
+
+        /* MAIN CONTENT */
+        .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+        /* TOP BAR */
+        .topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 2rem; border-bottom: 1px solid var(--border);
+            background: var(--bg); position: sticky; top: 0; z-index: 50;
+        }
+        .topbar-title {
+            font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em;
+        }
+        .topbar-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .topbar-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.55rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600;
+            border: 1px solid var(--border); background: var(--bg-card); color: var(--text);
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .topbar-btn:hover { border-color: var(--accent); background: var(--accent-dim); }
+        .topbar-btn.primary {
+            background: var(--accent); color: #0A0A0F; border-color: var(--accent);
+        }
+        .topbar-btn.primary:hover { background: var(--accent); box-shadow: 0 4px 16px var(--accent-glow); }
+        .topbar-btn svg { width: 14px; height: 14px; }
+        .save-indicator { font-size: 0.78rem; color: var(--text-muted); }
+        .save-indicator.dirty { color: #F5A623; }
+        .save-indicator.saved { color: var(--success); }
+
+        /* CONTENT AREA */
+        .content { padding: 2rem; max-width: 900px; width: 100%; }
+        .content-header { margin-bottom: 2rem; }
+        .content-header h1 {
+            font-family: var(--font-display); font-size: 1.6rem; font-weight: 800;
+            letter-spacing: -0.02em; margin-bottom: 0.3rem;
+        }
+        .content-header p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* ============================================================
+           FORM COMPONENTS
+           ============================================================ */
+        .section-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem;
+        }
+        .section-card-title {
+            font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .section-card-desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+
+        .field { margin-bottom: 1.1rem; }
+        .field:last-child { margin-bottom: 0; }
+        .field-label {
+            display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text);
+        }
+        .field-hint { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+        .field-input, .field-textarea, .field-select {
+            width: 100%; padding: 0.65rem 0.85rem; border-radius: 8px;
+            border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text);
+            font-family: var(--font-body); font-size: 0.88rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .field-input:focus, .field-textarea:focus, .field-select:focus {
+            outline: none; border-color: var(--accent); background: var(--bg-card);
+        }
+        .field-textarea { resize: vertical; min-height: 80px; line-height: 1.6; font-family: var(--font-body); }
+        .field-textarea.small { min-height: 60px; }
+
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+        .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; }
+
+        /* COLOR PICKER */
+        .color-picker-wrap {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.5rem; border: 1px solid var(--border); border-radius: 8px;
+            background: var(--bg-secondary);
+        }
+        .color-picker-wrap input[type="color"] {
+            width: 40px; height: 40px; border: none; background: none; cursor: pointer; border-radius: 6px;
+        }
+        .color-picker-wrap input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        .color-picker-wrap input[type="color"]::-webkit-color-swatch { border: 1px solid var(--border); border-radius: 6px; }
+        .color-picker-wrap input[type="text"] {
+            flex: 1; border: none; background: none; color: var(--text); font-family: monospace; font-size: 0.88rem;
+        }
+        .color-picker-wrap input[type="text"]:focus { outline: none; }
+
+        /* IMAGE FIELD */
+        .image-field {
+            display: flex; gap: 1rem; align-items: flex-start;
+        }
+        .image-field-preview {
+            width: 100px; height: 100px; border-radius: 8px;
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            overflow: hidden; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted); font-size: 0.7rem; text-align: center;
+        }
+        .image-field-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .image-field-input { flex: 1; }
+
+        /* CHECKBOX */
+        .field-checkbox {
+            display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none;
+        }
+        .field-checkbox input { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+        .field-checkbox-label { font-size: 0.85rem; }
+
+        /* LIST ITEMS (projects, testimonials, etc.) */
+        .list-items { display: flex; flex-direction: column; gap: 1rem; }
+        .list-item {
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1rem; position: relative;
+        }
+        .list-item-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border);
+        }
+        .list-item-title {
+            font-size: 0.85rem; font-weight: 600; color: var(--text);
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .list-item-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 22px; height: 22px; border-radius: 50%;
+            background: var(--accent-dim); color: var(--accent);
+            font-size: 0.72rem; font-weight: 700;
+        }
+        .list-item-actions { display: flex; gap: 0.3rem; }
+        .list-item-btn {
+            width: 28px; height: 28px; border-radius: 6px;
+            border: 1px solid var(--border); background: var(--bg-card); color: var(--text-muted);
+            display: flex; align-items: center; justify-content: center;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .list-item-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .list-item-btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+        .list-item-btn svg { width: 13px; height: 13px; }
+        .list-item-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .list-item-btn:disabled:hover { border-color: var(--border); color: var(--text-muted); }
+
+        .add-item-btn {
+            width: 100%; padding: 0.75rem; border-radius: 10px;
+            border: 1.5px dashed var(--border); background: transparent; color: var(--text-muted);
+            font-size: 0.85rem; font-weight: 500; margin-top: 1rem;
+            transition: border-color 0.2s, color 0.2s;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+        }
+        .add-item-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .add-item-btn svg { width: 14px; height: 14px; }
+
+        /* TAGS INPUT (for tools array, etc.) */
+        .tags-input {
+            min-height: 46px; padding: 0.5rem; border-radius: 8px;
+            border: 1px solid var(--border); background: var(--bg-secondary);
+            display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;
+        }
+        .tags-input:focus-within { border-color: var(--accent); }
+        .tag-chip {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.3rem 0.65rem; border-radius: 6px;
+            background: var(--accent-dim); color: var(--accent);
+            font-size: 0.8rem; font-weight: 500;
+        }
+        .tag-chip-remove {
+            background: none; border: none; color: var(--accent); cursor: pointer;
+            padding: 0; font-size: 1rem; line-height: 1; opacity: 0.7;
+        }
+        .tag-chip-remove:hover { opacity: 1; }
+        .tags-input input {
+            flex: 1; min-width: 120px; border: none; background: none; color: var(--text);
+            padding: 0.3rem; font-family: var(--font-body); font-size: 0.85rem;
+        }
+        .tags-input input:focus { outline: none; }
+
+        /* TOAST */
+        .toast {
+            position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 2000;
+            padding: 0.85rem 1.2rem; border-radius: 10px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            font-size: 0.88rem; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transform: translateY(120%); transition: transform 0.3s ease;
+            display: flex; align-items: center; gap: 0.6rem;
+        }
+        .toast.show { transform: translateY(0); }
+        .toast.success { border-color: var(--success); color: var(--success); }
+        .toast.error { border-color: var(--danger); color: var(--danger); }
+        .toast svg { width: 16px; height: 16px; }
+
+        /* PREVIEW MODAL */
+        .preview-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 3000; display: none; align-items: center; justify-content: center;
+            padding: 2rem;
+        }
+        .preview-modal.active { display: flex; }
+        .preview-frame-wrap {
+            width: 100%; height: 100%; max-width: 1400px; background: var(--bg);
+            border-radius: 14px; overflow: hidden; position: relative;
+            border: 1px solid var(--border);
+        }
+        .preview-close {
+            position: absolute; top: 1rem; right: 1rem; z-index: 10;
+            width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text); font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .preview-frame-wrap iframe {
+            width: 100%; height: 100%; border: none; display: block;
+        }
+
+        /* HIDDEN UTILITY */
+        .hidden { display: none !important; }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .app { flex-direction: column; }
+            .sidebar {
+                width: 100%; height: auto; position: static; border-right: none;
+                border-bottom: 1px solid var(--border); padding: 1rem 0;
+            }
+            .sidebar-header { padding-bottom: 1rem; margin-bottom: 0.5rem; }
+            .sidebar-nav { display: flex; flex-wrap: wrap; gap: 0.3rem; padding: 0 1rem; }
+            .sidebar-group-label { display: none; }
+            .sidebar-item { flex: 0 0 auto; padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+            .sidebar-footer { padding: 1rem; }
+            .topbar { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+            .content { padding: 1.5rem 1rem; }
+            .field-row, .field-row-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         LOGIN SCREEN
+         Firebase Auth — email/password login
+         ============================================================ -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo">Admin<span>.</span></div>
+            <div class="login-subtitle">Sign in to edit your site</div>
+            <input type="email" class="login-input" id="emailInput" placeholder="Email" autocomplete="email">
+            <input type="password" class="login-input" id="passwordInput" placeholder="Password" autocomplete="current-password">
+            <div class="login-error" id="loginError"></div>
+            <button class="login-btn" id="loginBtn">Sign In</button>
+            <div class="login-hint">Use the email & password you set up in Firebase Auth</div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         MAIN APP
+         ============================================================ -->
+    <div class="app hidden" id="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">Damilare<span>.</span></div>
+                <div class="sidebar-label">Admin Panel</div>
+            </div>
+            <nav class="sidebar-nav" id="sidebarNav">
+                <!-- Rendered by JS -->
+            </nav>
+            <div class="sidebar-footer">
+                <button class="topbar-btn" id="logoutBtn" style="width:100%;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                    Log Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main">
+
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-title" id="topbarTitle">Site Editor</div>
+                <div class="topbar-actions">
+                    <span class="save-indicator" id="saveIndicator">All changes saved</span>
+                    <button class="topbar-btn" id="themeBtn" title="Toggle theme">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                    <button class="topbar-btn" id="previewBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        Preview
+                    </button>
+                    <button class="topbar-btn primary" id="exportBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-8H7v8M7 3v5h8M21 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v5z"/></svg>
+                        Save to Cloud
+                    </button>
+                </div>
+            </div>
+
+            <!-- EDITOR CONTENT -->
+            <div class="content" id="editorContent">
+                <!-- Rendered by JS based on active section -->
+            </div>
+        </main>
+    </div>
+
+    <!-- ============================================================
+         PREVIEW MODAL
+         ============================================================ -->
+    <div class="preview-modal" id="previewModal">
+        <div class="preview-frame-wrap">
+            <button class="preview-close" id="previewClose">&times;</button>
+            <iframe id="previewFrame" title="Site Preview"></iframe>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ============================================================
+         LOAD DATA AND SCRIPT
+         ============================================================ -->
+    <!-- Firebase SDKs (compat version - no modules needed) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <!-- site-data.js is kept as a fallback in case Firestore is unreachable -->
+    <script src="site-data.js"></script>
+    <script>
+    // ============================================================
+    // CONFIG
+    // ============================================================
+    const STORAGE_KEY_DATA = 'siteDataDraft';
+
+    // ============================================================
+    // STATE
+    // ============================================================
+    let data;              // working copy of site data
+    let activeSection = 'hero';
+    let activeCaseStudyId = null;   // which case study is being edited (null = list view)
+    let isDirty = false;
+    let currentUser = null;   // Firebase user
+    let db = null;            // Firestore instance
+    let auth = null;          // Firebase Auth instance
+
+    // SVG icons (inline for self-contained file)
+    const ICONS = {
+        site: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>',
+        palette: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125 0-.938.75-1.688 1.688-1.688h1.999c3.011 0 5.539-2.526 5.539-5.539C22 6.492 17.52 2 12 2z"/></svg>',
+        nav: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>',
+        home: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+        user: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+        grid: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+        folder: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>',
+        star: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+        call: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>',
+        foot: '<svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="15" x2="21" y2="15"/></svg>',
+        del: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
+        up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>',
+        down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>',
+        add: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+        check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>',
+        alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+    };
+
+    // ============================================================
+    // SIDEBAR NAVIGATION STRUCTURE
+    // ============================================================
+    const NAV_SECTIONS = [
+        { group: 'Site Settings', items: [
+            { id: 'meta', label: 'Page Info', icon: ICONS.site },
+            { id: 'theme', label: 'Theme & Colors', icon: ICONS.palette },
+            { id: 'nav', label: 'Navigation', icon: ICONS.nav }
+        ]},
+        { group: 'Homepage Sections', items: [
+            { id: 'hero', label: 'Hero', icon: ICONS.home },
+            { id: 'about', label: 'About', icon: ICONS.user },
+            { id: 'services', label: 'Services', icon: ICONS.grid },
+            { id: 'projects', label: 'Projects (Homepage)', icon: ICONS.folder },
+            { id: 'testimonials', label: 'Testimonials', icon: ICONS.star },
+            { id: 'cta', label: 'CTA Section', icon: ICONS.call }
+        ]},
+        { group: 'Projects Page', items: [
+            { id: 'projectsPage', label: 'Page Layout', icon: ICONS.site },
+            { id: 'projectsPageItems', label: 'Project Cards', icon: ICONS.folder }
+        ]},
+        { group: 'Case Studies', items: [
+            { id: 'caseStudies', label: 'All Case Studies', icon: ICONS.grid }
+        ]},
+        { group: 'Global', items: [
+            { id: 'footer', label: 'Footer & Socials', icon: ICONS.foot }
+        ]}
+    ];
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    function init() {
+        // Theme from localStorage
+        try {
+            const t = localStorage.getItem('adminTheme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        } catch(e) {}
+
+        // Initialize Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            db = firebase.firestore();
+        } catch (e) {
+            showLoginError('Firebase setup error: ' + e.message);
+            return;
+        }
+
+        // Persist auth across browser sessions
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
+
+        // Listen for auth state changes
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                showApp();
+            } else {
+                currentUser = null;
+                document.getElementById('app').classList.add('hidden');
+                document.getElementById('loginScreen').classList.remove('hidden');
+            }
+        });
+
+        // Login form
+        document.getElementById('loginBtn').addEventListener('click', handleLogin);
+        document.getElementById('passwordInput').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+        document.getElementById('emailInput').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+
+        // Topbar actions
+        document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+        document.getElementById('previewBtn').addEventListener('click', openPreview);
+        document.getElementById('exportBtn').addEventListener('click', saveToCloud);
+        document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+
+        // Preview modal
+        document.getElementById('previewClose').addEventListener('click', closePreview);
+        document.getElementById('previewModal').addEventListener('click', (e) => {
+            if (e.target.id === 'previewModal') closePreview();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveToCloud(); }
+            if (e.key === 'Escape') closePreview();
+        });
+
+        // Warn before leaving with unsaved changes
+        window.addEventListener('beforeunload', (e) => {
+            if (isDirty) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    }
+
+    function showLoginError(msg) {
+        document.getElementById('loginError').textContent = msg;
+    }
+
+    async function handleLogin() {
+        showLoginError('');
+        const email = document.getElementById('emailInput').value.trim();
+        const password = document.getElementById('passwordInput').value;
+        if (!email || !password) { showLoginError('Enter email and password'); return; }
+
+        const btn = document.getElementById('loginBtn');
+        btn.disabled = true;
+        btn.textContent = 'Signing in...';
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            // onAuthStateChanged will take over from here
+        } catch (e) {
+            let msg = e.message || 'Login failed';
+            if (e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found') {
+                msg = 'Incorrect email or password';
+            } else if (e.code === 'auth/too-many-requests') {
+                msg = 'Too many failed attempts. Try again later.';
+            } else if (e.code === 'auth/network-request-failed') {
+                msg = 'Network error. Check your connection.';
+            }
+            showLoginError(msg);
+            document.getElementById('passwordInput').value = '';
+            btn.disabled = false;
+            btn.textContent = 'Sign In';
+        }
+    }
+
+    async function handleLogout() {
+        if (isDirty && !confirm('You have unsaved changes. Log out anyway?')) return;
+        try { localStorage.removeItem(STORAGE_KEY_DATA); } catch(e) {}
+        await auth.signOut();
+        location.reload();
+    }
+
+    async function showApp() {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        await loadData();
+        renderSidebar();
+        renderEditor();
+    }
+
+    // ============================================================
+    // DATA LOADING & PERSISTENCE (Firestore + localStorage cache)
+    // ============================================================
+    async function loadData() {
+        showSaveStatus('Loading from cloud...', 'loading');
+        try {
+            const doc = await db.collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get();
+            if (doc.exists) {
+                data = doc.data();
+                markClean();
+                // Check for unsaved local draft
+                try {
+                    const draft = localStorage.getItem(STORAGE_KEY_DATA);
+                    if (draft) {
+                        if (confirm('You have unsaved local changes from your last session. Restore them?')) {
+                            data = JSON.parse(draft);
+                            markDirty();
+                        } else {
+                            localStorage.removeItem(STORAGE_KEY_DATA);
+                        }
+                    }
+                } catch(e) {}
+                return;
+            }
+            // No Firestore doc yet — fall back to site-data.js bundled copy
+            toast('No cloud data found. Run migrate.html first to upload your initial content.', 'error');
+            if (typeof SITE_DATA !== 'undefined') {
+                data = JSON.parse(JSON.stringify(SITE_DATA));
+                markDirty(); // so user can save it to cloud
+            }
+        } catch (e) {
+            toast('Error loading from cloud: ' + e.message, 'error');
+            // Fall back to local draft or bundled data
+            try {
+                const draft = localStorage.getItem(STORAGE_KEY_DATA);
+                if (draft) { data = JSON.parse(draft); markDirty(); return; }
+            } catch(er) {}
+            if (typeof SITE_DATA !== 'undefined') {
+                data = JSON.parse(JSON.stringify(SITE_DATA));
+                markDirty();
+            }
+        }
+    }
+
+    function saveDraft() {
+        // Save working copy to localStorage so refresh doesn't lose work
+        try { localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(data)); } catch(e) {}
+        markDirty();
+    }
+
+    async function saveToCloud() {
+        if (!currentUser) { toast('Not signed in', 'error'); return; }
+        const btn = document.getElementById('exportBtn');
+        const originalHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> Saving...';
+        showSaveStatus('Saving to cloud...', 'loading');
+        try {
+            await db.collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).set(data);
+            try { localStorage.removeItem(STORAGE_KEY_DATA); } catch(e) {}
+            markClean();
+            toast('Saved! Your site is now updated.', 'success');
+        } catch (e) {
+            toast('Save failed: ' + e.message, 'error');
+            showSaveStatus('Save failed', 'dirty');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+        }
+    }
+
+    function showSaveStatus(text, cls = '') {
+        const ind = document.getElementById('saveIndicator');
+        if (ind) { ind.textContent = text; ind.className = 'save-indicator ' + cls; }
+    }
+
+    function markDirty() {
+        isDirty = true;
+        showSaveStatus('Unsaved changes', 'dirty');
+    }
+
+    function markClean() {
+        isDirty = false;
+        showSaveStatus('All changes saved', 'saved');
+    }
+
+    // ============================================================
+    // SIDEBAR
+    // ============================================================
+    function renderSidebar() {
+        const nav = document.getElementById('sidebarNav');
+        let html = '';
+        NAV_SECTIONS.forEach(group => {
+            html += `<div class="sidebar-group-label">${group.group}</div>`;
+            group.items.forEach(item => {
+                const active = item.id === activeSection ? 'active' : '';
+                html += `<button class="sidebar-item ${active}" data-section="${item.id}">${item.icon}<span>${item.label}</span></button>`;
+            });
+        });
+        nav.innerHTML = html;
+        nav.querySelectorAll('.sidebar-item').forEach(btn => {
+            btn.addEventListener('click', () => switchSection(btn.dataset.section));
+        });
+    }
+
+    function switchSection(id) {
+        activeSection = id;
+        renderSidebar();
+        renderEditor();
+    }
+
+    // ============================================================
+    // EDITOR RENDERING
+    // Each section has its own renderer.
+    // ============================================================
+    function renderEditor() {
+        const titles = {
+            meta: 'Page Info',
+            theme: 'Theme & Colors',
+            nav: 'Navigation',
+            hero: 'Hero Section',
+            about: 'About Section',
+            services: 'Services',
+            projects: 'Projects (Homepage)',
+            testimonials: 'Testimonials',
+            cta: 'CTA Section',
+            footer: 'Footer & Social Links',
+            projectsPage: 'Projects Page — Layout',
+            projectsPageItems: 'Projects Page — Project Cards',
+            caseStudies: 'Case Studies',
+            caseStudyEditor: 'Edit Case Study'
+        };
+        document.getElementById('topbarTitle').textContent = titles[activeSection] || 'Editor';
+
+        const content = document.getElementById('editorContent');
+        content.innerHTML = '';
+
+        switch (activeSection) {
+            case 'meta': renderMetaEditor(content); break;
+            case 'theme': renderThemeEditor(content); break;
+            case 'nav': renderNavEditor(content); break;
+            case 'hero': renderHeroEditor(content); break;
+            case 'about': renderAboutEditor(content); break;
+            case 'services': renderServicesEditor(content); break;
+            case 'projects': renderProjectsEditor(content); break;
+            case 'testimonials': renderTestimonialsEditor(content); break;
+            case 'cta': renderCtaEditor(content); break;
+            case 'footer': renderFooterEditor(content); break;
+            case 'projectsPage': renderProjectsPageLayoutEditor(content); break;
+            case 'projectsPageItems': renderProjectsPageItemsEditor(content); break;
+            case 'caseStudies':
+                if (activeCaseStudyId) renderCaseStudyEditor(content, activeCaseStudyId);
+                else renderCaseStudiesListEditor(content);
+                break;
+        }
+
+        attachInputHandlers(content);
+    }
+
+    // ---- UTILITY: create a section header ----
+    function sectionHeader(title, desc) {
+        return `<div class="content-header"><h1>${title}</h1>${desc ? `<p>${desc}</p>` : ''}</div>`;
+    }
+
+    // ---- UTILITY: create a form field ----
+    function field(label, name, value, opts = {}) {
+        const { type = 'text', hint = '', placeholder = '', rows } = opts;
+        const hintHtml = hint ? `<div class="field-hint">${hint}</div>` : '';
+        if (type === 'textarea') {
+            return `<div class="field"><label class="field-label">${label}</label>
+                <textarea class="field-textarea" data-bind="${name}" rows="${rows || 3}" placeholder="${placeholder}">${esc(value)}</textarea>
+                ${hintHtml}</div>`;
+        }
+        if (type === 'checkbox') {
+            return `<div class="field"><label class="field-checkbox">
+                <input type="checkbox" data-bind="${name}" ${value ? 'checked' : ''}>
+                <span class="field-checkbox-label">${label}</span></label>
+                ${hintHtml}</div>`;
+        }
+        return `<div class="field"><label class="field-label">${label}</label>
+            <input type="${type}" class="field-input" data-bind="${name}" value="${esc(value)}" placeholder="${placeholder}">
+            ${hintHtml}</div>`;
+    }
+
+    // ---- UTILITY: image field with live preview ----
+    function imageField(label, name, value, hint = '') {
+        const previewHtml = value
+            ? `<img src="${esc(value)}" alt="preview" onerror="this.style.display='none';this.parentElement.innerHTML='Invalid image';">`
+            : `No image`;
+        return `<div class="field"><label class="field-label">${label}</label>
+            <div class="image-field">
+                <div class="image-field-preview" data-preview="${name}">${previewHtml}</div>
+                <div class="image-field-input">
+                    <input type="url" class="field-input" data-bind="${name}" data-image="${name}" value="${esc(value)}" placeholder="https://i.ibb.co/...">
+                    ${hint ? `<div class="field-hint">${hint}</div>` : ''}
+                </div>
+            </div></div>`;
+    }
+
+    // ---- UTILITY: escape HTML special chars in attribute values ----
+    function esc(s) {
+        if (s === null || s === undefined) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // ============================================================
+    // SECTION EDITORS
+    // ============================================================
+
+    // ---- META ----
+    function renderMetaEditor(el) {
+        el.innerHTML = sectionHeader('Page Info', 'The browser tab title and meta description for search engines.') +
+            `<div class="section-card">
+                <div class="section-card-title">Site Metadata</div>
+                <div class="section-card-desc">This shows up in search results and browser tabs.</div>
+                ${field('Page Title', 'meta.title', data.meta.title, { hint: 'Shown in the browser tab and search results' })}
+                ${field('Meta Description', 'meta.description', data.meta.description, { type: 'textarea', hint: 'A short description for search engines (aim for 120–160 characters)' })}
+            </div>`;
+    }
+
+    // ---- THEME ----
+    function renderThemeEditor(el) {
+        el.innerHTML = sectionHeader('Theme & Colors', 'Change the look and feel of your site.') +
+            `<div class="section-card">
+                <div class="section-card-title">Accent Color</div>
+                <div class="section-card-desc">The main highlight color used throughout your site (buttons, links, accents).</div>
+                <div class="field">
+                    <label class="field-label">Color</label>
+                    <div class="color-picker-wrap">
+                        <input type="color" data-bind="theme.accentColor" value="${data.theme.accentColor}">
+                        <input type="text" data-bind="theme.accentColor" value="${data.theme.accentColor}" data-sync="color">
+                    </div>
+                    <div class="field-hint">Default is #00D4AA (teal/mint). Pick any color.</div>
+                </div>
+            </div>
+            <div class="section-card">
+                <div class="section-card-title">Default Theme</div>
+                <div class="section-card-desc">Which theme new visitors see first.</div>
+                <div class="field">
+                    <label class="field-label">Default Theme</label>
+                    <select class="field-select" data-bind="theme.defaultTheme">
+                        <option value="dark" ${data.theme.defaultTheme === 'dark' ? 'selected' : ''}>Dark</option>
+                        <option value="light" ${data.theme.defaultTheme === 'light' ? 'selected' : ''}>Light</option>
+                    </select>
+                </div>
+            </div>`;
+    }
+
+    // ---- NAV ----
+    function renderNavEditor(el) {
+        el.innerHTML = sectionHeader('Navigation', 'The top navigation bar settings.') +
+            `<div class="section-card">
+                <div class="section-card-title">Logo & Booking Button</div>
+                ${field('Logo Text', 'nav.logo', data.nav.logo, { hint: 'Your name or brand in the top left' })}
+                <div class="field-row">
+                    ${field('Book Call Button Text', 'nav.bookingText', data.nav.bookingText)}
+                    ${field('Booking URL', 'nav.bookingUrl', data.nav.bookingUrl, { type: 'url' })}
+                </div>
+            </div>`;
+    }
+
+    // ---- HERO ----
+    function renderHeroEditor(el) {
+        el.innerHTML = sectionHeader('Hero Section', 'The first thing visitors see at the top of your homepage.') +
+            `<div class="section-card">
+                <div class="section-card-title">Main Message</div>
+                ${field('Badge Text', 'hero.badge', data.hero.badge, { hint: 'The small text with the pulsing dot, e.g. "Available for new projects"' })}
+                ${field('Heading', 'hero.heading', data.hero.heading, { type: 'textarea', rows: 2, hint: 'The main heading (before the accent-colored part)' })}
+                ${field('Heading Highlight', 'hero.headingHighlight', data.hero.headingHighlight, { hint: 'The accent-colored part at the end of the heading' })}
+                ${field('Description', 'hero.description', data.hero.description, { type: 'textarea', rows: 3 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Call-to-Action Buttons</div>
+                <div class="field-row">
+                    ${field('Primary Button Text', 'hero.primaryCta.text', data.hero.primaryCta.text)}
+                    ${field('Primary Button URL', 'hero.primaryCta.url', data.hero.primaryCta.url, { type: 'url' })}
+                </div>
+                ${field('Primary button opens in new tab', 'hero.primaryCta.external', data.hero.primaryCta.external, { type: 'checkbox' })}
+                <div class="field-row">
+                    ${field('Secondary Button Text', 'hero.secondaryCta.text', data.hero.secondaryCta.text)}
+                    ${field('Secondary Button URL', 'hero.secondaryCta.url', data.hero.secondaryCta.url, { hint: 'Use #projects for on-page scroll' })}
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Stats (Counting Animation)</div>
+                <div class="section-card-desc">The 3 stats shown below the hero. Numbers count up when visible.</div>
+                <div class="list-items" id="heroStatsList">
+                    ${data.hero.stats.map((s, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>Stat ${i+1}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="hero.stats.${i}" ${i === 0 ? 'disabled' : ''} title="Move up">${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="hero.stats.${i}" ${i === data.hero.stats.length - 1 ? 'disabled' : ''} title="Move down">${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="hero.stats.${i}" title="Delete">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row-3">
+                                ${field('Number', `hero.stats.${i}.number`, s.number, { type: 'number' })}
+                                ${field('Suffix', `hero.stats.${i}.suffix`, s.suffix, { placeholder: '+, %, x...' })}
+                                ${field('Label', `hero.stats.${i}.label`, s.label)}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="hero.stats">${ICONS.add} Add Stat</button>
+            </div>`;
+    }
+
+    // ---- ABOUT ----
+    function renderAboutEditor(el) {
+        el.innerHTML = sectionHeader('About Section', 'Your personal story and the tools you use.') +
+            `<div class="section-card">
+                <div class="section-card-title">Basics</div>
+                ${field('Section Label', 'about.sectionLabel', data.about.sectionLabel, { hint: 'The small label above the title, e.g. "About Me"' })}
+                ${field('Title', 'about.title', data.about.title)}
+                ${imageField('Your Photo', 'about.photoUrl', data.about.photoUrl, 'Upload to ibb.co and paste the direct image URL here')}
+                ${field('Photo Alt Text', 'about.photoAlt', data.about.photoAlt, { hint: 'For accessibility and SEO' })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Bio Paragraphs</div>
+                <div class="section-card-desc">Your story. You can use &lt;strong&gt;text&lt;/strong&gt; to bold important words.</div>
+                <div class="list-items" id="aboutParagraphsList">
+                    ${data.about.paragraphs.map((p, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>Paragraph ${i+1}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="about.paragraphs.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="about.paragraphs.${i}" ${i === data.about.paragraphs.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="about.paragraphs.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            ${field('Text', `about.paragraphs.${i}`, p, { type: 'textarea', rows: 4 })}
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="about.paragraphs">${ICONS.add} Add Paragraph</button>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Tagline</div>
+                ${field('Tagline', 'about.tagline', data.about.tagline, { type: 'textarea', rows: 2, hint: 'The highlighted quote at the bottom of your bio' })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Tools I Use</div>
+                <div class="section-card-desc">Press Enter after each tool to add it as a tag.</div>
+                <div class="tags-input" data-tags="about.tools">
+                    ${data.about.tools.map((t, i) => `<span class="tag-chip">${esc(t)}<button class="tag-chip-remove" data-remove-tag="about.tools.${i}">&times;</button></span>`).join('')}
+                    <input type="text" placeholder="Type a tool and press Enter...">
+                </div>
+            </div>`;
+    }
+
+    // ---- SERVICES ----
+    function renderServicesEditor(el) {
+        el.innerHTML = sectionHeader('Services', 'The services you offer, shown in a grid.') +
+            `<div class="section-card">
+                <div class="section-card-title">Section Heading</div>
+                ${field('Section Label', 'services.sectionLabel', data.services.sectionLabel)}
+                ${field('Title', 'services.title', data.services.title)}
+                ${field('Subtitle', 'services.subtitle', data.services.subtitle, { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Service Items</div>
+                <div class="list-items">
+                    ${data.services.items.map((s, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(s.title)}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="services.items.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="services.items.${i}" ${i === data.services.items.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="services.items.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                ${field('Icon (emoji)', `services.items.${i}.icon`, s.icon, { hint: 'Paste any emoji' })}
+                                ${field('Title', `services.items.${i}.title`, s.title)}
+                            </div>
+                            ${field('Description', `services.items.${i}.description`, s.description, { type: 'textarea', rows: 3 })}
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="services.items">${ICONS.add} Add Service</button>
+            </div>`;
+    }
+
+    // ---- PROJECTS ----
+    function renderProjectsEditor(el) {
+        el.innerHTML = sectionHeader('Projects', 'Featured projects shown on the homepage.') +
+            `<div class="section-card">
+                <div class="section-card-title">Section Heading</div>
+                ${field('Section Label', 'projects.sectionLabel', data.projects.sectionLabel)}
+                ${field('Title', 'projects.title', data.projects.title)}
+                ${field('Subtitle', 'projects.subtitle', data.projects.subtitle, { type: 'textarea', rows: 2 })}
+                <div class="field-row">
+                    ${field('"View All" Button Text', 'projects.viewAllText', data.projects.viewAllText)}
+                    ${field('"View All" Button URL', 'projects.viewAllUrl', data.projects.viewAllUrl)}
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Project Items</div>
+                <div class="list-items">
+                    ${data.projects.items.map((p, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(p.title)}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="projects.items.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="projects.items.${i}" ${i === data.projects.items.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="projects.items.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                ${field('Category Tag', `projects.items.${i}.tag`, p.tag, { hint: 'CRM, Automation, AI Workflow, etc.' })}
+                                ${field('Title', `projects.items.${i}.title`, p.title)}
+                            </div>
+                            ${imageField('Project Image', `projects.items.${i}.image`, p.image, 'Optional. Leave blank to show a placeholder.')}
+                            ${field('Description', `projects.items.${i}.description`, p.description, { type: 'textarea', rows: 2 })}
+                            ${field('Case Study URL', `projects.items.${i}.caseStudyUrl`, p.caseStudyUrl, { hint: 'e.g. case-study-njs-royale.html' })}
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="projects.items">${ICONS.add} Add Project</button>
+            </div>`;
+    }
+
+    // ---- TESTIMONIALS ----
+    function renderTestimonialsEditor(el) {
+        el.innerHTML = sectionHeader('Testimonials', 'Client reviews shown in the testimonial slider.') +
+            `<div class="section-card">
+                <div class="section-card-title">Section Heading</div>
+                ${field('Section Label', 'testimonials.sectionLabel', data.testimonials.sectionLabel)}
+                ${field('Title', 'testimonials.title', data.testimonials.title)}
+                ${field('Subtitle', 'testimonials.subtitle', data.testimonials.subtitle, { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Testimonials</div>
+                <div class="list-items">
+                    ${data.testimonials.items.map((t, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(t.name)}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="testimonials.items.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="testimonials.items.${i}" ${i === data.testimonials.items.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="testimonials.items.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            ${field('Quote', `testimonials.items.${i}.quote`, t.quote, { type: 'textarea', rows: 3 })}
+                            <div class="field-row-3">
+                                ${field('Name', `testimonials.items.${i}.name`, t.name)}
+                                ${field('Role / Company', `testimonials.items.${i}.role`, t.role)}
+                                ${field('Initials', `testimonials.items.${i}.initials`, t.initials, { hint: '2 letters, e.g. JA' })}
+                            </div>
+                            ${field('Star Rating', `testimonials.items.${i}.stars`, t.stars, { type: 'number', hint: '1 to 5' })}
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="testimonials.items">${ICONS.add} Add Testimonial</button>
+            </div>`;
+    }
+
+    // ---- CTA ----
+    function renderCtaEditor(el) {
+        el.innerHTML = sectionHeader('CTA Section', 'The final call-to-action section before the footer.') +
+            `<div class="section-card">
+                <div class="section-card-title">Headline</div>
+                ${field('Section Label', 'cta.sectionLabel', data.cta.sectionLabel)}
+                ${field('Title', 'cta.title', data.cta.title)}
+                ${field('Subtitle', 'cta.subtitle', data.cta.subtitle, { type: 'textarea', rows: 2 })}
+            </div>
+            <div class="section-card">
+                <div class="section-card-title">Buttons</div>
+                <div class="field-row">
+                    ${field('Primary Button Text', 'cta.primaryCta.text', data.cta.primaryCta.text)}
+                    ${field('Primary Button URL', 'cta.primaryCta.url', data.cta.primaryCta.url, { type: 'url' })}
+                </div>
+                ${field('Primary button opens in new tab', 'cta.primaryCta.external', data.cta.primaryCta.external, { type: 'checkbox' })}
+                <div class="field-row">
+                    ${field('Secondary Button Text', 'cta.secondaryCta.text', data.cta.secondaryCta.text)}
+                    ${field('Secondary Button URL', 'cta.secondaryCta.url', data.cta.secondaryCta.url)}
+                </div>
+            </div>`;
+    }
+
+    // ---- FOOTER ----
+    function renderFooterEditor(el) {
+        const iconOptions = ['twitter', 'linkedin', 'instagram', 'facebook', 'tiktok', 'upwork'];
+        el.innerHTML = sectionHeader('Footer & Social Links', 'Your footer info and social media links.') +
+            `<div class="section-card">
+                <div class="section-card-title">Footer Info</div>
+                <div class="field-row">
+                    ${field('Your Name', 'footer.name', data.footer.name)}
+                    ${field('Copyright Year', 'footer.year', data.footer.year, { type: 'number' })}
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Social Links</div>
+                <div class="section-card-desc">Pick a platform (loads the right icon) and paste your profile URL.</div>
+                <div class="list-items">
+                    ${data.footer.socials.map((s, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(s.platform)}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="footer.socials.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="footer.socials.${i}" ${i === data.footer.socials.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="footer.socials.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row-3">
+                                ${field('Display Name', `footer.socials.${i}.platform`, s.platform)}
+                                <div class="field">
+                                    <label class="field-label">Icon</label>
+                                    <select class="field-select" data-bind="footer.socials.${i}.icon">
+                                        ${iconOptions.map(o => `<option value="${o}" ${s.icon === o ? 'selected' : ''}>${o}</option>`).join('')}
+                                    </select>
+                                </div>
+                                ${field('URL', `footer.socials.${i}.url`, s.url, { type: 'url' })}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="footer.socials">${ICONS.add} Add Social Link</button>
+            </div>`;
+    }
+
+    // ============================================================
+    // PROJECTS PAGE — LAYOUT EDITOR (header, stats, process, filters, CTA)
+    // ============================================================
+    function renderProjectsPageLayoutEditor(el) {
+        // Ensure data.projectsPage exists (for sites migrated before this was added)
+        if (!data.projectsPage) {
+            data.projectsPage = defaultProjectsPage();
+            saveDraft();
+        }
+        const pp = data.projectsPage;
+
+        el.innerHTML = sectionHeader('Projects Page — Layout', 'Edit the layout sections of your Projects page (projects.html). Project cards are edited in the next section.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Page Meta</div>
+                <div class="section-card-desc">Browser title and SEO description for the Projects page.</div>
+                ${field('Page Title', 'projectsPage.meta.title', pp.meta.title)}
+                ${field('Meta Description', 'projectsPage.meta.description', pp.meta.description, { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Page Header</div>
+                ${field('Title', 'projectsPage.header.title', pp.header.title)}
+                ${field('Subtitle', 'projectsPage.header.subtitle', pp.header.subtitle, { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Stats Bar (counting animation)</div>
+                <div class="section-card-desc">The 4 stats shown under the page header.</div>
+                <div class="list-items">
+                    ${pp.stats.map((s, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>Stat ${i+1}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="projectsPage.stats.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="projectsPage.stats.${i}" ${i === pp.stats.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="projectsPage.stats.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row-3">
+                                ${field('Number', `projectsPage.stats.${i}.number`, s.number, { type: 'number' })}
+                                ${field('Suffix', `projectsPage.stats.${i}.suffix`, s.suffix, { placeholder: '+, %, x...' })}
+                                ${field('Label', `projectsPage.stats.${i}.label`, s.label)}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="projectsPage.stats">${ICONS.add} Add Stat</button>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">"How I Work" Process Section</div>
+                ${field('Section Label', 'projectsPage.process.label', pp.process.label)}
+                <div class="list-items">
+                    ${pp.process.steps.map((s, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>Step ${i+1}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="projectsPage.process.steps.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="projectsPage.process.steps.${i}" ${i === pp.process.steps.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="projectsPage.process.steps.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                ${field('Icon (emoji)', `projectsPage.process.steps.${i}.icon`, s.icon)}
+                                ${field('Title', `projectsPage.process.steps.${i}.title`, s.title)}
+                            </div>
+                            ${field('Description', `projectsPage.process.steps.${i}.description`, s.description)}
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="projectsPage.process.steps">${ICONS.add} Add Step</button>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Category Filters</div>
+                <div class="section-card-desc">The filter buttons above the project grid. The <code>id</code> must match the <code>category</code> value on your project cards.</div>
+                <div class="list-items">
+                    ${pp.filters.map((f, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(f.label)}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="projectsPage.filters.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="projectsPage.filters.${i}" ${i === pp.filters.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="projectsPage.filters.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                ${field('ID (category key)', `projectsPage.filters.${i}.id`, f.id, { hint: 'e.g. all, crm, automation — match project categories' })}
+                                ${field('Display Label', `projectsPage.filters.${i}.label`, f.label)}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="projectsPage.filters">${ICONS.add} Add Filter</button>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Page CTA (bottom of page)</div>
+                ${field('Section Label', 'projectsPage.cta.sectionLabel', pp.cta.sectionLabel)}
+                ${field('Title', 'projectsPage.cta.title', pp.cta.title)}
+                ${field('Subtitle', 'projectsPage.cta.subtitle', pp.cta.subtitle, { type: 'textarea', rows: 2 })}
+                <div class="field-row">
+                    ${field('Button Text', 'projectsPage.cta.buttonText', pp.cta.buttonText)}
+                    ${field('Button URL', 'projectsPage.cta.buttonUrl', pp.cta.buttonUrl, { type: 'url' })}
+                </div>
+            </div>`;
+    }
+
+    // ============================================================
+    // PROJECTS PAGE — INDIVIDUAL PROJECT CARDS EDITOR
+    // ============================================================
+    function renderProjectsPageItemsEditor(el) {
+        if (!data.projectsPage) { data.projectsPage = defaultProjectsPage(); saveDraft(); }
+        const pp = data.projectsPage;
+
+        // Build available category options from filters (exclude "all")
+        const categoryOpts = pp.filters.filter(f => f.id !== 'all');
+
+        // Build available case study options
+        const caseStudyIds = Object.keys(data.caseStudies || {});
+
+        el.innerHTML = sectionHeader('Projects Page — Project Cards', 'The 12+ project cards shown in the filterable grid on your Projects page.') +
+            `<div class="section-card">
+                <div class="section-card-title">All Projects</div>
+                <div class="section-card-desc">Each card supports an image, category tag, industry, title, tools, description, metric, and optional link to a case study.</div>
+                <div class="list-items">
+                    ${pp.items.map((p, i) => {
+                        const catSelect = `<select class="field-select" data-bind="projectsPage.items.${i}.category">
+                            ${categoryOpts.map(c => `<option value="${c.id}" ${p.category === c.id ? 'selected' : ''}>${esc(c.label)}</option>`).join('')}
+                        </select>`;
+                        const csSelect = `<select class="field-select" data-bind="projectsPage.items.${i}.caseStudyId">
+                            <option value="" ${!p.caseStudyId ? 'selected' : ''}>— No case study —</option>
+                            ${caseStudyIds.map(id => `<option value="${id}" ${p.caseStudyId === id ? 'selected' : ''}>${esc(id)}</option>`).join('')}
+                        </select>`;
+                        const toolsChips = (p.tools || []).map((t, ti) => `<span class="tag-chip">${esc(t)}<button class="tag-chip-remove" data-remove-tag="projectsPage.items.${i}.tools.${ti}">&times;</button></span>`).join('');
+                        return `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(p.title)}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="projectsPage.items.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="projectsPage.items.${i}" ${i === pp.items.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="projectsPage.items.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><label class="field-label">Category (filter group)</label>${catSelect}</div>
+                                ${field('Tag (badge text)', `projectsPage.items.${i}.tag`, p.tag, { hint: 'Shown on the image badge' })}
+                            </div>
+                            <div class="field-row">
+                                ${field('Industry', `projectsPage.items.${i}.industry`, p.industry)}
+                                ${field('Title', `projectsPage.items.${i}.title`, p.title)}
+                            </div>
+                            ${imageField('Project Image', `projectsPage.items.${i}.image`, p.image, 'Optional. Leave blank to show placeholder.')}
+                            ${field('Description', `projectsPage.items.${i}.description`, p.description, { type: 'textarea', rows: 2 })}
+                            ${field('Metric (badge text)', `projectsPage.items.${i}.metric`, p.metric, { hint: 'e.g. "40% faster lead response"' })}
+                            <div class="field"><label class="field-label">Tools (press Enter to add)</label>
+                                <div class="tags-input" data-tags="projectsPage.items.${i}.tools">
+                                    ${toolsChips}
+                                    <input type="text" placeholder="Type a tool and press Enter...">
+                                </div>
+                            </div>
+                            <div class="field"><label class="field-label">Link to Case Study</label>${csSelect}
+                                <div class="field-hint">Links to <code>case-study.html?id=...</code>. Add case studies in the Case Studies section.</div>
+                            </div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <button class="add-item-btn" data-add="projectsPage.items">${ICONS.add} Add Project Card</button>
+            </div>`;
+    }
+
+    // ============================================================
+    // CASE STUDIES — LIST VIEW
+    // ============================================================
+    function renderCaseStudiesListEditor(el) {
+        const studies = data.caseStudies || {};
+        const ids = Object.keys(studies);
+
+        el.innerHTML = sectionHeader('Case Studies', 'Full in-depth case studies. Each is accessible at <code>case-study.html?id=your-id</code>.') +
+            `<div class="section-card">
+                <div class="section-card-title">All Case Studies</div>
+                <div class="section-card-desc">Click a case study to edit its full content.</div>
+                <div class="list-items">
+                    ${ids.length === 0
+                        ? `<div style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">No case studies yet. Create your first one below.</div>`
+                        : ids.map(id => {
+                            const cs = studies[id];
+                            return `<div class="list-item" style="cursor:pointer;" data-open-case="${esc(id)}">
+                                <div class="list-item-header">
+                                    <div class="list-item-title">
+                                        <span class="list-item-number">${esc(id)}</span>
+                                        ${esc(cs.hero?.title || '(Untitled)')}
+                                    </div>
+                                    <div class="list-item-actions">
+                                        <button class="list-item-btn" data-open-case="${esc(id)}" title="Edit">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        </button>
+                                        <button class="list-item-btn danger" data-delete-case="${esc(id)}" title="Delete">${ICONS.del}</button>
+                                    </div>
+                                </div>
+                                <div style="font-size: 0.82rem; color: var(--text-muted); padding-left: 34px;">
+                                    ${esc(cs.hero?.client || '')} • ${esc(cs.hero?.tag || '')}
+                                </div>
+                            </div>`;
+                        }).join('')
+                    }
+                </div>
+
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <label class="field-label">Create new case study</label>
+                    <div style="display:flex; gap: 0.5rem;">
+                        <input type="text" class="field-input" id="newCaseStudyId" placeholder="url-safe-id (e.g. njs-royale)" style="flex: 1;">
+                        <button class="topbar-btn primary" id="createCaseStudyBtn">${ICONS.add} Create</button>
+                    </div>
+                    <div class="field-hint">Use lowercase letters, numbers, and hyphens only. The ID becomes the URL: <code>case-study.html?id=<span id="idPreview">your-id</span></code></div>
+                </div>
+            </div>`;
+
+        // Wire events
+        el.querySelectorAll('[data-open-case]').forEach(e => {
+            e.addEventListener('click', (ev) => {
+                // If click landed on the delete button (inside the card), ignore here
+                if (ev.target.closest('[data-delete-case]')) return;
+                ev.stopPropagation();
+                activeCaseStudyId = e.dataset.openCase;
+                renderEditor();
+            });
+        });
+        el.querySelectorAll('[data-delete-case]').forEach(e => {
+            e.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                const id = e.dataset.deleteCase;
+                if (confirm(`Delete case study "${id}"? This cannot be undone.`)) {
+                    delete data.caseStudies[id];
+                    saveDraft();
+                    renderEditor();
+                }
+            });
+        });
+        const idInput = document.getElementById('newCaseStudyId');
+        const idPreview = document.getElementById('idPreview');
+        idInput?.addEventListener('input', () => {
+            const slug = idInput.value.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
+            if (slug !== idInput.value) idInput.value = slug;
+            idPreview.textContent = slug || 'your-id';
+        });
+        document.getElementById('createCaseStudyBtn')?.addEventListener('click', () => {
+            const id = (idInput.value || '').trim();
+            if (!id) { toast('Enter an ID', 'error'); return; }
+            if (data.caseStudies && data.caseStudies[id]) { toast('A case study with that ID already exists', 'error'); return; }
+            if (!data.caseStudies) data.caseStudies = {};
+            data.caseStudies[id] = defaultCaseStudy();
+            saveDraft();
+            activeCaseStudyId = id;
+            renderEditor();
+        });
+    }
+
+    // ============================================================
+    // CASE STUDY — DETAIL EDITOR
+    // ============================================================
+    function renderCaseStudyEditor(el, caseId) {
+        const cs = data.caseStudies?.[caseId];
+        if (!cs) {
+            activeCaseStudyId = null;
+            renderEditor();
+            return;
+        }
+        const allIds = Object.keys(data.caseStudies);
+        const otherIds = allIds.filter(i => i !== caseId);
+
+        const backBtn = `<button class="topbar-btn" id="backToCases" style="margin-bottom: 1rem;">← Back to all case studies</button>`;
+
+        el.innerHTML = backBtn + sectionHeader(`Edit: ${esc(cs.hero?.title || caseId)}`, `URL: <code>case-study.html?id=${esc(caseId)}</code>`) +
+
+            // --- META ---
+            `<div class="section-card">
+                <div class="section-card-title">Page Meta</div>
+                ${field('Browser Title', `caseStudies.${caseId}.meta.title`, cs.meta.title)}
+                ${field('Meta Description', `caseStudies.${caseId}.meta.description`, cs.meta.description, { type: 'textarea', rows: 2 })}
+            </div>
+
+            <!-- HERO -->
+            <div class="section-card">
+                <div class="section-card-title">Hero Banner</div>
+                <div class="field-row">
+                    ${field('Category Tag', `caseStudies.${caseId}.hero.tag`, cs.hero.tag, { hint: 'e.g. CRM, Automation' })}
+                    ${field('Client Name', `caseStudies.${caseId}.hero.client`, cs.hero.client)}
+                </div>
+                ${field('Title', `caseStudies.${caseId}.hero.title`, cs.hero.title)}
+                ${field('Subtitle', `caseStudies.${caseId}.hero.subtitle`, cs.hero.subtitle, { type: 'textarea', rows: 3 })}
+                <div class="field-row">
+                    ${field('Hero Metric Number', `caseStudies.${caseId}.hero.metric.number`, cs.hero.metric?.number || '', { hint: 'e.g. 100%, 9+, 3x' })}
+                    ${field('Hero Metric Label', `caseStudies.${caseId}.hero.metric.label`, cs.hero.metric?.label || '')}
+                </div>
+                ${imageField('Hero Image', `caseStudies.${caseId}.hero.heroImage`, cs.hero.heroImage || '', 'Optional. Upload to ibb.co and paste URL.')}
+                ${field('Hero Image Caption (shown as placeholder if no image)', `caseStudies.${caseId}.hero.heroCaption`, cs.hero.heroCaption || '')}
+            </div>
+
+            <!-- QUICK FACTS -->
+            <div class="section-card">
+                <div class="section-card-title">Quick Facts Strip</div>
+                <div class="field-row">
+                    ${field('Client', `caseStudies.${caseId}.quickFacts.client`, cs.quickFacts.client || '')}
+                    ${field('Industry', `caseStudies.${caseId}.quickFacts.industry`, cs.quickFacts.industry || '')}
+                </div>
+                <div class="field-row">
+                    ${field('Timeline', `caseStudies.${caseId}.quickFacts.timeline`, cs.quickFacts.timeline || '')}
+                    ${field('My Role', `caseStudies.${caseId}.quickFacts.role`, cs.quickFacts.role || '')}
+                </div>
+                <div class="field"><label class="field-label">Tools (press Enter to add)</label>
+                    <div class="tags-input" data-tags="caseStudies.${caseId}.quickFacts.tools">
+                        ${(cs.quickFacts.tools || []).map((t, ti) => `<span class="tag-chip">${esc(t)}<button class="tag-chip-remove" data-remove-tag="caseStudies.${caseId}.quickFacts.tools.${ti}">&times;</button></span>`).join('')}
+                        <input type="text" placeholder="Type a tool and press Enter...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACT 1: CHALLENGE -->
+            <div class="section-card">
+                <div class="section-card-title">Act 1 — The Challenge</div>
+                <div class="field-row">
+                    ${field('Section Label', `caseStudies.${caseId}.challenge.label`, cs.challenge.label)}
+                    ${field('Section Title', `caseStudies.${caseId}.challenge.title`, cs.challenge.title)}
+                </div>
+                <div class="field"><label class="field-label">Paragraphs</label>
+                    <div class="list-items">
+                        ${(cs.challenge.paragraphs || []).map((p, i) => `
+                            <div class="list-item">
+                                <div class="list-item-header">
+                                    <div class="list-item-title"><span class="list-item-number">${i+1}</span>Paragraph ${i+1}</div>
+                                    <div class="list-item-actions">
+                                        <button class="list-item-btn" data-move-up="caseStudies.${caseId}.challenge.paragraphs.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                        <button class="list-item-btn" data-move-down="caseStudies.${caseId}.challenge.paragraphs.${i}" ${i === cs.challenge.paragraphs.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                        <button class="list-item-btn danger" data-remove="caseStudies.${caseId}.challenge.paragraphs.${i}">${ICONS.del}</button>
+                                    </div>
+                                </div>
+                                ${field('', `caseStudies.${caseId}.challenge.paragraphs.${i}`, p, { type: 'textarea', rows: 3 })}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="add-item-btn" data-add="caseStudies.${caseId}.challenge.paragraphs">${ICONS.add} Add Paragraph</button>
+                </div>
+
+                <div class="field"><label class="field-label">Bullet Points</label>
+                    <div class="list-items">
+                        ${(cs.challenge.bullets || []).map((b, i) => `
+                            <div class="list-item">
+                                <div class="list-item-header">
+                                    <div class="list-item-title"><span class="list-item-number">${i+1}</span>Bullet ${i+1}</div>
+                                    <div class="list-item-actions">
+                                        <button class="list-item-btn" data-move-up="caseStudies.${caseId}.challenge.bullets.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                        <button class="list-item-btn" data-move-down="caseStudies.${caseId}.challenge.bullets.${i}" ${i === cs.challenge.bullets.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                        <button class="list-item-btn danger" data-remove="caseStudies.${caseId}.challenge.bullets.${i}">${ICONS.del}</button>
+                                    </div>
+                                </div>
+                                ${field('', `caseStudies.${caseId}.challenge.bullets.${i}`, b, { type: 'textarea', rows: 2 })}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="add-item-btn" data-add="caseStudies.${caseId}.challenge.bullets">${ICONS.add} Add Bullet</button>
+                </div>
+
+                ${field('Callout (highlighted quote box)', `caseStudies.${caseId}.challenge.callout`, cs.challenge.callout || '', { type: 'textarea', rows: 3, hint: 'Leave empty to hide' })}
+            </div>
+
+            <!-- ACT 2: SOLUTION -->
+            <div class="section-card">
+                <div class="section-card-title">Act 2 — The Solution</div>
+                <div class="field-row">
+                    ${field('Section Label', `caseStudies.${caseId}.solution.label`, cs.solution.label)}
+                    ${field('Section Title', `caseStudies.${caseId}.solution.title`, cs.solution.title)}
+                </div>
+                ${field('Intro Paragraph', `caseStudies.${caseId}.solution.intro`, cs.solution.intro || '', { type: 'textarea', rows: 3 })}
+
+                <div class="field"><label class="field-label">Phases</label>
+                    <div class="list-items">
+                        ${(cs.solution.phases || []).map((ph, i) => `
+                            <div class="list-item">
+                                <div class="list-item-header">
+                                    <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(ph.title || 'Phase ' + (i+1))}</div>
+                                    <div class="list-item-actions">
+                                        <button class="list-item-btn" data-move-up="caseStudies.${caseId}.solution.phases.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                        <button class="list-item-btn" data-move-down="caseStudies.${caseId}.solution.phases.${i}" ${i === cs.solution.phases.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                        <button class="list-item-btn danger" data-remove="caseStudies.${caseId}.solution.phases.${i}">${ICONS.del}</button>
+                                    </div>
+                                </div>
+                                <div class="field-row">
+                                    ${field('Phase Number', `caseStudies.${caseId}.solution.phases.${i}.number`, ph.number, { hint: 'e.g. 01, 02' })}
+                                    ${field('Phase Title', `caseStudies.${caseId}.solution.phases.${i}.title`, ph.title)}
+                                </div>
+                                ${field('Description', `caseStudies.${caseId}.solution.phases.${i}.description`, ph.description, { type: 'textarea', rows: 4 })}
+                                ${imageField('Image (optional)', `caseStudies.${caseId}.solution.phases.${i}.image`, ph.image || '')}
+                                ${field('Image Caption / Placeholder text', `caseStudies.${caseId}.solution.phases.${i}.imageCaption`, ph.imageCaption || '')}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="add-item-btn" data-add="caseStudies.${caseId}.solution.phases">${ICONS.add} Add Phase</button>
+                </div>
+            </div>
+
+            <!-- ACT 3: RESULTS -->
+            <div class="section-card">
+                <div class="section-card-title">Act 3 — Results & Impact</div>
+                <div class="field-row">
+                    ${field('Section Label', `caseStudies.${caseId}.results.label`, cs.results.label)}
+                    ${field('Section Title', `caseStudies.${caseId}.results.title`, cs.results.title)}
+                </div>
+
+                <div class="field"><label class="field-label">Result Metrics (counting animation)</label>
+                    <div class="list-items">
+                        ${(cs.results.metrics || []).map((m, i) => `
+                            <div class="list-item">
+                                <div class="list-item-header">
+                                    <div class="list-item-title"><span class="list-item-number">${i+1}</span>Metric ${i+1}</div>
+                                    <div class="list-item-actions">
+                                        <button class="list-item-btn" data-move-up="caseStudies.${caseId}.results.metrics.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                        <button class="list-item-btn" data-move-down="caseStudies.${caseId}.results.metrics.${i}" ${i === cs.results.metrics.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                        <button class="list-item-btn danger" data-remove="caseStudies.${caseId}.results.metrics.${i}">${ICONS.del}</button>
+                                    </div>
+                                </div>
+                                <div class="field-row-3">
+                                    ${field('Number', `caseStudies.${caseId}.results.metrics.${i}.number`, m.number, { type: 'number' })}
+                                    ${field('Suffix', `caseStudies.${caseId}.results.metrics.${i}.suffix`, m.suffix, { placeholder: '+, %, x...' })}
+                                    ${field('Label', `caseStudies.${caseId}.results.metrics.${i}.label`, m.label)}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="add-item-btn" data-add="caseStudies.${caseId}.results.metrics">${ICONS.add} Add Metric</button>
+                </div>
+
+                <div class="field"><label class="field-label">Results Paragraphs</label>
+                    <div class="list-items">
+                        ${(cs.results.paragraphs || []).map((p, i) => `
+                            <div class="list-item">
+                                <div class="list-item-header">
+                                    <div class="list-item-title"><span class="list-item-number">${i+1}</span>Paragraph ${i+1}</div>
+                                    <div class="list-item-actions">
+                                        <button class="list-item-btn" data-move-up="caseStudies.${caseId}.results.paragraphs.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                        <button class="list-item-btn" data-move-down="caseStudies.${caseId}.results.paragraphs.${i}" ${i === cs.results.paragraphs.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                        <button class="list-item-btn danger" data-remove="caseStudies.${caseId}.results.paragraphs.${i}">${ICONS.del}</button>
+                                    </div>
+                                </div>
+                                ${field('', `caseStudies.${caseId}.results.paragraphs.${i}`, p, { type: 'textarea', rows: 3 })}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="add-item-btn" data-add="caseStudies.${caseId}.results.paragraphs">${ICONS.add} Add Paragraph</button>
+                </div>
+            </div>
+
+            <!-- TESTIMONIAL -->
+            <div class="section-card">
+                <div class="section-card-title">Client Testimonial</div>
+                <div class="section-card-desc">Leave quote blank to hide the testimonial block.</div>
+                ${field('Quote', `caseStudies.${caseId}.testimonial.quote`, cs.testimonial?.quote || '', { type: 'textarea', rows: 4 })}
+                <div class="field-row-3">
+                    ${field('Name', `caseStudies.${caseId}.testimonial.name`, cs.testimonial?.name || '')}
+                    ${field('Role / Company', `caseStudies.${caseId}.testimonial.role`, cs.testimonial?.role || '')}
+                    ${field('Initials', `caseStudies.${caseId}.testimonial.initials`, cs.testimonial?.initials || '')}
+                </div>
+            </div>
+
+            <!-- TOOLS -->
+            <div class="section-card">
+                <div class="section-card-title">Tools & Platforms Strip</div>
+                <div class="field"><label class="field-label">Tools (press Enter to add)</label>
+                    <div class="tags-input" data-tags="caseStudies.${caseId}.tools">
+                        ${(cs.tools || []).map((t, ti) => `<span class="tag-chip">${esc(t)}<button class="tag-chip-remove" data-remove-tag="caseStudies.${caseId}.tools.${ti}">&times;</button></span>`).join('')}
+                        <input type="text" placeholder="Type a tool and press Enter...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- PREV/NEXT NAV -->
+            <div class="section-card">
+                <div class="section-card-title">Previous / Next Navigation</div>
+                <div class="section-card-desc">Leave both blank to auto-derive from case study order.</div>
+                <div class="field-row">
+                    <div class="field"><label class="field-label">Previous Case Study</label>
+                        <select class="field-select" data-bind="caseStudies.${caseId}.nav.prevId">
+                            <option value="" ${!cs.nav?.prevId ? 'selected' : ''}>— Auto —</option>
+                            ${otherIds.map(id => `<option value="${id}" ${cs.nav?.prevId === id ? 'selected' : ''}>${esc(id)}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="field"><label class="field-label">Next Case Study</label>
+                        <select class="field-select" data-bind="caseStudies.${caseId}.nav.nextId">
+                            <option value="" ${!cs.nav?.nextId ? 'selected' : ''}>— Auto —</option>
+                            ${otherIds.map(id => `<option value="${id}" ${cs.nav?.nextId === id ? 'selected' : ''}>${esc(id)}</option>`).join('')}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="section-card">
+                <div class="section-card-title">Bottom CTA</div>
+                ${field('Section Label', `caseStudies.${caseId}.cta.sectionLabel`, cs.cta?.sectionLabel || '')}
+                ${field('Title', `caseStudies.${caseId}.cta.title`, cs.cta?.title || '')}
+                ${field('Subtitle', `caseStudies.${caseId}.cta.subtitle`, cs.cta?.subtitle || '', { type: 'textarea', rows: 2 })}
+                <div class="field-row">
+                    ${field('Button Text', `caseStudies.${caseId}.cta.buttonText`, cs.cta?.buttonText || '')}
+                    ${field('Button URL', `caseStudies.${caseId}.cta.buttonUrl`, cs.cta?.buttonUrl || '', { type: 'url' })}
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">Preview this case study</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Opens <code>case-study.html?id=${esc(caseId)}</code> in a new tab. Save first to see latest changes.</div>
+                </div>
+                <a href="case-study.html?id=${encodeURIComponent(caseId)}" target="_blank" class="topbar-btn">Open Preview →</a>
+            </div>`;
+
+        // Back button handler
+        document.getElementById('backToCases')?.addEventListener('click', () => {
+            activeCaseStudyId = null;
+            renderEditor();
+        });
+    }
+
+    // ============================================================
+    // INPUT HANDLERS (two-way binding + list ops)
+    // ============================================================
+    function attachInputHandlers(root) {
+        // Text/number/url/checkbox/textarea/select binding
+        root.querySelectorAll('[data-bind]').forEach(input => {
+            input.addEventListener('input', onBindInput);
+            input.addEventListener('change', onBindInput);
+        });
+        // List add/remove/move buttons
+        root.querySelectorAll('[data-add]').forEach(btn => btn.addEventListener('click', onAdd));
+        root.querySelectorAll('[data-remove]').forEach(btn => btn.addEventListener('click', onRemove));
+        root.querySelectorAll('[data-move-up]').forEach(btn => btn.addEventListener('click', onMove.bind(null, -1)));
+        root.querySelectorAll('[data-move-down]').forEach(btn => btn.addEventListener('click', onMove.bind(null, 1)));
+        // Tags input (special case)
+        root.querySelectorAll('[data-tags]').forEach(setupTagsInput);
+        // Remove-tag buttons
+        root.querySelectorAll('[data-remove-tag]').forEach(btn => btn.addEventListener('click', onRemoveTag));
+        // Image preview live update
+        root.querySelectorAll('[data-image]').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const preview = root.querySelector(`[data-preview="${e.target.dataset.image}"]`);
+                if (preview) {
+                    preview.innerHTML = e.target.value
+                        ? `<img src="${esc(e.target.value)}" alt="preview" onerror="this.style.display='none';this.parentElement.innerHTML='Invalid image';">`
+                        : `No image`;
+                }
+            });
+        });
+    }
+
+    function onBindInput(e) {
+        const path = e.target.dataset.bind;
+        let value = e.target.type === 'checkbox' ? e.target.checked :
+                    e.target.type === 'number' ? (e.target.value === '' ? 0 : Number(e.target.value)) :
+                    e.target.value;
+        setByPath(data, path, value);
+        // Sync text + color pickers
+        if (e.target.dataset.sync === 'color' || e.target.type === 'color') {
+            const siblings = e.target.parentElement.querySelectorAll(`[data-bind="${path}"]`);
+            siblings.forEach(s => { if (s !== e.target) s.value = value; });
+        }
+        saveDraft();
+    }
+
+    function onAdd(e) {
+        const path = e.currentTarget.dataset.add;
+        const arr = getByPath(data, path);
+        if (!Array.isArray(arr)) return;
+        arr.push(getDefaultForPath(path));
+        saveDraft();
+        renderEditor();
+    }
+
+    function onRemove(e) {
+        const path = e.currentTarget.dataset.remove;
+        if (!confirm('Delete this item?')) return;
+        removeByPath(data, path);
+        saveDraft();
+        renderEditor();
+    }
+
+    function onMove(delta, e) {
+        const path = e.currentTarget.dataset.moveUp || e.currentTarget.dataset.moveDown;
+        const [arrPath, idxStr] = splitPathTail(path);
+        const idx = Number(idxStr);
+        const arr = getByPath(data, arrPath);
+        if (!Array.isArray(arr)) return;
+        const newIdx = idx + delta;
+        if (newIdx < 0 || newIdx >= arr.length) return;
+        const [item] = arr.splice(idx, 1);
+        arr.splice(newIdx, 0, item);
+        saveDraft();
+        renderEditor();
+    }
+
+    function setupTagsInput(wrap) {
+        const input = wrap.querySelector('input');
+        const path = wrap.dataset.tags;
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && input.value.trim()) {
+                e.preventDefault();
+                const arr = getByPath(data, path);
+                arr.push(input.value.trim());
+                saveDraft();
+                renderEditor();
+            }
+        });
+    }
+
+    function onRemoveTag(e) {
+        const path = e.currentTarget.dataset.removeTag;
+        removeByPath(data, path);
+        saveDraft();
+        renderEditor();
+    }
+
+    // ============================================================
+    // PATH UTILITIES (for "a.b.c.0.field" paths)
+    // ============================================================
+    function getByPath(obj, path) {
+        return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
+    }
+    function setByPath(obj, path, value) {
+        const keys = path.split('.');
+        const last = keys.pop();
+        const parent = keys.reduce((o, k) => (o[k] ??= {}), obj);
+        parent[last] = value;
+    }
+    function removeByPath(obj, path) {
+        const keys = path.split('.');
+        const last = keys.pop();
+        const parent = keys.reduce((o, k) => (o == null ? undefined : o[k]), obj);
+        if (Array.isArray(parent)) parent.splice(Number(last), 1);
+        else if (parent) delete parent[last];
+    }
+    function splitPathTail(path) {
+        const i = path.lastIndexOf('.');
+        return [path.slice(0, i), path.slice(i + 1)];
+    }
+
+    // Default values when adding new items
+    function getDefaultForPath(path) {
+        // Normalize path: replace numeric indices with '*' and case-study IDs with '{id}'
+        // e.g. "caseStudies.njs-royale.challenge.paragraphs" -> "caseStudies.{id}.challenge.paragraphs"
+        //      "projectsPage.items.3" -> "projectsPage.items"
+        const normalized = path
+            .replace(/\.\d+(?=\.|$)/g, '')          // strip trailing numeric indices
+            .replace(/^caseStudies\.[^.]+/, 'caseStudies.{id}'); // normalize case study ID
+
+        const defaults = {
+            // Homepage
+            'hero.stats': { number: 0, suffix: '+', label: 'New Stat' },
+            'about.paragraphs': 'New paragraph text. Use <strong>text</strong> to bold.',
+            'about.tools': 'New Tool',
+            'services.items': { icon: '⭐', title: 'New Service', description: 'Service description.' },
+            'projects.items': { tag: 'New', image: '', title: 'New Project', description: 'Project description.', caseStudyUrl: '#' },
+            'testimonials.items': { stars: 5, quote: 'New testimonial quote.', name: 'Client Name', role: 'Role, Company', initials: 'CN' },
+            'footer.socials': { platform: 'New Platform', url: 'https://', icon: 'twitter' },
+
+            // Projects Page
+            'projectsPage.stats': { number: 0, suffix: '', label: 'New Stat' },
+            'projectsPage.process.steps': { icon: '✨', title: 'New Step', description: 'Step description' },
+            'projectsPage.filters': { id: 'new', label: 'New Filter' },
+            'projectsPage.items': { category: 'crm', tag: 'New', image: '', industry: 'Industry', title: 'New Project', tools: ['Tool 1'], description: 'Project description.', metric: '— metric —', caseStudyId: '' },
+
+            // Case Studies (paths using {id} wildcard)
+            'caseStudies.{id}.challenge.paragraphs': 'New paragraph of challenge description.',
+            'caseStudies.{id}.challenge.bullets': 'New pain point or challenge bullet.',
+            'caseStudies.{id}.solution.phases': { number: '0N', title: 'New Phase', description: 'Phase description.', image: '', imageCaption: '' },
+            'caseStudies.{id}.results.metrics': { number: 0, suffix: '+', label: 'New Metric' },
+            'caseStudies.{id}.results.paragraphs': 'New results paragraph.',
+            'caseStudies.{id}.quickFacts.tools': 'New Tool',
+            'caseStudies.{id}.tools': 'New Tool',
+
+            // Projects Page items tools (nested)
+            'projectsPage.items.tools': 'New Tool'
+        };
+
+        const value = defaults[normalized];
+        if (value === undefined) return '';
+        return typeof value === 'object' ? JSON.parse(JSON.stringify(value)) : value;
+    }
+
+    // ============================================================
+    // DEFAULT FACTORY FUNCTIONS (for creating new sections wholesale)
+    // ============================================================
+    function defaultProjectsPage() {
+        return {
+            meta: { title: 'Projects — Damilare Babalola', description: 'My portfolio of CRM setups, marketing automations, and AI-powered workflows.' },
+            header: { title: 'My Projects', subtitle: 'A collection of systems I\'ve built for real businesses.' },
+            stats: [ { number: 10, suffix: '+', label: 'Projects' } ],
+            process: { label: 'How I Work', steps: [ { icon: '🔍', title: 'Discover', description: 'Understand your goals' } ] },
+            filters: [ { id: 'all', label: 'All' } ],
+            items: [],
+            cta: { sectionLabel: 'Have a project?', title: 'Let\'s work together', subtitle: 'Book a call to discuss.', buttonText: 'Book a Free Call', buttonUrl: 'https://cal.com/dami-digital-market' }
+        };
+    }
+
+    function defaultCaseStudy() {
+        return {
+            meta: { title: 'New Case Study — Damilare Babalola', description: 'Case study description' },
+            hero: {
+                tag: 'CRM', title: 'New Case Study', client: 'Client Name',
+                subtitle: 'A brief description of the project and its impact.',
+                metric: { number: '100%', label: 'Key Metric' },
+                heroImage: '', heroCaption: 'Hero screenshot caption'
+            },
+            quickFacts: { client: 'Client Name', industry: 'Industry', timeline: 'Month YYYY', role: 'Your Role', tools: [] },
+            challenge: {
+                label: 'Act 1', title: 'The Challenge',
+                paragraphs: ['Describe the client\'s problem and what they needed to solve.'],
+                bullets: [],
+                callout: ''
+            },
+            solution: {
+                label: 'Act 2', title: 'The Solution',
+                intro: 'Describe your approach to solving the challenge.',
+                phases: [ { number: '01', title: 'Discovery', description: 'What you did in this phase.', image: '', imageCaption: '' } ]
+            },
+            results: {
+                label: 'Act 3', title: 'Results & Impact',
+                metrics: [ { number: 100, suffix: '%', label: 'Key Metric' } ],
+                paragraphs: ['Describe the measurable impact and outcomes.']
+            },
+            testimonial: { quote: '', name: '', role: '', initials: '' },
+            tools: [],
+            nav: { prevId: '', nextId: '' },
+            cta: {
+                sectionLabel: 'Need something similar?',
+                title: 'Let\'s build your system',
+                subtitle: 'Book a free strategy call.',
+                buttonText: 'Book a Free Call',
+                buttonUrl: 'https://cal.com/dami-digital-market'
+            }
+        };
+    }
+
+    // ============================================================
+    // BACKUP DOWNLOAD (optional — for local backups)
+    // ============================================================
+    function downloadBackup() {
+        const js = `/* Backup of site content — ${new Date().toISOString()} */\nconst SITE_DATA = ${JSON.stringify(data, null, 2)};\n`;
+        downloadFile('site-data-backup-' + Date.now() + '.js', js, 'text/javascript');
+        toast('Backup downloaded', 'success');
+    }
+
+    function downloadFile(filename, content, type) {
+        const blob = new Blob([content], { type });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a); URL.revokeObjectURL(url);
+    }
+
+    // ============================================================
+    // PREVIEW (builds an HTML preview in an iframe)
+    // ============================================================
+    function openPreview() {
+        // Build a full homepage inside an iframe using current data
+        const iframe = document.getElementById('previewFrame');
+        const previewHtml = buildPreviewHtml(data);
+        iframe.srcdoc = previewHtml;
+        document.getElementById('previewModal').classList.add('active');
+    }
+    function closePreview() {
+        document.getElementById('previewModal').classList.remove('active');
+    }
+
+    function buildPreviewHtml(d) {
+        // Minimal representation of the homepage to preview changes.
+        // For full fidelity, load the actual index-data-driven.html instead.
+        return `<!DOCTYPE html><html data-theme="${d.theme.defaultTheme}"><head><meta charset="UTF-8"><title>${esc(d.meta.title)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --accent: ${d.theme.accentColor}; --accent-dim: ${d.theme.accentColor}22; --accent-glow: ${d.theme.accentColor}40; }
+[data-theme="dark"] { --bg: #0A0A0F; --bg-card: #16161F; --text: #E8E8ED; --text-muted: #8888A0; --border: #2A2A3A; }
+[data-theme="light"] { --bg: #F5F3F0; --bg-card: #FFFFFF; --text: #1A1A2E; --text-muted: #6B6B80; --border: #D8D5D0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); padding: 2rem; line-height: 1.6; }
+.container { max-width: 1100px; margin: 0 auto; }
+.section { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+h1, h2, h3 { font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.02em; }
+h1 { font-size: 2.2rem; line-height: 1.15; margin-bottom: 0.8rem; }
+h1 .highlight { color: var(--accent); }
+h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+h3 { font-size: 1rem; margin-bottom: 0.3rem; }
+p { color: var(--text-muted); margin-bottom: 0.8rem; }
+.badge { display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid var(--border); border-radius: 50px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; }
+.stats { display: flex; gap: 2rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.stat-num { font-family: 'Syne'; font-size: 2rem; font-weight: 800; color: var(--accent); }
+.stat-lbl { font-size: 0.85rem; color: var(--text-muted); }
+.section-label { display: inline-block; font-family: 'Syne'; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.2rem; }
+.card { padding: 1.2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; }
+.card .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 5px; background: var(--accent); color: #0A0A0F; font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; }
+.btn { display: inline-block; padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--accent); color: #0A0A0F; font-weight: 600; margin-right: 0.5rem; font-size: 0.85rem; text-decoration: none; }
+.btn-sec { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.tools { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+.tool { padding: 0.3rem 0.7rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.78rem; color: var(--text); background: var(--bg-card); }
+.quote { padding: 1rem; border-left: 3px solid var(--accent); margin-top: 0.8rem; font-style: italic; color: var(--text); }
+.footer { padding-top: 2rem; color: var(--text-muted); font-size: 0.85rem; text-align: center; }
+img { max-width: 200px; border-radius: 10px; display: block; margin: 0.5rem 0; }
+.notice { position: fixed; top: 0; left: 0; right: 0; padding: 0.5rem; background: var(--accent); color: #0A0A0F; text-align: center; font-size: 0.8rem; font-weight: 600; z-index: 999; }
+</style></head><body>
+<div class="notice">⚡ Preview Mode — This is a simplified preview. Upload site-data.js and refresh your real site for full fidelity.</div>
+<div class="container" style="margin-top: 2.5rem;">
+  <div class="section">
+    <span class="badge">● ${esc(d.hero.badge)}</span>
+    <h1>${esc(d.hero.heading)} <span class="highlight">${esc(d.hero.headingHighlight)}</span></h1>
+    <p>${esc(d.hero.description)}</p>
+    <a class="btn" href="${esc(d.hero.primaryCta.url)}">${esc(d.hero.primaryCta.text)} →</a>
+    <a class="btn btn-sec" href="${esc(d.hero.secondaryCta.url)}">${esc(d.hero.secondaryCta.text)}</a>
+    <div class="stats">${d.hero.stats.map(s => `<div><div class="stat-num">${s.number}${esc(s.suffix)}</div><div class="stat-lbl">${esc(s.label)}</div></div>`).join('')}</div>
+  </div>
+  <div class="section">
+    <span class="section-label">${esc(d.about.sectionLabel)}</span>
+    <h2>${esc(d.about.title)}</h2>
+    ${d.about.photoUrl ? `<img src="${esc(d.about.photoUrl)}" alt="${esc(d.about.photoAlt)}">` : ''}
+    ${d.about.paragraphs.map(p => `<p>${p}</p>`).join('')}
+    <p class="quote">${d.about.tagline}</p>
+    <div class="tools">${d.about.tools.map(t => `<span class="tool">${esc(t)}</span>`).join('')}</div>
+  </div>
+  <div class="section">
+    <span class="section-label">${esc(d.services.sectionLabel)}</span>
+    <h2>${esc(d.services.title)}</h2>
+    <p>${esc(d.services.subtitle)}</p>
+    <div class="grid">${d.services.items.map(s => `<div class="card"><div style="font-size:1.5rem;">${s.icon}</div><h3>${esc(s.title)}</h3><p>${esc(s.description)}</p></div>`).join('')}</div>
+  </div>
+  <div class="section">
+    <span class="section-label">${esc(d.projects.sectionLabel)}</span>
+    <h2>${esc(d.projects.title)}</h2>
+    <p>${esc(d.projects.subtitle)}</p>
+    <div class="grid">${d.projects.items.map(p => `<div class="card"><span class="tag">${esc(p.tag)}</span><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p></div>`).join('')}</div>
+  </div>
+  <div class="section">
+    <span class="section-label">${esc(d.testimonials.sectionLabel)}</span>
+    <h2>${esc(d.testimonials.title)}</h2>
+    ${d.testimonials.items.map(t => `<div class="quote">★ ${'★'.repeat(Math.max(0,t.stars-1))} "${esc(t.quote)}" — <strong>${esc(t.name)}</strong>, ${esc(t.role)}</div>`).join('')}
+  </div>
+  <div class="section" style="text-align:center;">
+    <span class="section-label">${esc(d.cta.sectionLabel)}</span>
+    <h2>${esc(d.cta.title)}</h2>
+    <p>${esc(d.cta.subtitle)}</p>
+    <a class="btn" href="${esc(d.cta.primaryCta.url)}">${esc(d.cta.primaryCta.text)} →</a>
+  </div>
+  <div class="footer"><strong>${esc(d.footer.name)}</strong> — © ${d.footer.year}<br>${d.footer.socials.map(s => esc(s.platform)).join(' · ')}</div>
+</div></body></html>`;
+    }
+
+    // ============================================================
+    // THEME TOGGLE
+    // ============================================================
+    function toggleTheme() {
+        const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+        const next = cur === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('adminTheme', next); } catch(e) {}
+    }
+
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function toast(msg, type = '') {
+        const t = document.getElementById('toast');
+        t.className = 'toast ' + type;
+        t.innerHTML = (type === 'success' ? ICONS.check : type === 'error' ? ICONS.alert : '') + '<span>' + msg + '</span>';
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    // ============================================================
+    // BOOT
+    // ============================================================
+    init();
+    </script>
+
+</body>
+</html>
