@@ -9,7 +9,9 @@ const SITE_DATA = {
   // ---- SITE META ----
   meta: {
     title: "Damilare Babalola — Marketing Automation Expert",
-    description: "I help businesses build systems that work for them. CRM setup, customer journey design, business process automation, and AI-powered workflows."
+    description: "I help businesses build systems that work for them. CRM setup, customer journey design, business process automation, and AI-powered workflows.",
+    faviconUrl: "",
+    ogImage: ""
   },
 
   // ---- THEME SETTINGS ----

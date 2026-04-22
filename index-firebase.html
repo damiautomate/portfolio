@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Loading...</title>
+    <meta name="description" id="pageMeta" content="">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           ALL CSS IS IDENTICAL TO YOUR ORIGINAL HOMEPAGE
+           Copied exactly — no changes needed here
+           ============================================================ */
+        :root {
+            --accent: #00D4AA;
+            --accent-dim: #00D4AA22;
+            --accent-glow: #00D4AA40;
+            --dark-bg: #0A0A0F;
+            --dark-bg-secondary: #12121A;
+            --dark-bg-card: #16161F;
+            --dark-text: #E8E8ED;
+            --dark-text-muted: #8888A0;
+            --dark-border: #2A2A3A;
+            --light-bg: #F5F3F0;
+            --light-bg-secondary: #EDEAE6;
+            --light-bg-card: #FFFFFF;
+            --light-text: #1A1A2E;
+            --light-text-muted: #6B6B80;
+            --light-border: #D8D5D0;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --section-padding: clamp(4rem, 10vw, 8rem);
+            --container-width: 1200px;
+        }
+
+        [data-theme="dark"] { --bg: var(--dark-bg); --bg-secondary: var(--dark-bg-secondary); --bg-card: var(--dark-bg-card); --text: var(--dark-text); --text-muted: var(--dark-text-muted); --border: var(--dark-border); }
+        [data-theme="light"] { --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary); --bg-card: var(--light-bg-card); --text: var(--light-text); --text-muted: var(--light-text-muted); --border: var(--light-border); }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.4s ease, color 0.4s ease; overflow-x: hidden; }
+        a { color: inherit; text-decoration: none; } img { max-width: 100%; display: block; } ul { list-style: none; }
+        .container { width: 100%; max-width: var(--container-width); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; } .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* NAV */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1rem 0; transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease; }
+        .navbar.scrolled { background: var(--bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 1px 0 var(--border); }
+        [data-theme="dark"] .navbar.scrolled { background: rgba(10,10,15,0.85); }
+        [data-theme="light"] .navbar.scrolled { background: rgba(245,243,240,0.85); }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; align-items: center; gap: 2rem; }
+        .nav-links a { font-size: 0.88rem; font-weight: 500; color: var(--text-muted); transition: color 0.3s; letter-spacing: 0.02em; }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-actions { display: flex; align-items: center; gap: 1rem; }
+        .theme-toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--border); border: none; cursor: pointer; position: relative; transition: background 0.3s; }
+        .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); transition: transform 0.3s ease; }
+        [data-theme="light"] .theme-toggle::after { transform: translateX(20px); }
+        .theme-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 0.65rem; line-height: 1; pointer-events: none; }
+        .theme-icon.moon { left: 5px; } .theme-icon.sun { right: 5px; }
+        .btn-nav { padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; font-family: var(--font-body); background: var(--accent); color: #0A0A0F; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-nav:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+        .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+        .nav-hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+        .mobile-nav { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+        .mobile-nav.active { display: flex; }
+        .mobile-nav a { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--text); transition: color 0.3s; }
+        .mobile-nav a:hover { color: var(--accent); }
+        .mobile-nav-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 1.8rem; color: var(--text); cursor: pointer; }
+
+        /* HERO */
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.3; mask-image: radial-gradient(ellipse at 30% 50%, black 20%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at 30% 50%, black 20%, transparent 70%); }
+        .hero::after { content: ''; position: absolute; top: 20%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg-secondary); font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.2rem; animation: fadeInUp 0.8s ease forwards; }
+        .hero-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .hero h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 4.2vw, 3.5rem); font-weight: 800; line-height: 1.12; letter-spacing: -0.03em; margin-bottom: 1.2rem; animation: fadeInUp 0.8s 0.15s ease both; }
+        .hero h1 .highlight { color: var(--accent); }
+        .hero-description { font-size: clamp(0.95rem, 1.5vw, 1.1rem); color: var(--text-muted); max-width: 580px; margin-bottom: 2rem; line-height: 1.75; animation: fadeInUp 0.8s 0.3s ease both; }
+        .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeInUp 0.8s 0.45s ease both; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; border-radius: 10px; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; background: var(--accent); color: #0A0A0F; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.3s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+        .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; border-radius: 10px; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; background: transparent; color: var(--text); border: 1.5px solid var(--border); cursor: pointer; transition: border-color 0.3s, background 0.3s; }
+        .btn-secondary:hover { border-color: var(--accent); background: var(--accent-dim); }
+        .hero-trust { display: flex; gap: 2.5rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); animation: fadeInUp 0.8s 0.6s ease both; }
+        .trust-item { display: flex; flex-direction: column; }
+        .trust-number { font-family: var(--font-display); font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 800; color: var(--accent); }
+        .trust-label { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* SECTIONS */
+        section { padding: var(--section-padding) 0; }
+        .section-label { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-display); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+        .section-label::before { content: ''; width: 20px; height: 1.5px; background: var(--accent); }
+        .section-title { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 0.8rem; }
+        .section-subtitle { font-size: 0.95rem; color: var(--text-muted); max-width: 550px; line-height: 1.7; }
+
+        /* ABOUT */
+        .about-grid { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 3.5rem; align-items: start; margin-top: 2.5rem; }
+        .about-image-wrapper { position: relative; }
+        .about-image { width: 100%; aspect-ratio: 3/4; border-radius: 16px; overflow: hidden; background: var(--bg-card); border: 1px solid var(--border); position: relative; }
+        .about-image img { width: 100%; height: 100%; object-fit: cover; }
+        .about-image-wrapper::after { content: ''; position: absolute; bottom: -12px; right: -12px; width: 50%; height: 50%; border: 2px solid var(--accent); border-radius: 16px; z-index: -1; opacity: 0.3; }
+        .about-text p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.92rem; line-height: 1.75; }
+        .about-text strong { color: var(--text); font-weight: 600; }
+        .about-tagline { color: var(--text) !important; font-size: 0.95rem !important; font-weight: 500; margin-top: 0.4rem; padding-left: 1rem; border-left: 3px solid var(--accent); }
+        .tools-strip { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .tools-strip-label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; display: block; }
+        .tools-badges { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tool-badge { padding: 0.5rem 1.1rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-secondary); font-size: 0.82rem; font-weight: 500; color: var(--text); transition: border-color 0.3s, background 0.3s; }
+        .tool-badge:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+        /* SERVICES */
+        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
+        .service-card { padding: 2rem; border-radius: 14px; border: 1px solid var(--border); background: var(--bg-card); transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; }
+        .service-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); opacity: 0; transition: opacity 0.3s; }
+        .service-card:hover::before { opacity: 1; }
+        .service-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1.2rem; }
+        .service-card h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .service-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+
+        /* PROJECTS */
+        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
+        .project-card { border-radius: 14px; border: 1px solid var(--border); background: var(--bg-card); overflow: hidden; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; }
+        .project-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+        .project-image { width: 100%; height: 200px; background: var(--bg-secondary); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .project-image img { width: 100%; height: 100%; object-fit: cover; }
+        .project-image-placeholder { color: var(--text-muted); font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+        .project-image-placeholder svg { opacity: 0.3; }
+        .project-tag { position: absolute; top: 12px; left: 12px; padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.72rem; font-weight: 600; background: var(--accent); color: #0A0A0F; text-transform: uppercase; letter-spacing: 0.05em; }
+        .project-content { padding: 1.3rem; }
+        .project-content h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .project-content p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; }
+        .project-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: var(--accent); transition: gap 0.3s; }
+        .project-link:hover { gap: 0.7rem; }
+
+        /* TESTIMONIALS */
+        .testimonials-section { background: var(--bg-secondary); }
+        .testimonials-slider-wrapper { margin-top: 3rem; position: relative; }
+        .testimonials-slider { overflow: hidden; border-radius: 14px; }
+        .testimonials-track { display: flex; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .testimonial-slide { min-width: 100%; padding: 0 0.25rem; box-sizing: border-box; }
+        .testimonial-card { padding: 2rem; border-radius: 14px; border: 1px solid var(--border); background: var(--bg-card); position: relative; min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; }
+        .testimonial-card::before { content: '\201C'; font-family: var(--font-display); font-size: 4rem; font-weight: 800; color: var(--accent); opacity: 0.15; position: absolute; top: 10px; right: 24px; line-height: 1; }
+        .testimonial-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 1.5rem; font-style: italic; }
+        .testimonial-author { display: flex; align-items: center; gap: 0.8rem; }
+        .testimonial-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; color: var(--accent); }
+        .testimonial-name { font-weight: 600; font-size: 0.9rem; }
+        .testimonial-role { font-size: 0.78rem; color: var(--text-muted); }
+        .testimonial-stars { color: #F5A623; font-size: 0.9rem; margin-bottom: 0.8rem; letter-spacing: 2px; }
+        .slider-controls { display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
+        .slider-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.3s, background 0.3s, transform 0.2s; }
+        .slider-btn:hover { border-color: var(--accent); background: var(--accent-dim); transform: scale(1.05); }
+        .slider-btn svg { width: 18px; height: 18px; }
+        .slider-dots { display: flex; gap: 0.5rem; }
+        .slider-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); border: none; cursor: pointer; transition: background 0.3s, transform 0.3s; }
+        .slider-dot.active { background: var(--accent); transform: scale(1.2); }
+
+        /* CTA */
+        .cta-section { text-align: center; position: relative; overflow: hidden; }
+        .cta-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%); border-radius: 50%; pointer-events: none; }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-content .section-title { max-width: 600px; margin: 0 auto 1rem; }
+        .cta-content .section-subtitle { max-width: 480px; margin: 0 auto 2.5rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        /* FOOTER */
+        footer { border-top: 1px solid var(--border); padding: 3rem 0; }
+        .footer-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+        .footer-left { font-size: 0.85rem; color: var(--text-muted); }
+        .footer-left strong { color: var(--text); font-family: var(--font-display); }
+        .footer-socials { display: flex; gap: 0.6rem; }
+        .social-icon { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, background 0.3s, transform 0.2s; color: var(--text-muted); }
+        .social-icon:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); transform: translateY(-2px); }
+        .social-icon svg { width: 18px; height: 18px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .nav-links { display: none; } .nav-hamburger { display: flex; } .btn-nav { display: none; }
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .about-image-wrapper { order: -1; max-width: 350px; margin: 0 auto; }
+            .hero-trust { gap: 1.5rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+            .testimonial-card { padding: 1.8rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .footer-socials { justify-content: center; flex-wrap: wrap; }
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.9rem; }
+            .hero-trust { flex-direction: column; gap: 1rem; }
+            .trust-item { flex-direction: row; align-items: baseline; gap: 0.5rem; }
+            .testimonial-text { font-size: 0.92rem; }
+            .section-title { font-size: 1.5rem; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .tools-badges { gap: 0.5rem; }
+            .tool-badge { padding: 0.4rem 0.85rem; font-size: 0.78rem; }
+        }
+    </style>
+    <style>
+        /* ============================================================
+           INITIAL LOAD SPLASH — prevents FOUC
+           Hides the page until content is rendered, fades out smoothly
+           ============================================================ */
+        #initialSplash {
+            position: fixed; inset: 0; z-index: 10000;
+            background: #0A0A0F;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.4s ease, visibility 0.4s;
+        }
+        [data-theme="light"] #initialSplash { background: #F5F3F0; }
+        #initialSplash.loaded {
+            opacity: 0; visibility: hidden; pointer-events: none;
+        }
+        #initialSplash .splash-logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em;
+            color: #E8E8ED;
+            animation: splashPulse 1.5s ease-in-out infinite;
+        }
+        [data-theme="light"] #initialSplash .splash-logo { color: #1A1A2E; }
+        #initialSplash .splash-logo span { color: #00D4AA; }
+        @keyframes splashPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- INITIAL SPLASH — hides page until content renders (fixes FOUC) -->
+    <div id="initialSplash">
+        <div class="splash-logo">Damilare<span>.</span></div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="nav-logo" id="navLogo"></a>
+            <div class="nav-links">
+                <a href="#about">About</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#testimonials">Reviews</a><a href="#contact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon moon">🌙</span><span class="theme-icon sun">☀️</span>
+                </button>
+                <a href="#" target="_blank" class="btn-nav" id="navBookBtn"></a>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
+        <a href="#about" onclick="closeMobileNav()">About</a><a href="#services" onclick="closeMobileNav()">Services</a><a href="#projects" onclick="closeMobileNav()">Projects</a><a href="#testimonials" onclick="closeMobileNav()">Reviews</a><a href="#contact" onclick="closeMobileNav()">Contact</a>
+        <a href="#" target="_blank" onclick="closeMobileNav()" id="mobileBookBtn">Book a Call</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="hero"><div class="container"><div class="hero-content">
+        <div class="hero-badge"><span class="dot"></span><span id="heroBadge"></span></div>
+        <h1 id="heroHeading"></h1>
+        <p class="hero-description" id="heroDesc"></p>
+        <div class="hero-ctas" id="heroCtas"></div>
+        <div class="hero-trust" id="heroTrust"></div>
+    </div></div></section>
+
+    <!-- ABOUT -->
+    <section id="about"><div class="container">
+        <div class="reveal"><span class="section-label" id="aboutLabel"></span></div>
+        <div class="about-grid">
+            <div class="about-image-wrapper reveal reveal-delay-1"><div class="about-image" id="aboutImage"></div></div>
+            <div class="about-text reveal reveal-delay-2">
+                <h2 class="section-title" id="aboutTitle"></h2>
+                <div id="aboutParagraphs"></div>
+                <p class="about-tagline" id="aboutTagline"></p>
+                <div class="tools-strip">
+                    <span class="tools-strip-label">Tools I Use</span>
+                    <div class="tools-badges" id="aboutTools"></div>
+                </div>
+            </div>
+        </div>
+    </div></section>
+
+    <!-- SERVICES -->
+    <section id="services" class="services-section"><div class="container">
+        <div class="reveal">
+            <span class="section-label" id="servicesLabel"></span>
+            <h2 class="section-title" id="servicesTitle"></h2>
+            <p class="section-subtitle" id="servicesSubtitle"></p>
+        </div>
+        <div class="services-grid" id="servicesGrid"></div>
+    </div></section>
+
+    <!-- PROJECTS -->
+    <section id="projects"><div class="container">
+        <div class="reveal">
+            <span class="section-label" id="projectsLabel"></span>
+            <h2 class="section-title" id="projectsTitle"></h2>
+            <p class="section-subtitle" id="projectsSubtitle"></p>
+        </div>
+        <div class="projects-grid" id="projectsGrid"></div>
+        <div class="reveal" style="text-align:center; margin-top:2.5rem;" id="projectsCta"></div>
+    </div></section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" class="testimonials-section"><div class="container">
+        <div class="reveal">
+            <span class="section-label" id="testimonialsLabel"></span>
+            <h2 class="section-title" id="testimonialsTitle"></h2>
+            <p class="section-subtitle" id="testimonialsSubtitle"></p>
+        </div>
+        <div class="testimonials-slider-wrapper reveal">
+            <div class="testimonials-slider"><div class="testimonials-track" id="testimonialsTrack"></div></div>
+            <div class="slider-controls">
+                <button class="slider-btn" id="sliderPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+                <div class="slider-dots" id="sliderDots"></div>
+                <button class="slider-btn" id="sliderNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+            </div>
+        </div>
+    </div></section>
+
+    <!-- CTA -->
+    <section id="contact" class="cta-section"><div class="container"><div class="cta-content reveal">
+        <span class="section-label" id="ctaLabel"></span>
+        <h2 class="section-title" id="ctaTitle"></h2>
+        <p class="section-subtitle" id="ctaSubtitle"></p>
+        <div class="cta-buttons" id="ctaButtons"></div>
+    </div></div></section>
+
+    <!-- FOOTER -->
+    <footer><div class="container"><div class="footer-content">
+        <div class="footer-left" id="footerLeft"></div>
+        <div class="footer-socials" id="footerSocials"></div>
+    </div></div></footer>
+
+    <!-- ============================================================
+         DATA FILE — ALL CONTENT LIVES HERE
+         ============================================================ -->
+    <!-- Firebase SDKs (compat version - no modules) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <!-- Bundled site-data.js as offline fallback -->
+    <script src="site-data.js"></script>
+
+    <!-- ============================================================
+         RENDER ENGINE — POPULATES THE PAGE FROM SITE_DATA
+         ============================================================ -->
+    <script>
+    // Social icon SVG paths
+    const SOCIAL_ICONS = {
+        twitter: '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>',
+        linkedin: '<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>',
+        instagram: '<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>',
+        facebook: '<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>',
+        tiktok: '<path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>',
+        upwork: '<path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/>'
+    };
+
+    const arrowSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    const placeholderSvg = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
+
+    // ============================================================
+    // SHARED: Apply favicon, OG tags, schema.org to <head>
+    // ============================================================
+    function applyMetaTags(d) {
+        if (!d || !d.meta) return;
+        const head = document.head;
+
+        // Helper: ensure a meta/link tag exists and update it
+        function setTag(selector, createAttrs, attrName, value) {
+            if (!value) return;
+            let el = head.querySelector(selector);
+            if (!el) {
+                el = document.createElement(createAttrs.tag);
+                Object.entries(createAttrs.attrs).forEach(([k, v]) => el.setAttribute(k, v));
+                head.appendChild(el);
+            }
+            el.setAttribute(attrName, value);
+        }
+
+        // Favicon
+        if (d.meta.faviconUrl) {
+            let fav = head.querySelector('link[rel="icon"]');
+            if (!fav) {
+                fav = document.createElement('link');
+                fav.setAttribute('rel', 'icon');
+                head.appendChild(fav);
+            }
+            fav.setAttribute('href', d.meta.faviconUrl);
+        }
+
+        // Open Graph
+        const ogImage = d.meta.ogImage || d.about?.photoUrl || '';
+        setTag('meta[property="og:title"]', { tag: 'meta', attrs: { property: 'og:title' } }, 'content', d.meta.title);
+        setTag('meta[property="og:description"]', { tag: 'meta', attrs: { property: 'og:description' } }, 'content', d.meta.description);
+        setTag('meta[property="og:type"]', { tag: 'meta', attrs: { property: 'og:type' } }, 'content', 'website');
+        setTag('meta[property="og:image"]', { tag: 'meta', attrs: { property: 'og:image' } }, 'content', ogImage);
+        setTag('meta[property="og:url"]', { tag: 'meta', attrs: { property: 'og:url' } }, 'content', window.location.href);
+
+        // Twitter Card
+        setTag('meta[name="twitter:card"]', { tag: 'meta', attrs: { name: 'twitter:card' } }, 'content', 'summary_large_image');
+        setTag('meta[name="twitter:title"]', { tag: 'meta', attrs: { name: 'twitter:title' } }, 'content', d.meta.title);
+        setTag('meta[name="twitter:description"]', { tag: 'meta', attrs: { name: 'twitter:description' } }, 'content', d.meta.description);
+        setTag('meta[name="twitter:image"]', { tag: 'meta', attrs: { name: 'twitter:image' } }, 'content', ogImage);
+
+        // Schema.org Person markup (SEO for freelancer/consultant)
+        let schema = head.querySelector('script[type="application/ld+json"][data-dynamic="person"]');
+        if (!schema) {
+            schema = document.createElement('script');
+            schema.type = 'application/ld+json';
+            schema.setAttribute('data-dynamic', 'person');
+            head.appendChild(schema);
+        }
+        const socials = (d.footer?.socials || []).map(s => s.url).filter(Boolean);
+        // Derive a reasonable jobTitle from hero heading or services
+        const jobTitle = d.services?.title?.replace(/Services That|That Drive Results/gi, '').trim()
+            || d.hero?.headingHighlight
+            || 'Freelance Consultant';
+        schema.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": d.footer?.name || d.nav?.logo || '',
+            "description": d.meta.description,
+            "url": window.location.origin,
+            "image": d.about?.photoUrl || ogImage,
+            "sameAs": socials,
+            "jobTitle": jobTitle,
+            "worksFor": { "@type": "Organization", "name": "Freelance" }
+        });
+    }
+
+    // ============================================================
+    // RENDER SITE FROM DATA
+    // ============================================================
+    function renderSite(data) {
+        const d = data;
+
+        // Meta
+        document.getElementById('pageTitle').textContent = d.meta.title;
+        document.getElementById('pageMeta').setAttribute('content', d.meta.description);
+        applyMetaTags(d);
+
+        // Theme
+        const html = document.documentElement;
+        try { const saved = localStorage.getItem('theme'); if (saved) html.setAttribute('data-theme', saved); else html.setAttribute('data-theme', d.theme.defaultTheme); } catch(e) { html.setAttribute('data-theme', d.theme.defaultTheme); }
+        if (d.theme.accentColor !== '#00D4AA') {
+            document.documentElement.style.setProperty('--accent', d.theme.accentColor);
+            document.documentElement.style.setProperty('--accent-dim', d.theme.accentColor + '22');
+            document.documentElement.style.setProperty('--accent-glow', d.theme.accentColor + '40');
+        }
+
+        // Nav
+        document.getElementById('navLogo').innerHTML = d.nav.logo + '<span>.</span>';
+        document.getElementById('navBookBtn').href = d.nav.bookingUrl;
+        document.getElementById('navBookBtn').textContent = d.nav.bookingText;
+        document.getElementById('mobileBookBtn').href = d.nav.bookingUrl;
+        document.getElementById('mobileBookBtn').textContent = d.nav.bookingText;
+
+        // Hero
+        document.getElementById('heroBadge').textContent = d.hero.badge;
+        document.getElementById('heroHeading').innerHTML = d.hero.heading + ' <span class="highlight">' + d.hero.headingHighlight + '</span>';
+        document.getElementById('heroDesc').textContent = d.hero.description;
+
+        let ctasHtml = '';
+        ctasHtml += `<a href="${d.hero.primaryCta.url}" ${d.hero.primaryCta.external ? 'target="_blank"' : ''} class="btn-primary">${d.hero.primaryCta.text} ${arrowSvg}</a>`;
+        ctasHtml += `<a href="${d.hero.secondaryCta.url}" class="btn-secondary">${d.hero.secondaryCta.text}</a>`;
+        document.getElementById('heroCtas').innerHTML = ctasHtml;
+
+        let trustHtml = '';
+        d.hero.stats.forEach(s => {
+            trustHtml += `<div class="trust-item"><span class="trust-number" data-target="${s.number}" data-suffix="${s.suffix}">0${s.suffix}</span><span class="trust-label">${s.label}</span></div>`;
+        });
+        document.getElementById('heroTrust').innerHTML = trustHtml;
+
+        // About
+        document.getElementById('aboutLabel').textContent = d.about.sectionLabel;
+        document.getElementById('aboutImage').innerHTML = d.about.photoUrl
+            ? `<img src="${d.about.photoUrl}" alt="${d.about.photoAlt}" style="width:100%;height:100%;object-fit:cover;">`
+            : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.85rem;">Your Photo Here</div>`;
+        document.getElementById('aboutTitle').textContent = d.about.title;
+        document.getElementById('aboutParagraphs').innerHTML = d.about.paragraphs.map(p => `<p>${p}</p>`).join('');
+        document.getElementById('aboutTagline').innerHTML = d.about.tagline;
+        document.getElementById('aboutTools').innerHTML = d.about.tools.map(t => `<span class="tool-badge">${t}</span>`).join('');
+
+        // Services
+        document.getElementById('servicesLabel').textContent = d.services.sectionLabel;
+        document.getElementById('servicesTitle').textContent = d.services.title;
+        document.getElementById('servicesSubtitle').textContent = d.services.subtitle;
+        document.getElementById('servicesGrid').innerHTML = d.services.items.map((s, i) =>
+            `<div class="service-card reveal reveal-delay-${i+1}"><div class="service-icon">${s.icon}</div><h3>${s.title}</h3><p>${s.description}</p></div>`
+        ).join('');
+
+        // Projects
+        document.getElementById('projectsLabel').textContent = d.projects.sectionLabel;
+        document.getElementById('projectsTitle').textContent = d.projects.title;
+        document.getElementById('projectsSubtitle').textContent = d.projects.subtitle;
+        document.getElementById('projectsGrid').innerHTML = d.projects.items.map((p, i) => {
+            const imgHtml = p.image
+                ? `<img src="${p.image}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;">`
+                : `<div class="project-image-placeholder">${placeholderSvg}<span>Project Screenshot</span></div>`;
+            return `<div class="project-card reveal reveal-delay-${(i%2)+1}">
+                <div class="project-image"><span class="project-tag">${p.tag}</span>${imgHtml}</div>
+                <div class="project-content"><h3>${p.title}</h3><p>${p.description}</p>
+                <a href="${p.caseStudyUrl}" class="project-link">View Case Study ${arrowSvg}</a></div></div>`;
+        }).join('');
+        document.getElementById('projectsCta').innerHTML = `<a href="${d.projects.viewAllUrl}" class="btn-secondary">${d.projects.viewAllText} ${arrowSvg}</a>`;
+
+        // Testimonials
+        document.getElementById('testimonialsLabel').textContent = d.testimonials.sectionLabel;
+        document.getElementById('testimonialsTitle').textContent = d.testimonials.title;
+        document.getElementById('testimonialsSubtitle').textContent = d.testimonials.subtitle;
+        document.getElementById('testimonialsTrack').innerHTML = d.testimonials.items.map(t =>
+            `<div class="testimonial-slide"><div class="testimonial-card"><div>
+                <div class="testimonial-stars">${'★'.repeat(t.stars)}</div>
+                <p class="testimonial-text">"${t.quote}"</p></div>
+                <div class="testimonial-author"><div class="testimonial-avatar">${t.initials}</div>
+                <div><div class="testimonial-name">${t.name}</div><div class="testimonial-role">${t.role}</div></div></div></div></div>`
+        ).join('');
+
+        // CTA
+        document.getElementById('ctaLabel').textContent = d.cta.sectionLabel;
+        document.getElementById('ctaTitle').textContent = d.cta.title;
+        document.getElementById('ctaSubtitle').textContent = d.cta.subtitle;
+        let ctaBtns = `<a href="${d.cta.primaryCta.url}" ${d.cta.primaryCta.external ? 'target="_blank"' : ''} class="btn-primary">${d.cta.primaryCta.text} ${arrowSvg}</a>`;
+        ctaBtns += `<a href="${d.cta.secondaryCta.url}" class="btn-secondary">${d.cta.secondaryCta.text}</a>`;
+        document.getElementById('ctaButtons').innerHTML = ctaBtns;
+
+        // Footer
+        document.getElementById('footerLeft').innerHTML = `<strong>${d.footer.name}</strong><br>&copy; ${d.footer.year} — All rights reserved.`;
+        document.getElementById('footerSocials').innerHTML = d.footer.socials.map(s =>
+            `<a href="${s.url}" target="_blank" class="social-icon" aria-label="${s.platform}"><svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS[s.icon] || ''}</svg></a>`
+        ).join('');
+
+        // Init animations after render
+        initAnimations();
+    }
+
+    // ============================================================
+    // ANIMATIONS & INTERACTIONS
+    // ============================================================
+    function initAnimations() {
+        // Scroll reveal
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        // Counter animation
+        const trustSection = document.getElementById('heroTrust');
+        if (trustSection) {
+            const counterObs = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.querySelectorAll('[data-target]').forEach(counter => {
+                            if (counter.dataset.animated) return;
+                            counter.dataset.animated = '1';
+                            const target = parseInt(counter.dataset.target), suffix = counter.dataset.suffix || '', duration = 3500, start = performance.now();
+                            function ease(t) { return 1 - Math.pow(1 - t, 3); }
+                            function tick(now) { const p = Math.min((now - start) / duration, 1); counter.textContent = Math.floor(ease(p) * target) + suffix; if (p < 1) requestAnimationFrame(tick); else counter.textContent = target + suffix; }
+                            requestAnimationFrame(tick);
+                        });
+                        counterObs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            counterObs.observe(trustSection);
+        }
+
+        // Testimonial slider
+        const track = document.getElementById('testimonialsTrack');
+        const slides = track ? track.querySelectorAll('.testimonial-slide') : [];
+        const dotsContainer = document.getElementById('sliderDots');
+        let currentSlide = 0, autoInterval, isPaused = false;
+
+        if (slides.length && dotsContainer) {
+            dotsContainer.innerHTML = '';
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.classList.add('slider-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => { goTo(i); resetAuto(); });
+                dotsContainer.appendChild(dot);
+            });
+        }
+        function goTo(i) {
+            currentSlide = i;
+            if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dotsContainer?.querySelectorAll('.slider-dot').forEach((d, j) => d.classList.toggle('active', j === currentSlide));
+        }
+        function next() { goTo((currentSlide + 1) % slides.length); }
+        function prev() { goTo((currentSlide - 1 + slides.length) % slides.length); }
+        document.getElementById('sliderNext')?.addEventListener('click', () => { next(); resetAuto(); });
+        document.getElementById('sliderPrev')?.addEventListener('click', () => { prev(); resetAuto(); });
+        function startAuto() { autoInterval = setInterval(() => { if (!isPaused) next(); }, 7000); }
+        function resetAuto() { clearInterval(autoInterval); startAuto(); }
+        if (slides.length > 1) startAuto();
+        const sliderW = document.querySelector('.testimonials-slider-wrapper');
+        if (sliderW) { sliderW.addEventListener('mouseenter', () => isPaused = true); sliderW.addEventListener('mouseleave', () => isPaused = false); }
+        // Touch
+        let tx = 0;
+        const sl = document.querySelector('.testimonials-slider');
+        if (sl) {
+            sl.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; }, { passive: true });
+            sl.addEventListener('touchend', e => { const d = tx - e.changedTouches[0].screenX; if (Math.abs(d) > 50) { d > 0 ? next() : prev(); resetAuto(); } }, { passive: true });
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function(e) { const t = document.querySelector(this.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } });
+        });
+    }
+
+    // ============================================================
+    // GLOBAL INTERACTIONS
+    // ============================================================
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        const n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', n);
+        try { localStorage.setItem('theme', n); } catch(e) {}
+    });
+
+    // Navbar scroll
+    window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+
+    // Mobile nav
+    document.getElementById('navHamburger').addEventListener('click', () => document.getElementById('mobileNav').classList.add('active'));
+    document.getElementById('mobileNavClose').addEventListener('click', () => document.getElementById('mobileNav').classList.remove('active'));
+    function closeMobileNav() { document.getElementById('mobileNav').classList.remove('active'); }
+
+    // ============================================================
+    // BOOT — Render immediately from bundled data, then refresh from Firestore
+    // ============================================================
+    const FIRESTORE_CACHE_KEY = 'siteContentCache';
+
+    function dismissSplash() {
+        // Give the browser one paint frame to apply the just-rendered content
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                const splash = document.getElementById('initialSplash');
+                if (splash) splash.classList.add('loaded');
+                // Remove from DOM after fade
+                setTimeout(() => { if (splash) splash.remove(); }, 500);
+            });
+        });
+    }
+
+    function bootSite() {
+        // STEP 1: Render IMMEDIATELY from the fastest source available
+        // Priority: cache (freshest) → bundled SITE_DATA (always available)
+        let renderedFromCache = false;
+        let initialRender = null;
+        try {
+            const cached = localStorage.getItem(FIRESTORE_CACHE_KEY);
+            if (cached) {
+                initialRender = JSON.parse(cached);
+                renderedFromCache = true;
+            }
+        } catch(e) {}
+        // Fall back to bundled data if no cache
+        if (!initialRender && typeof SITE_DATA !== 'undefined') {
+            initialRender = SITE_DATA;
+        }
+
+        // Render synchronously before anything else
+        if (initialRender) {
+            renderSite(initialRender);
+            dismissSplash();
+        } else {
+            // Nothing to render — still remove splash after a moment
+            setTimeout(dismissSplash, 1500);
+        }
+
+        // STEP 2: Fetch fresh data from Firestore in background
+        const oldCacheJson = renderedFromCache ? localStorage.getItem(FIRESTORE_CACHE_KEY) : null;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            firebase.firestore().collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get()
+                .then(doc => {
+                    if (!doc.exists) return;
+                    const freshData = doc.data();
+                    const freshJson = JSON.stringify(freshData);
+                    // Only re-render if content actually changed
+                    if (freshJson !== oldCacheJson) {
+                        renderSite(freshData);
+                    }
+                    try { localStorage.setItem(FIRESTORE_CACHE_KEY, freshJson); } catch(e) {}
+                })
+                .catch(err => {
+                    console.warn('Firestore fetch failed (using already-rendered fallback):', err);
+                });
+        } catch (e) {
+            console.warn('Firebase init failed (using already-rendered fallback):', e);
+        }
+    }
+
+    bootSite();
+    </script>
+
+</body>
+</html>
