@@ -144,6 +144,20 @@
         .save-indicator { font-size: 0.78rem; color: var(--text-muted); }
         .save-indicator.dirty { color: #F5A623; }
         .save-indicator.saved { color: var(--success); }
+        .publish-indicator {
+            font-size: 0.72rem; color: var(--text-muted);
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.25rem 0.55rem; border-radius: 5px;
+            background: var(--bg-secondary); border: 1px solid var(--border);
+        }
+        .publish-indicator.behind {
+            color: #F5A623; border-color: #F5A62355; background: #F5A62315;
+        }
+        .publish-indicator.synced { color: var(--success); border-color: var(--success); background: rgba(74, 222, 128, 0.1); }
+        .publish-indicator::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: currentColor;
+        }
 
         /* CONTENT AREA */
         .content { padding: 2rem; max-width: 900px; width: 100%; }
@@ -209,14 +223,96 @@
         .image-field {
             display: flex; gap: 1rem; align-items: flex-start;
         }
-        .image-field-preview {
-            width: 100px; height: 100px; border-radius: 8px;
-            background: var(--bg-secondary); border: 1px solid var(--border);
-            overflow: hidden; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-muted); font-size: 0.7rem; text-align: center;
-        }
+        .image-field-preview { width: 100px; height: 100px; border-radius: 8px; background: var(--bg-secondary); border: 1px solid var(--border); overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.7rem; text-align: center; padding: 0.5rem; }
         .image-field-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .image-field-preview .preview-placeholder { font-size: 0.7rem; line-height: 1.3; }
+
+        /* ============================================================
+           SECTION JUMP NAV (floating right-side TOC)
+           ============================================================ */
+        .section-jump-nav {
+            position: fixed;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.6rem 0.35rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+            transition: opacity 0.3s;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .section-jump-nav.visible { opacity: 1; pointer-events: auto; }
+        .section-jump-item {
+            padding: 0.45rem 0.85rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            border: none;
+            background: none;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .section-jump-item:hover { background: var(--bg-secondary); color: var(--text); }
+        .section-jump-item.active { background: var(--accent-dim); color: var(--accent); font-weight: 600; }
+        .section-jump-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--text-muted); opacity: 0.4;
+            flex-shrink: 0;
+        }
+        .section-jump-item.active .section-jump-dot { background: var(--accent); opacity: 1; }
+
+        /* Hide jump nav on small screens */
+        @media (max-width: 1240px) { .section-jump-nav { display: none; } }
+
+        /* ============================================================
+           COLLAPSIBLE SECTION CARDS
+           ============================================================ */
+        .section-card.collapsible .section-card-header {
+            display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; user-select: none;
+            margin: -1.5rem -1.5rem 0;
+            padding: 1.2rem 1.5rem;
+            border-radius: 14px 14px 0 0;
+            transition: background 0.2s;
+        }
+        .section-card.collapsible .section-card-header:hover { background: var(--bg-secondary); }
+        .section-card.collapsible.collapsed .section-card-header {
+            margin-bottom: -1.5rem;
+            border-radius: 14px;
+        }
+        .section-card.collapsible .section-card-title { margin-bottom: 0; }
+        .section-card.collapsible .collapse-indicator {
+            width: 24px; height: 24px; flex-shrink: 0;
+            transition: transform 0.25s;
+        }
+        .section-card.collapsible.collapsed .collapse-indicator { transform: rotate(-90deg); }
+        .section-card.collapsible .section-card-body {
+            margin-top: 1.2rem;
+            max-height: 10000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.3s;
+        }
+        .section-card.collapsible.collapsed .section-card-body {
+            max-height: 0; opacity: 0; margin-top: 0;
+        }
+        .section-card.collapsible .section-card-desc { margin-bottom: 0; }
+
+        /* Scroll target offset so sticky topbar doesn't hide titles */
+        .section-card { scroll-margin-top: 90px; }
         .image-field-input { flex: 1; }
 
         /* CHECKBOX */
@@ -399,6 +495,7 @@
                 <div class="topbar-title" id="topbarTitle">Site Editor</div>
                 <div class="topbar-actions">
                     <span class="save-indicator" id="saveIndicator">All changes saved</span>
+                    <span class="publish-indicator" id="publishIndicator"></span>
                     <button class="topbar-btn" id="themeBtn" title="Toggle theme">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                     </button>
@@ -406,9 +503,13 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         Preview
                     </button>
-                    <button class="topbar-btn primary" id="exportBtn">
+                    <button class="topbar-btn" id="exportBtn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-8H7v8M7 3v5h8M21 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v5z"/></svg>
-                        Save to Cloud
+                        Save Draft
+                    </button>
+                    <button class="topbar-btn primary" id="publishBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>
+                        Publish to Live
                     </button>
                 </div>
             </div>
@@ -419,6 +520,9 @@
             </div>
         </main>
     </div>
+
+    <!-- Floating section jump navigation (populated by JS) -->
+    <div class="section-jump-nav" id="sectionJumpNav"></div>
 
     <!-- ============================================================
          PREVIEW MODAL
@@ -452,9 +556,12 @@
     // ============================================================
     // STATE
     // ============================================================
-    let data;              // working copy of site data
+    let data;              // working copy of site data (the draft)
+    let publishedData = null;  // last published version (for comparing if draft is behind/ahead)
+    let clients = null;    // admin-only clients list
     let activeSection = 'hero';
     let activeCaseStudyId = null;   // which case study is being edited (null = list view)
+    let activeClientId = null;      // which client is being edited (null = list view)
     let isDirty = false;
     let currentUser = null;   // Firebase user
     let db = null;            // Firestore instance
@@ -503,6 +610,9 @@
         ]},
         { group: 'Case Studies', items: [
             { id: 'caseStudies', label: 'All Case Studies', icon: ICONS.grid }
+        ]},
+        { group: 'Admin Only (Private)', items: [
+            { id: 'clients', label: 'Clients List', icon: ICONS.user }
         ]},
         { group: 'Global', items: [
             { id: 'footer', label: 'Footer & Socials', icon: ICONS.foot }
@@ -556,7 +666,8 @@
         // Topbar actions
         document.getElementById('themeBtn').addEventListener('click', toggleTheme);
         document.getElementById('previewBtn').addEventListener('click', openPreview);
-        document.getElementById('exportBtn').addEventListener('click', saveToCloud);
+        document.getElementById('exportBtn').addEventListener('click', saveDraftToCloud);
+        document.getElementById('publishBtn').addEventListener('click', publishToLive);
         document.getElementById('logoutBtn').addEventListener('click', handleLogout);
 
         // Preview modal
@@ -565,9 +676,10 @@
             if (e.target.id === 'previewModal') closePreview();
         });
 
-        // Keyboard shortcuts
+        // Keyboard: Cmd/Ctrl+S = save draft, Cmd/Ctrl+Shift+P = publish
         document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveToCloud(); }
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveDraftToCloud(); }
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'P' || e.key === 'p')) { e.preventDefault(); publishToLive(); }
             if (e.key === 'Escape') closePreview();
         });
 
@@ -628,38 +740,64 @@
     }
 
     // ============================================================
-    // DATA LOADING & PERSISTENCE (Firestore + localStorage cache)
+    // DATA LOADING & PERSISTENCE (Draft + Published)
+    //
+    // Firestore structure:
+    //   site/draft    — working copy, admin edits here
+    //   site/content  — published live version, public site reads here
+    //
+    // Flow:
+    //   1. Admin loads → we read DRAFT (fallback to CONTENT if no draft yet)
+    //   2. Admin edits → auto-saved to localStorage, manually "Save Draft" to Firestore
+    //   3. Admin clicks "Publish" → promotes DRAFT → CONTENT (live site updates)
     // ============================================================
     async function loadData() {
         showSaveStatus('Loading from cloud...', 'loading');
         try {
-            const doc = await db.collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get();
-            if (doc.exists) {
-                data = doc.data();
-                markClean();
-                // Check for unsaved local draft
-                try {
-                    const draft = localStorage.getItem(STORAGE_KEY_DATA);
-                    if (draft) {
-                        if (confirm('You have unsaved local changes from your last session. Restore them?')) {
-                            data = JSON.parse(draft);
-                            markDirty();
-                        } else {
-                            localStorage.removeItem(STORAGE_KEY_DATA);
-                        }
+            // Always try to load the published content first (for comparison)
+            const publishedDoc = await db.collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get();
+            if (publishedDoc.exists) {
+                publishedData = publishedDoc.data();
+            }
+
+            // Then load the draft — fall back to published if no draft exists
+            const draftDoc = await db.collection(DRAFT_DOC_PATH.collection).doc(DRAFT_DOC_PATH.doc).get();
+            if (draftDoc.exists) {
+                data = draftDoc.data();
+            } else if (publishedData) {
+                // No draft yet — clone published as starting point
+                data = JSON.parse(JSON.stringify(publishedData));
+                toast('No draft found — starting from published version', '');
+            } else {
+                // Neither exists — use bundled SITE_DATA
+                toast('No cloud data found. Run migrate.html first to seed initial content.', 'error');
+                if (typeof SITE_DATA !== 'undefined') {
+                    data = JSON.parse(JSON.stringify(SITE_DATA));
+                }
+            }
+
+            markClean();
+            updatePublishIndicator();
+
+            // Check for unsaved local draft (from a previous session)
+            try {
+                const localDraft = localStorage.getItem(STORAGE_KEY_DATA);
+                if (localDraft) {
+                    if (confirm('You have unsaved local changes from your last session. Restore them?')) {
+                        data = JSON.parse(localDraft);
+                        markDirty();
+                    } else {
+                        localStorage.removeItem(STORAGE_KEY_DATA);
                     }
-                } catch(e) {}
-                return;
-            }
-            // No Firestore doc yet — fall back to site-data.js bundled copy
-            toast('No cloud data found. Run migrate.html first to upload your initial content.', 'error');
-            if (typeof SITE_DATA !== 'undefined') {
-                data = JSON.parse(JSON.stringify(SITE_DATA));
-                markDirty(); // so user can save it to cloud
-            }
+                }
+            } catch(e) {}
+
+            // Load clients list in parallel (admin only)
+            loadClients();
+
         } catch (e) {
             toast('Error loading from cloud: ' + e.message, 'error');
-            // Fall back to local draft or bundled data
+            // Fallback to bundled data
             try {
                 const draft = localStorage.getItem(STORAGE_KEY_DATA);
                 if (draft) { data = JSON.parse(draft); markDirty(); return; }
@@ -671,30 +809,85 @@
         }
     }
 
+    async function loadClients() {
+        try {
+            const doc = await db.collection(CLIENTS_DOC_PATH.collection).doc(CLIENTS_DOC_PATH.doc).get();
+            clients = doc.exists ? (doc.data().list || []) : [];
+        } catch (e) {
+            console.warn('Could not load clients:', e);
+            clients = [];
+        }
+    }
+
     function saveDraft() {
         // Save working copy to localStorage so refresh doesn't lose work
         try { localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(data)); } catch(e) {}
         markDirty();
     }
 
-    async function saveToCloud() {
+    async function saveDraftToCloud() {
         if (!currentUser) { toast('Not signed in', 'error'); return; }
         const btn = document.getElementById('exportBtn');
         const originalHtml = btn.innerHTML;
         btn.disabled = true;
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> Saving...';
-        showSaveStatus('Saving to cloud...', 'loading');
+        btn.innerHTML = 'Saving...';
+        showSaveStatus('Saving draft to cloud...', 'loading');
         try {
-            await db.collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).set(data);
+            await db.collection(DRAFT_DOC_PATH.collection).doc(DRAFT_DOC_PATH.doc).set(data);
             try { localStorage.removeItem(STORAGE_KEY_DATA); } catch(e) {}
             markClean();
-            toast('Saved! Your site is now updated.', 'success');
+            updatePublishIndicator();
+            toast('Draft saved to cloud. Click "Publish to Live" when ready.', 'success');
         } catch (e) {
             toast('Save failed: ' + e.message, 'error');
             showSaveStatus('Save failed', 'dirty');
         } finally {
             btn.disabled = false;
             btn.innerHTML = originalHtml;
+        }
+    }
+
+    async function publishToLive() {
+        if (!currentUser) { toast('Not signed in', 'error'); return; }
+        if (isDirty) {
+            if (!confirm('You have unsaved changes. Save draft and publish them too?')) return;
+            await saveDraftToCloud();
+        }
+        if (!confirm('Publish current draft to your LIVE site? All visitors will see these changes.')) return;
+
+        const btn = document.getElementById('publishBtn');
+        const originalHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = 'Publishing...';
+        try {
+            await db.collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).set(data);
+            publishedData = JSON.parse(JSON.stringify(data));
+            updatePublishIndicator();
+            toast('🎉 Published! Your live site is now updated.', 'success');
+        } catch (e) {
+            toast('Publish failed: ' + e.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+        }
+    }
+
+    function updatePublishIndicator() {
+        const ind = document.getElementById('publishIndicator');
+        if (!ind) return;
+        if (!publishedData) {
+            ind.className = 'publish-indicator';
+            ind.textContent = 'Never published';
+            return;
+        }
+        const draftJson = JSON.stringify(data);
+        const publishedJson = JSON.stringify(publishedData);
+        if (draftJson === publishedJson) {
+            ind.className = 'publish-indicator synced';
+            ind.textContent = 'Live site matches draft';
+        } else {
+            ind.className = 'publish-indicator behind';
+            ind.textContent = 'Draft has unpublished changes';
         }
     }
 
@@ -706,11 +899,12 @@
     function markDirty() {
         isDirty = true;
         showSaveStatus('Unsaved changes', 'dirty');
+        updatePublishIndicator();
     }
 
     function markClean() {
         isDirty = false;
-        showSaveStatus('All changes saved', 'saved');
+        showSaveStatus('Draft saved', 'saved');
     }
 
     // ============================================================
@@ -757,7 +951,8 @@
             projectsPage: 'Projects Page — Layout',
             projectsPageItems: 'Projects Page — Project Cards',
             caseStudies: 'Case Studies',
-            caseStudyEditor: 'Edit Case Study'
+            caseStudyEditor: 'Edit Case Study',
+            clients: 'Clients List (Private)'
         };
         document.getElementById('topbarTitle').textContent = titles[activeSection] || 'Editor';
 
@@ -781,9 +976,69 @@
                 if (activeCaseStudyId) renderCaseStudyEditor(content, activeCaseStudyId);
                 else renderCaseStudiesListEditor(content);
                 break;
+            case 'clients':
+                if (activeClientId) renderClientEditor(content, activeClientId);
+                else renderClientsListEditor(content);
+                break;
         }
 
         attachInputHandlers(content);
+        buildSectionJumpNav();
+        // Reset scroll to top when switching sections (prevents starting mid-page)
+        window.scrollTo(0, 0);
+    }
+
+    // ============================================================
+    // SECTION JUMP NAV — builds a floating TOC from the card titles
+    // ============================================================
+    function buildSectionJumpNav() {
+        const nav = document.getElementById('sectionJumpNav');
+        const cards = document.querySelectorAll('#editorContent .section-card');
+        if (!nav) return;
+
+        // Only show jump nav when there are 3+ section cards
+        if (cards.length < 3) {
+            nav.classList.remove('visible');
+            nav.innerHTML = '';
+            return;
+        }
+
+        // Give each card a stable ID and build jump list
+        let html = '';
+        cards.forEach((card, i) => {
+            const titleEl = card.querySelector('.section-card-title');
+            const title = titleEl ? titleEl.textContent.trim() : `Section ${i + 1}`;
+            const id = `jump-${i}`;
+            card.id = id;
+            html += `<button class="section-jump-item" data-jump="${id}">
+                <span class="section-jump-dot"></span>
+                <span>${title.length > 26 ? title.slice(0, 26) + '…' : title}</span>
+            </button>`;
+        });
+        nav.innerHTML = html;
+        nav.classList.add('visible');
+
+        // Click handlers
+        nav.querySelectorAll('[data-jump]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = document.getElementById(btn.dataset.jump);
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Scroll spy — highlight active section
+        const observerOpts = { rootMargin: '-90px 0px -60% 0px', threshold: 0 };
+        const spy = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    nav.querySelectorAll('.section-jump-item').forEach(b => {
+                        b.classList.toggle('active', b.dataset.jump === id);
+                    });
+                }
+            });
+        }, observerOpts);
+        cards.forEach(c => spy.observe(c));
     }
 
     // ---- UTILITY: create a section header ----
@@ -813,9 +1068,11 @@
 
     // ---- UTILITY: image field with live preview ----
     function imageField(label, name, value, hint = '') {
-        const previewHtml = value
-            ? `<img src="${esc(value)}" alt="preview" onerror="this.style.display='none';this.parentElement.innerHTML='Invalid image';">`
-            : `No image`;
+        // Initial preview: show image if value looks valid, else show placeholder
+        // The actual load-validation happens in the input handler
+        const previewHtml = value && /^https?:\/\/.+/i.test(value)
+            ? `<img src="${esc(value)}" alt="preview" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='<span class=\\'preview-placeholder\\' style=\\'color:var(--danger);\\'>Can\\'t load image</span>';">`
+            : `<span class="preview-placeholder">No image</span>`;
         return `<div class="field"><label class="field-label">${label}</label>
             <div class="image-field">
                 <div class="image-field-preview" data-preview="${name}">${previewHtml}</div>
@@ -838,12 +1095,26 @@
 
     // ---- META ----
     function renderMetaEditor(el) {
-        el.innerHTML = sectionHeader('Page Info', 'The browser tab title and meta description for search engines.') +
+        // Ensure backward compat
+        if (!data.meta.faviconUrl && data.meta.faviconUrl !== '') data.meta.faviconUrl = '';
+        if (!data.meta.ogImage && data.meta.ogImage !== '') data.meta.ogImage = '';
+
+        el.innerHTML = sectionHeader('Page Info', 'The browser tab title, meta description, favicon, and social sharing image.') +
             `<div class="section-card">
                 <div class="section-card-title">Site Metadata</div>
                 <div class="section-card-desc">This shows up in search results and browser tabs.</div>
                 ${field('Page Title', 'meta.title', data.meta.title, { hint: 'Shown in the browser tab and search results' })}
                 ${field('Meta Description', 'meta.description', data.meta.description, { type: 'textarea', hint: 'A short description for search engines (aim for 120–160 characters)' })}
+            </div>
+            <div class="section-card">
+                <div class="section-card-title">Favicon</div>
+                <div class="section-card-desc">The small icon shown in the browser tab. Use a square image (e.g. 32x32, 512x512). PNG/ICO/SVG supported.</div>
+                ${imageField('Favicon URL', 'meta.faviconUrl', data.meta.faviconUrl, 'Upload a square logo/icon to ibb.co and paste the URL. Leave empty to skip.')}
+            </div>
+            <div class="section-card">
+                <div class="section-card-title">Social Sharing Image (Open Graph)</div>
+                <div class="section-card-desc">When someone shares your site on Twitter, LinkedIn, WhatsApp etc., this image appears. Recommended: 1200×630 pixels.</div>
+                ${imageField('OG Image URL', 'meta.ogImage', data.meta.ogImage, 'A landscape image (1200×630) representing your brand.')}
             </div>`;
     }
 
@@ -1679,7 +1950,7 @@
             <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <div>
                     <div style="font-weight: 600; font-size: 0.9rem;">Preview this case study</div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Opens <code>case-study.html?id=${esc(caseId)}</code> in a new tab. Save first to see latest changes.</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Opens <code>case-study.html?id=${esc(caseId)}</code> in a new tab. <strong>Shows the LIVE published version</strong> — click "Publish to Live" first to see your latest changes.</div>
                 </div>
                 <a href="case-study.html?id=${encodeURIComponent(caseId)}" target="_blank" class="topbar-btn">Open Preview →</a>
             </div>`;
@@ -1689,6 +1960,258 @@
             activeCaseStudyId = null;
             renderEditor();
         });
+    }
+
+    // ============================================================
+    // CLIENTS — LIST VIEW (Admin-only, private)
+    // ============================================================
+    function renderClientsListEditor(el) {
+        if (!clients) clients = [];
+
+        // Stats
+        const total = clients.length;
+        const active = clients.filter(c => c.status === 'active').length;
+        const past = clients.filter(c => c.status === 'past').length;
+        const lead = clients.filter(c => c.status === 'lead').length;
+
+        el.innerHTML = sectionHeader('Clients List', 'Private record of all clients you\'ve worked with. <strong>Never shown on your public site</strong>.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Summary</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:0.5rem;">
+                    <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--accent);">${total}</div>
+                        <div style="font-size:0.78rem;color:var(--text-muted);">Total Clients</div>
+                    </div>
+                    <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--success);">${active}</div>
+                        <div style="font-size:0.78rem;color:var(--text-muted);">Active</div>
+                    </div>
+                    <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:#F5A623;">${lead}</div>
+                        <div style="font-size:0.78rem;color:var(--text-muted);">Leads</div>
+                    </div>
+                    <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--text-muted);">${past}</div>
+                        <div style="font-size:0.78rem;color:var(--text-muted);">Past</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">All Clients</div>
+                <div class="section-card-desc">Click any client to edit. Use the search to filter.</div>
+
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" class="field-input" id="clientSearch" placeholder="Search clients by name, company, industry..." value="">
+                </div>
+
+                <div class="list-items" id="clientsList">
+                    ${clients.length === 0
+                        ? `<div style="padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">No clients yet. Add your first one below.</div>`
+                        : clients.map((c, i) => renderClientRow(c, i)).join('')
+                    }
+                </div>
+
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <button class="topbar-btn primary" id="addClientBtn">${ICONS.add} Add New Client</button>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:1rem;background:#F5A62315;border:1px solid #F5A62355;border-radius:10px;font-size:0.82rem;color:var(--text);">
+                <strong>🔒 Privacy note:</strong> This list is stored in a private Firestore collection (<code>admin/clients</code>) and is only visible to logged-in admins. It does NOT appear on your public website anywhere.
+            </div>`;
+
+        // Wire handlers
+        document.getElementById('addClientBtn')?.addEventListener('click', () => {
+            clients.push(defaultClient());
+            saveClientsToCloud();
+            activeClientId = clients.length - 1;
+            renderEditor();
+        });
+
+        document.getElementById('clientSearch')?.addEventListener('input', (e) => {
+            const q = e.target.value.toLowerCase().trim();
+            document.querySelectorAll('[data-client-row]').forEach(row => {
+                const searchText = row.dataset.searchText || '';
+                row.style.display = !q || searchText.includes(q) ? '' : 'none';
+            });
+        });
+
+        document.querySelectorAll('[data-open-client]').forEach(e => {
+            e.addEventListener('click', (ev) => {
+                if (ev.target.closest('[data-delete-client]')) return;
+                ev.stopPropagation();
+                activeClientId = Number(e.dataset.openClient);
+                renderEditor();
+            });
+        });
+        document.querySelectorAll('[data-delete-client]').forEach(e => {
+            e.addEventListener('click', async (ev) => {
+                ev.stopPropagation();
+                const idx = Number(e.dataset.deleteClient);
+                const client = clients[idx];
+                if (confirm(`Delete client "${client.name}"? This cannot be undone.`)) {
+                    clients.splice(idx, 1);
+                    await saveClientsToCloud();
+                    renderEditor();
+                }
+            });
+        });
+    }
+
+    function renderClientRow(c, i) {
+        const statusColors = { active: 'var(--success)', lead: '#F5A623', past: 'var(--text-muted)' };
+        const statusColor = statusColors[c.status] || 'var(--text-muted)';
+        const searchText = [c.name, c.company, c.industry, c.email, c.projectType].filter(Boolean).join(' ').toLowerCase();
+
+        return `<div class="list-item" data-client-row data-search-text="${esc(searchText)}" data-open-client="${i}" style="cursor:pointer;">
+            <div class="list-item-header">
+                <div class="list-item-title">
+                    <span class="list-item-number" style="background:${statusColor}22;color:${statusColor};">${(c.name || '?').substring(0, 2).toUpperCase()}</span>
+                    <span>${esc(c.name || '(No name)')}</span>
+                    <span style="font-size:0.7rem;color:${statusColor};text-transform:uppercase;letter-spacing:0.08em;margin-left:0.4rem;">${esc(c.status || '')}</span>
+                </div>
+                <div class="list-item-actions">
+                    <button class="list-item-btn" data-open-client="${i}" title="Edit">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </button>
+                    <button class="list-item-btn danger" data-delete-client="${i}" title="Delete">${ICONS.del}</button>
+                </div>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); padding-left: 34px; line-height: 1.5;">
+                ${c.company ? `<strong style="color:var(--text);">${esc(c.company)}</strong>` : ''}
+                ${c.industry ? ` • ${esc(c.industry)}` : ''}
+                ${c.projectType ? `<br>${esc(c.projectType)}` : ''}
+            </div>
+        </div>`;
+    }
+
+    // ============================================================
+    // CLIENT — DETAIL EDITOR
+    // ============================================================
+    function renderClientEditor(el, idx) {
+        const c = clients[idx];
+        if (!c) { activeClientId = null; renderEditor(); return; }
+
+        el.innerHTML = `<button class="topbar-btn" id="backToClients" style="margin-bottom: 1rem;">← Back to all clients</button>` +
+            sectionHeader(`Edit Client: ${esc(c.name || 'Untitled')}`, 'Private client record. Changes save automatically to the cloud.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Basic Info</div>
+                <div class="field-row">
+                    ${field('Full Name', `_client.name`, c.name, { hint: 'First and last name' })}
+                    ${field('Company', `_client.company`, c.company || '')}
+                </div>
+                <div class="field-row">
+                    ${field('Industry', `_client.industry`, c.industry || '', { placeholder: 'e.g. E-commerce, SaaS, Real Estate' })}
+                    <div class="field"><label class="field-label">Status</label>
+                        <select class="field-select" data-bind="_client.status">
+                            <option value="lead" ${c.status === 'lead' ? 'selected' : ''}>Lead (prospect)</option>
+                            <option value="active" ${c.status === 'active' ? 'selected' : ''}>Active (working with them)</option>
+                            <option value="past" ${c.status === 'past' ? 'selected' : ''}>Past (completed)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Contact</div>
+                <div class="field-row">
+                    ${field('Email', `_client.email`, c.email || '', { type: 'email' })}
+                    ${field('Phone / WhatsApp', `_client.phone`, c.phone || '', { type: 'tel' })}
+                </div>
+                <div class="field-row">
+                    ${field('Website', `_client.website`, c.website || '', { type: 'url' })}
+                    ${field('LinkedIn / Social', `_client.social`, c.social || '', { type: 'url' })}
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Project Details</div>
+                ${field('Project Type / Service', `_client.projectType`, c.projectType || '', { placeholder: 'e.g. Zoho CRM Setup, n8n Automation' })}
+                <div class="field-row">
+                    ${field('Start Date', `_client.startDate`, c.startDate || '', { type: 'date' })}
+                    ${field('End Date (if completed)', `_client.endDate`, c.endDate || '', { type: 'date' })}
+                </div>
+                ${field('Project Value (optional)', `_client.value`, c.value || '', { placeholder: 'e.g. $500, ₦350,000' })}
+                ${field('Tools Used', `_client.tools`, c.tools || '', { placeholder: 'e.g. Zoho CRM, n8n, Make' })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Private Notes</div>
+                <div class="section-card-desc">Only you can see these. Use for reminders, preferences, pricing context, etc.</div>
+                ${field('Notes', `_client.notes`, c.notes || '', { type: 'textarea', rows: 6 })}
+            </div>
+
+            <div style="display:flex;gap:0.75rem;margin-top:1rem;align-items:center;">
+                <button class="topbar-btn primary" id="saveClientBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>
+                    Done
+                </button>
+                <span style="font-size:0.8rem;color:var(--text-muted);">Changes save automatically as you type.</span>
+            </div>`;
+
+        // Handle _client.* bindings (different from site data — goes into clients[idx])
+        el.querySelectorAll('[data-bind^="_client."]').forEach(input => {
+            input.addEventListener('input', onClientInput);
+            input.addEventListener('change', onClientInput);
+        });
+
+        document.getElementById('backToClients')?.addEventListener('click', async () => {
+            // Flush any pending auto-save
+            clearTimeout(clientSaveTimer);
+            await saveClientsToCloud();
+            activeClientId = null;
+            renderEditor();
+        });
+        document.getElementById('saveClientBtn')?.addEventListener('click', async () => {
+            // Flush any pending auto-save immediately
+            clearTimeout(clientSaveTimer);
+            await saveClientsToCloud();
+            toast('Client saved', 'success');
+            activeClientId = null;
+            renderEditor();
+        });
+    }
+
+    function onClientInput(e) {
+        if (activeClientId === null) return;
+        const field = e.target.dataset.bind.replace('_client.', '');
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        clients[activeClientId][field] = value;
+        // Debounced auto-save
+        clearTimeout(clientSaveTimer);
+        clientSaveTimer = setTimeout(() => { saveClientsToCloud(); }, 800);
+    }
+    let clientSaveTimer = null;
+
+    async function saveClientsToCloud() {
+        if (!currentUser) return;
+        try {
+            await db.collection(CLIENTS_DOC_PATH.collection).doc(CLIENTS_DOC_PATH.doc).set({ list: clients });
+        } catch (e) {
+            toast('Error saving clients: ' + e.message, 'error');
+        }
+    }
+
+    function defaultClient() {
+        return {
+            name: 'New Client',
+            company: '',
+            industry: '',
+            status: 'lead',
+            email: '',
+            phone: '',
+            website: '',
+            social: '',
+            projectType: '',
+            startDate: '',
+            endDate: '',
+            value: '',
+            tools: '',
+            notes: ''
+        };
     }
 
     // ============================================================
@@ -1709,21 +2232,60 @@
         root.querySelectorAll('[data-tags]').forEach(setupTagsInput);
         // Remove-tag buttons
         root.querySelectorAll('[data-remove-tag]').forEach(btn => btn.addEventListener('click', onRemoveTag));
-        // Image preview live update
+        // Image preview live update (debounced, doesn't destroy container)
         root.querySelectorAll('[data-image]').forEach(input => {
-            input.addEventListener('input', (e) => {
-                const preview = root.querySelector(`[data-preview="${e.target.dataset.image}"]`);
-                if (preview) {
-                    preview.innerHTML = e.target.value
-                        ? `<img src="${esc(e.target.value)}" alt="preview" onerror="this.style.display='none';this.parentElement.innerHTML='Invalid image';">`
-                        : `No image`;
+            let debounceTimer;
+            const updatePreview = () => {
+                const preview = root.querySelector(`[data-preview="${input.dataset.image}"]`);
+                if (!preview) return;
+                const url = input.value.trim();
+
+                if (!url) {
+                    preview.innerHTML = `<span class="preview-placeholder">No image</span>`;
+                    return;
                 }
+
+                // Basic URL validation: must be http(s):// and have some content after
+                if (!/^https?:\/\/.+/i.test(url)) {
+                    preview.innerHTML = `<span class="preview-placeholder" style="color:var(--text-muted);">Enter full URL starting with https://</span>`;
+                    return;
+                }
+
+                // Try loading the image separately (doesn't destroy preview container)
+                preview.innerHTML = `<span class="preview-placeholder" style="color:var(--text-muted);">Loading...</span>`;
+                const testImg = new Image();
+                testImg.onload = () => {
+                    // Only update if this URL is still the current value (user hasn't typed more)
+                    if (input.value.trim() === url) {
+                        preview.innerHTML = '';
+                        const imgEl = document.createElement('img');
+                        imgEl.src = url;
+                        imgEl.alt = 'preview';
+                        imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+                        preview.appendChild(imgEl);
+                    }
+                };
+                testImg.onerror = () => {
+                    if (input.value.trim() === url) {
+                        preview.innerHTML = `<span class="preview-placeholder" style="color:var(--danger);">Can't load image</span>`;
+                    }
+                };
+                testImg.src = url;
+            };
+
+            input.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(updatePreview, 500);
             });
+            input.addEventListener('blur', updatePreview);
         });
     }
 
     function onBindInput(e) {
         const path = e.target.dataset.bind;
+        // Skip client-specific paths — those are handled by onClientInput
+        if (path.startsWith('_client.')) return;
+
         let value = e.target.type === 'checkbox' ? e.target.checked :
                     e.target.type === 'number' ? (e.target.value === '' ? 0 : Number(e.target.value)) :
                     e.target.value;

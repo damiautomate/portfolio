@@ -210,8 +210,41 @@
             .tool-badge { padding: 0.4rem 0.85rem; font-size: 0.78rem; }
         }
     </style>
+    <style>
+        /* ============================================================
+           INITIAL LOAD SPLASH — prevents FOUC
+           Hides the page until content is rendered, fades out smoothly
+           ============================================================ */
+        #initialSplash {
+            position: fixed; inset: 0; z-index: 10000;
+            background: #0A0A0F;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.4s ease, visibility 0.4s;
+        }
+        [data-theme="light"] #initialSplash { background: #F5F3F0; }
+        #initialSplash.loaded {
+            opacity: 0; visibility: hidden; pointer-events: none;
+        }
+        #initialSplash .splash-logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em;
+            color: #E8E8ED;
+            animation: splashPulse 1.5s ease-in-out infinite;
+        }
+        [data-theme="light"] #initialSplash .splash-logo { color: #1A1A2E; }
+        #initialSplash .splash-logo span { color: #00D4AA; }
+        @keyframes splashPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
+
+    <!-- INITIAL SPLASH — hides page until content renders (fixes FOUC) -->
+    <div id="initialSplash">
+        <div class="splash-logo">Damilare<span>.</span></div>
+    </div>
 
     <!-- NAV -->
     <nav class="navbar" id="navbar">
@@ -341,6 +374,76 @@
     const placeholderSvg = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
 
     // ============================================================
+    // SHARED: Apply favicon, OG tags, schema.org to <head>
+    // ============================================================
+    function applyMetaTags(d) {
+        if (!d || !d.meta) return;
+        const head = document.head;
+
+        // Helper: ensure a meta/link tag exists and update it
+        function setTag(selector, createAttrs, attrName, value) {
+            if (!value) return;
+            let el = head.querySelector(selector);
+            if (!el) {
+                el = document.createElement(createAttrs.tag);
+                Object.entries(createAttrs.attrs).forEach(([k, v]) => el.setAttribute(k, v));
+                head.appendChild(el);
+            }
+            el.setAttribute(attrName, value);
+        }
+
+        // Favicon
+        if (d.meta.faviconUrl) {
+            let fav = head.querySelector('link[rel="icon"]');
+            if (!fav) {
+                fav = document.createElement('link');
+                fav.setAttribute('rel', 'icon');
+                head.appendChild(fav);
+            }
+            fav.setAttribute('href', d.meta.faviconUrl);
+        }
+
+        // Open Graph
+        const ogImage = d.meta.ogImage || d.about?.photoUrl || '';
+        setTag('meta[property="og:title"]', { tag: 'meta', attrs: { property: 'og:title' } }, 'content', d.meta.title);
+        setTag('meta[property="og:description"]', { tag: 'meta', attrs: { property: 'og:description' } }, 'content', d.meta.description);
+        setTag('meta[property="og:type"]', { tag: 'meta', attrs: { property: 'og:type' } }, 'content', 'website');
+        setTag('meta[property="og:image"]', { tag: 'meta', attrs: { property: 'og:image' } }, 'content', ogImage);
+        setTag('meta[property="og:url"]', { tag: 'meta', attrs: { property: 'og:url' } }, 'content', window.location.href);
+
+        // Twitter Card
+        setTag('meta[name="twitter:card"]', { tag: 'meta', attrs: { name: 'twitter:card' } }, 'content', 'summary_large_image');
+        setTag('meta[name="twitter:title"]', { tag: 'meta', attrs: { name: 'twitter:title' } }, 'content', d.meta.title);
+        setTag('meta[name="twitter:description"]', { tag: 'meta', attrs: { name: 'twitter:description' } }, 'content', d.meta.description);
+        setTag('meta[name="twitter:image"]', { tag: 'meta', attrs: { name: 'twitter:image' } }, 'content', ogImage);
+
+        // Schema.org Person markup (SEO for freelancer/consultant)
+        let schema = head.querySelector('script[type="application/ld+json"][data-dynamic="person"]');
+        if (!schema) {
+            schema = document.createElement('script');
+            schema.type = 'application/ld+json';
+            schema.setAttribute('data-dynamic', 'person');
+            head.appendChild(schema);
+        }
+        const socials = (d.footer?.socials || []).map(s => s.url).filter(Boolean);
+        // Derive a reasonable jobTitle from hero heading or services
+        const jobTitle = d.services?.title?.replace(/Services That|That Drive Results/gi, '').trim()
+            || d.hero?.headingHighlight
+            || 'Freelance Consultant';
+        schema.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": d.footer?.name || d.nav?.logo || '',
+            "description": d.meta.description,
+            "url": window.location.origin,
+            "image": d.about?.photoUrl || ogImage,
+            "sameAs": socials,
+            "jobTitle": jobTitle,
+            "worksFor": { "@type": "Organization", "name": "Freelance" }
+        });
+    }
+
+    // ============================================================
     // RENDER SITE FROM DATA
     // ============================================================
     function renderSite(data) {
@@ -349,6 +452,7 @@
         // Meta
         document.getElementById('pageTitle').textContent = d.meta.title;
         document.getElementById('pageMeta').setAttribute('content', d.meta.description);
+        applyMetaTags(d);
 
         // Theme
         const html = document.documentElement;
@@ -539,53 +643,68 @@
     function closeMobileNav() { document.getElementById('mobileNav').classList.remove('active'); }
 
     // ============================================================
-    // BOOT — Load content from Firestore with caching & fallbacks
+    // BOOT — Render immediately from bundled data, then refresh from Firestore
     // ============================================================
     const FIRESTORE_CACHE_KEY = 'siteContentCache';
 
+    function dismissSplash() {
+        // Give the browser one paint frame to apply the just-rendered content
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                const splash = document.getElementById('initialSplash');
+                if (splash) splash.classList.add('loaded');
+                // Remove from DOM after fade
+                setTimeout(() => { if (splash) splash.remove(); }, 500);
+            });
+        });
+    }
+
     function bootSite() {
-        // Step 1: Instant render from cache (if available) so the page loads fast
-        let rendered = false;
-        let oldCacheJson = null;
+        // STEP 1: Render IMMEDIATELY from the fastest source available
+        // Priority: cache (freshest) → bundled SITE_DATA (always available)
+        let renderedFromCache = false;
+        let initialRender = null;
         try {
-            oldCacheJson = localStorage.getItem(FIRESTORE_CACHE_KEY);
-            if (oldCacheJson) {
-                renderSite(JSON.parse(oldCacheJson));
-                rendered = true;
+            const cached = localStorage.getItem(FIRESTORE_CACHE_KEY);
+            if (cached) {
+                initialRender = JSON.parse(cached);
+                renderedFromCache = true;
             }
         } catch(e) {}
+        // Fall back to bundled data if no cache
+        if (!initialRender && typeof SITE_DATA !== 'undefined') {
+            initialRender = SITE_DATA;
+        }
 
-        // Step 2: Fetch fresh data from Firestore in the background
+        // Render synchronously before anything else
+        if (initialRender) {
+            renderSite(initialRender);
+            dismissSplash();
+        } else {
+            // Nothing to render — still remove splash after a moment
+            setTimeout(dismissSplash, 1500);
+        }
+
+        // STEP 2: Fetch fresh data from Firestore in background
+        const oldCacheJson = renderedFromCache ? localStorage.getItem(FIRESTORE_CACHE_KEY) : null;
         try {
             firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
-            db.collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get()
+            firebase.firestore().collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get()
                 .then(doc => {
-                    if (doc.exists) {
-                        const freshData = doc.data();
-                        const freshJson = JSON.stringify(freshData);
-                        // Only re-render if content actually changed vs the cache we rendered from
-                        if (!rendered || freshJson !== oldCacheJson) {
-                            renderSite(freshData);
-                        }
-                        try { localStorage.setItem(FIRESTORE_CACHE_KEY, freshJson); } catch(e) {}
-                    } else if (!rendered && typeof SITE_DATA !== 'undefined') {
-                        // No Firestore doc yet — use bundled fallback
-                        renderSite(SITE_DATA);
+                    if (!doc.exists) return;
+                    const freshData = doc.data();
+                    const freshJson = JSON.stringify(freshData);
+                    // Only re-render if content actually changed
+                    if (freshJson !== oldCacheJson) {
+                        renderSite(freshData);
                     }
+                    try { localStorage.setItem(FIRESTORE_CACHE_KEY, freshJson); } catch(e) {}
                 })
                 .catch(err => {
-                    console.warn('Firestore fetch failed, using fallback:', err);
-                    if (!rendered && typeof SITE_DATA !== 'undefined') {
-                        renderSite(SITE_DATA);
-                    }
+                    console.warn('Firestore fetch failed (using already-rendered fallback):', err);
                 });
         } catch (e) {
-            // Firebase init failed — use bundled fallback
-            console.warn('Firebase init failed, using bundled data:', e);
-            if (!rendered && typeof SITE_DATA !== 'undefined') {
-                renderSite(SITE_DATA);
-            }
+            console.warn('Firebase init failed (using already-rendered fallback):', e);
         }
     }
 

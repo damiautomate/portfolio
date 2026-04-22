@@ -1007,6 +1007,17 @@
 </head>
 <body>
 
+    <!-- INITIAL SPLASH — hides page until content renders (fixes FOUC) -->
+    <div id="initialSplash" style="position:fixed;inset:0;z-index:10000;background:#0A0A0F;display:flex;align-items:center;justify-content:center;transition:opacity 0.4s ease, visibility 0.4s;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#E8E8ED;animation:splashPulse 1.5s ease-in-out infinite;">Damilare<span style="color:#00D4AA;">.</span></div>
+    </div>
+    <style>
+        [data-theme="light"] #initialSplash { background: #F5F3F0 !important; }
+        [data-theme="light"] #initialSplash > div { color: #1A1A2E !important; }
+        #initialSplash.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
+        @keyframes splashPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    </style>
+
     <!-- NAV -->
     <nav class="navbar" id="navbar">
         <div class="container">
@@ -1159,6 +1170,45 @@
     const trendSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>';
 
     // ============================================================
+    // SHARED: Apply favicon, OG tags, schema.org to <head>
+    // ============================================================
+    function applyMetaTags(d, pageTitle, pageDesc) {
+        if (!d) return;
+        const head = document.head;
+        const title = pageTitle || d.meta?.title || '';
+        const desc = pageDesc || d.meta?.description || '';
+
+        // Favicon
+        if (d.meta?.faviconUrl) {
+            let fav = head.querySelector('link[rel="icon"]');
+            if (!fav) { fav = document.createElement('link'); fav.setAttribute('rel', 'icon'); head.appendChild(fav); }
+            fav.setAttribute('href', d.meta.faviconUrl);
+        }
+
+        function setMeta(selector, attrs, value) {
+            if (!value) return;
+            let el = head.querySelector(selector);
+            if (!el) {
+                el = document.createElement('meta');
+                Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+                head.appendChild(el);
+            }
+            el.setAttribute('content', value);
+        }
+
+        const ogImage = d.meta?.ogImage || d.about?.photoUrl || '';
+        setMeta('meta[property="og:title"]', { property: 'og:title' }, title);
+        setMeta('meta[property="og:description"]', { property: 'og:description' }, desc);
+        setMeta('meta[property="og:type"]', { property: 'og:type' }, 'website');
+        setMeta('meta[property="og:image"]', { property: 'og:image' }, ogImage);
+        setMeta('meta[property="og:url"]', { property: 'og:url' }, window.location.href);
+        setMeta('meta[name="twitter:card"]', { name: 'twitter:card' }, 'summary_large_image');
+        setMeta('meta[name="twitter:title"]', { name: 'twitter:title' }, title);
+        setMeta('meta[name="twitter:description"]', { name: 'twitter:description' }, desc);
+        setMeta('meta[name="twitter:image"]', { name: 'twitter:image' }, ogImage);
+    }
+
+    // ============================================================
     // RENDER PROJECTS PAGE FROM DATA
     // ============================================================
     function renderProjectsPage(data) {
@@ -1170,6 +1220,7 @@
         document.title = pp.meta.title;
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.setAttribute('content', pp.meta.description);
+        applyMetaTags(data, pp.meta.title, pp.meta.description);
 
         // Theme
         try { const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.setAttribute('data-theme', data.theme.defaultTheme); } catch(e) {}
@@ -1405,37 +1456,59 @@
     function closeMobileNav() { document.getElementById('mobileNav').classList.remove('active'); }
 
     // ============================================================
-    // BOOT — Firestore + cache + fallback
+    // BOOT — Instant render from bundled/cached data, then refresh from Firestore
     // ============================================================
     const FIRESTORE_CACHE_KEY = 'siteContentCache';
+
+    function dismissSplash() {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                const splash = document.getElementById('initialSplash');
+                if (splash) splash.classList.add('loaded');
+                setTimeout(() => { if (splash) splash.remove(); }, 500);
+            });
+        });
+    }
+
     function bootSite() {
-        let rendered = false, oldCacheJson = null;
+        // Step 1: Render IMMEDIATELY from best available source
+        let renderedFromCache = false;
+        let initialRender = null;
         try {
-            oldCacheJson = localStorage.getItem(FIRESTORE_CACHE_KEY);
-            if (oldCacheJson) {
-                const cached = JSON.parse(oldCacheJson);
-                if (cached.projectsPage) { renderProjectsPage(cached); rendered = true; }
+            const cached = localStorage.getItem(FIRESTORE_CACHE_KEY);
+            if (cached) {
+                const parsed = JSON.parse(cached);
+                if (parsed.projectsPage) { initialRender = parsed; renderedFromCache = true; }
             }
         } catch(e) {}
+        if (!initialRender && typeof SITE_DATA !== 'undefined' && SITE_DATA.projectsPage) {
+            initialRender = SITE_DATA;
+        }
 
+        if (initialRender) {
+            renderProjectsPage(initialRender);
+            dismissSplash();
+        } else {
+            setTimeout(dismissSplash, 1500);
+        }
+
+        // Step 2: Fetch fresh from Firestore in background
+        const oldCacheJson = renderedFromCache ? localStorage.getItem(FIRESTORE_CACHE_KEY) : null;
         try {
             firebase.initializeApp(firebaseConfig);
             firebase.firestore().collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get()
                 .then(doc => {
-                    if (doc.exists) {
-                        const fresh = doc.data();
-                        const freshJson = JSON.stringify(fresh);
-                        if (!rendered || freshJson !== oldCacheJson) {
-                            if (fresh.projectsPage) renderProjectsPage(fresh);
-                        }
-                        try { localStorage.setItem(FIRESTORE_CACHE_KEY, freshJson); } catch(e) {}
-                    } else if (!rendered && typeof SITE_DATA !== 'undefined') {
-                        renderProjectsPage(SITE_DATA);
+                    if (!doc.exists) return;
+                    const fresh = doc.data();
+                    const freshJson = JSON.stringify(fresh);
+                    if (freshJson !== oldCacheJson && fresh.projectsPage) {
+                        renderProjectsPage(fresh);
                     }
+                    try { localStorage.setItem(FIRESTORE_CACHE_KEY, freshJson); } catch(e) {}
                 })
-                .catch(() => { if (!rendered && typeof SITE_DATA !== 'undefined') renderProjectsPage(SITE_DATA); });
+                .catch(err => console.warn('Firestore fetch failed:', err));
         } catch(e) {
-            if (!rendered && typeof SITE_DATA !== 'undefined') renderProjectsPage(SITE_DATA);
+            console.warn('Firebase init failed:', e);
         }
     }
     bootSite();
