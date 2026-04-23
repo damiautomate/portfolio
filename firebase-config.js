@@ -14,5 +14,7 @@ const firebaseConfig = {
   appId: "1:756457863981:web:f897684fbc4fde058631a4"
 };
 
-// Firestore doc path for your site content
-const SITE_DOC_PATH = { collection: "site", doc: "content" };
+// Firestore doc paths
+const SITE_DOC_PATH = { collection: "site", doc: "content" };      // Published (live site reads this)
+const DRAFT_DOC_PATH = { collection: "site", doc: "draft" };        // Working draft (admin edits this)
+const CLIENTS_DOC_PATH = { collection: "admin", doc: "clients" };   // Admin-only client list

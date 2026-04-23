@@ -1003,6 +1003,16 @@
             .stat-divider { display: none; }
             .modal-image { height: 180px; }
         }
+
+        /* Cookie banner (GA4 consent) */
+        .cookie-banner { position: fixed; bottom: 1.2rem; left: 1.2rem; right: 1.2rem; max-width: 680px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.4rem; z-index: 500; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner-text { flex: 1; font-size: 0.85rem; color: var(--text-muted); min-width: 280px; }
+        .cookie-banner-text strong { color: var(--text); }
+        .cookie-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+        .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; transition: all 0.2s; }
+        .cookie-btn.primary { background: var(--accent); color: #0A0A0F; border-color: var(--accent); }
+        .cookie-btn:hover { transform: translateY(-1px); }
     </style>
 </head>
 <body>
@@ -1026,6 +1036,7 @@
                 <a href="index.html#about">About</a>
                 <a href="index.html#services">Services</a>
                 <a href="projects.html" class="active">Projects</a>
+                <a href="blog.html">Blog</a>
                 <a href="index.html#testimonials">Reviews</a>
                 <a href="index.html#contact">Contact</a>
             </div>
@@ -1047,6 +1058,7 @@
         <a href="index.html#about" onclick="closeMobileNav()">About</a>
         <a href="index.html#services" onclick="closeMobileNav()">Services</a>
         <a href="projects.html" onclick="closeMobileNav()">Projects</a>
+        <a href="blog.html" onclick="closeMobileNav()">Blog</a>
         <a href="index.html#testimonials" onclick="closeMobileNav()">Reviews</a>
         <a href="index.html#contact" onclick="closeMobileNav()">Contact</a>
         <a href="#" target="_blank" onclick="closeMobileNav()" id="mobileBookBtn">Book a Call</a>
@@ -1149,6 +1161,17 @@
         </div>
     </footer>
 
+    <!-- COOKIE BANNER -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-banner-text">
+            <strong>We use cookies for analytics.</strong> By continuing, you help me understand which content is useful. You can decline — it won't affect anything on the site.
+        </div>
+        <div class="cookie-banner-actions">
+            <button class="cookie-btn" id="cookieDecline">Decline</button>
+            <button class="cookie-btn primary" id="cookieAccept">Accept</button>
+        </div>
+    </div>
+
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -1206,6 +1229,47 @@
         setMeta('meta[name="twitter:title"]', { name: 'twitter:title' }, title);
         setMeta('meta[name="twitter:description"]', { name: 'twitter:description' }, desc);
         setMeta('meta[name="twitter:image"]', { name: 'twitter:image' }, ogImage);
+    }
+
+    // ============================================================
+    // GA4 ANALYTICS (with cookie consent)
+    // ============================================================
+    function setupAnalytics(d) {
+        const ga4Id = d.meta?.ga4MeasurementId;
+        if (!ga4Id || !/^G-[A-Z0-9]+$/.test(ga4Id)) return;
+        const cookieBannerEnabled = d.meta?.cookieBannerEnabled !== false;
+        let consent = null;
+        try { consent = localStorage.getItem('ga_consent'); } catch(e) {}
+        if (consent === 'accepted') loadGA4(ga4Id);
+        else if (consent === 'declined') return;
+        else if (cookieBannerEnabled) showCookieBanner(ga4Id);
+        else loadGA4(ga4Id);
+    }
+    function loadGA4(id) {
+        if (window.__ga4Loaded) return;
+        window.__ga4Loaded = true;
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+        document.head.appendChild(script);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', id, { anonymize_ip: true });
+    }
+    function showCookieBanner(id) {
+        const banner = document.getElementById('cookieBanner');
+        if (!banner) return;
+        banner.classList.add('visible');
+        document.getElementById('cookieAccept').addEventListener('click', () => {
+            try { localStorage.setItem('ga_consent', 'accepted'); } catch(e) {}
+            banner.classList.remove('visible');
+            loadGA4(id);
+        });
+        document.getElementById('cookieDecline').addEventListener('click', () => {
+            try { localStorage.setItem('ga_consent', 'declined'); } catch(e) {}
+            banner.classList.remove('visible');
+        });
     }
 
     // ============================================================
@@ -1321,6 +1385,9 @@
 
         // Init interactions after render
         initInteractions();
+
+        // Analytics
+        setupAnalytics(data);
     }
 
     function escapeHtml(s) {

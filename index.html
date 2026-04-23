@@ -134,6 +134,30 @@
 
         /* PROJECTS */
         .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
+
+        /* Latest from Blog section on homepage */
+        .blog-latest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+        @media (max-width: 900px) { .blog-latest-grid { grid-template-columns: 1fr; } }
+        .blog-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; }
+        .blog-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+        .blog-card-image { height: 180px; background: var(--bg-secondary); overflow: hidden; }
+        .blog-card-image img { width: 100%; height: 100%; object-fit: cover; }
+        .blog-card-image .placeholder { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.8rem; }
+        .blog-card-body { padding: 1.3rem; display: flex; flex-direction: column; flex: 1; }
+        .blog-card-meta { font-size: 0.72rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 0.5rem; }
+        .blog-card-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem; }
+        .blog-card-excerpt { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.8rem; flex: 1; }
+        .blog-card-footer { font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between; }
+
+        /* Cookie banner (GA4 consent) */
+        .cookie-banner { position: fixed; bottom: 1.2rem; left: 1.2rem; right: 1.2rem; max-width: 680px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.4rem; z-index: 500; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner-text { flex: 1; font-size: 0.85rem; color: var(--text-muted); min-width: 280px; }
+        .cookie-banner-text strong { color: var(--text); }
+        .cookie-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+        .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; transition: all 0.2s; }
+        .cookie-btn.primary { background: var(--accent); color: #0A0A0F; border-color: var(--accent); }
+        .cookie-btn:hover { transform: translateY(-1px); }
         .project-card { border-radius: 14px; border: 1px solid var(--border); background: var(--bg-card); overflow: hidden; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; }
         .project-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
         .project-image { width: 100%; height: 200px; background: var(--bg-secondary); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -251,7 +275,7 @@
         <div class="container">
             <a href="#" class="nav-logo" id="navLogo"></a>
             <div class="nav-links">
-                <a href="#about">About</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#testimonials">Reviews</a><a href="#contact">Contact</a>
+                <a href="#about">About</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="blog.html">Blog</a><a href="#testimonials">Reviews</a><a href="#contact">Contact</a>
             </div>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -264,7 +288,7 @@
     </nav>
     <div class="mobile-nav" id="mobileNav">
         <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
-        <a href="#about" onclick="closeMobileNav()">About</a><a href="#services" onclick="closeMobileNav()">Services</a><a href="#projects" onclick="closeMobileNav()">Projects</a><a href="#testimonials" onclick="closeMobileNav()">Reviews</a><a href="#contact" onclick="closeMobileNav()">Contact</a>
+        <a href="#about" onclick="closeMobileNav()">About</a><a href="#services" onclick="closeMobileNav()">Services</a><a href="#projects" onclick="closeMobileNav()">Projects</a><a href="blog.html" onclick="closeMobileNav()">Blog</a><a href="#testimonials" onclick="closeMobileNav()">Reviews</a><a href="#contact" onclick="closeMobileNav()">Contact</a>
         <a href="#" target="_blank" onclick="closeMobileNav()" id="mobileBookBtn">Book a Call</a>
     </div>
 
@@ -315,6 +339,17 @@
         <div class="reveal" style="text-align:center; margin-top:2.5rem;" id="projectsCta"></div>
     </div></section>
 
+    <!-- LATEST FROM THE BLOG (optional section — hidden if no posts) -->
+    <section id="blog-latest" style="display:none;"><div class="container">
+        <div class="reveal">
+            <span class="section-label" id="blogSectionLabel"></span>
+            <h2 class="section-title" id="blogSectionTitle"></h2>
+            <p class="section-subtitle" id="blogSectionSubtitle"></p>
+        </div>
+        <div class="blog-latest-grid" id="blogLatestGrid"></div>
+        <div class="reveal" style="text-align:center; margin-top:2.5rem;" id="blogViewAllCta"></div>
+    </div></section>
+
     <!-- TESTIMONIALS -->
     <section id="testimonials" class="testimonials-section"><div class="container">
         <div class="reveal">
@@ -345,6 +380,17 @@
         <div class="footer-left" id="footerLeft"></div>
         <div class="footer-socials" id="footerSocials"></div>
     </div></div></footer>
+
+    <!-- COOKIE BANNER (shown only if GA4 is configured and consent not yet given) -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-banner-text">
+            <strong>We use cookies for analytics.</strong> By continuing, you help me understand which content is useful. You can decline — it won't affect anything on the site.
+        </div>
+        <div class="cookie-banner-actions">
+            <button class="cookie-btn" id="cookieDecline">Decline</button>
+            <button class="cookie-btn primary" id="cookieAccept">Accept</button>
+        </div>
+    </div>
 
     <!-- ============================================================
          DATA FILE — ALL CONTENT LIVES HERE
@@ -519,6 +565,9 @@
         }).join('');
         document.getElementById('projectsCta').innerHTML = `<a href="${d.projects.viewAllUrl}" class="btn-secondary">${d.projects.viewAllText} ${arrowSvg}</a>`;
 
+        // Latest from Blog (optional — only show if enabled and has published posts)
+        renderLatestBlog(d);
+
         // Testimonials
         document.getElementById('testimonialsLabel').textContent = d.testimonials.sectionLabel;
         document.getElementById('testimonialsTitle').textContent = d.testimonials.title;
@@ -547,6 +596,62 @@
 
         // Init animations after render
         initAnimations();
+
+        // Setup analytics (GA4 with cookie consent)
+        setupAnalytics(d);
+    }
+
+    // ============================================================
+    // GA4 ANALYTICS (with cookie consent)
+    // ============================================================
+    function setupAnalytics(d) {
+        const ga4Id = d.meta?.ga4MeasurementId;
+        if (!ga4Id || !/^G-[A-Z0-9]+$/.test(ga4Id)) return;
+
+        const cookieBannerEnabled = d.meta?.cookieBannerEnabled !== false;
+        let consent = null;
+        try { consent = localStorage.getItem('ga_consent'); } catch(e) {}
+
+        if (consent === 'accepted') {
+            loadGA4(ga4Id);
+        } else if (consent === 'declined') {
+            return;
+        } else if (cookieBannerEnabled) {
+            showCookieBanner(ga4Id);
+        } else {
+            loadGA4(ga4Id);
+        }
+    }
+
+    function loadGA4(id) {
+        // Don't load twice
+        if (window.__ga4Loaded) return;
+        window.__ga4Loaded = true;
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+        document.head.appendChild(script);
+
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', id, { anonymize_ip: true });
+    }
+
+    function showCookieBanner(id) {
+        const banner = document.getElementById('cookieBanner');
+        if (!banner) return;
+        banner.classList.add('visible');
+        document.getElementById('cookieAccept').addEventListener('click', () => {
+            try { localStorage.setItem('ga_consent', 'accepted'); } catch(e) {}
+            banner.classList.remove('visible');
+            loadGA4(id);
+        });
+        document.getElementById('cookieDecline').addEventListener('click', () => {
+            try { localStorage.setItem('ga_consent', 'declined'); } catch(e) {}
+            banner.classList.remove('visible');
+        });
     }
 
     // ============================================================
@@ -657,6 +762,62 @@
                 setTimeout(() => { if (splash) splash.remove(); }, 500);
             });
         });
+    }
+
+    // ============================================================
+    // RENDER LATEST BLOG POSTS on homepage
+    // ============================================================
+    function renderLatestBlog(d) {
+        const section = document.getElementById('blog-latest');
+        if (!section) return;
+        const blog = d.blog;
+        if (!blog || blog.showOnHomepage === false) {
+            section.style.display = 'none';
+            return;
+        }
+
+        const posts = blog.posts || {};
+        const published = Object.keys(posts)
+            .map(id => ({ id, ...posts[id] }))
+            .filter(p => p.published)
+            .sort((a, b) => (b.publishedDate || '').localeCompare(a.publishedDate || ''))
+            .slice(0, 3);
+
+        if (published.length === 0) { section.style.display = 'none'; return; }
+
+        section.style.display = '';
+        document.getElementById('blogSectionLabel').textContent = blog.homepageSectionLabel || 'Latest Writing';
+        document.getElementById('blogSectionTitle').textContent = blog.homepageTitle || 'From the Blog';
+        document.getElementById('blogSectionSubtitle').textContent = blog.homepageSubtitle || '';
+
+        const cats = blog.categories || [];
+        const catLabel = (id) => (cats.find(c => c.id === id) || {}).label || id || '';
+        const formatDate = (iso) => {
+            if (!iso) return '';
+            try { return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+            catch(e) { return iso; }
+        };
+
+        document.getElementById('blogLatestGrid').innerHTML = published.map(p => {
+            const imgHtml = p.featuredImage
+                ? `<img src="${p.featuredImage}" alt="${p.title}">`
+                : `<div class="placeholder">Blog post</div>`;
+            return `<a href="blog-post.html?id=${encodeURIComponent(p.id)}" class="blog-card reveal">
+                <div class="blog-card-image">${imgHtml}</div>
+                <div class="blog-card-body">
+                    <div class="blog-card-meta">${catLabel(p.category)}</div>
+                    <div class="blog-card-title">${p.title}</div>
+                    <div class="blog-card-excerpt">${p.excerpt || ''}</div>
+                    <div class="blog-card-footer">
+                        <span>${formatDate(p.publishedDate)}</span>
+                        <span>${p.readTimeMinutes || 3} min read</span>
+                    </div>
+                </div>
+            </a>`;
+        }).join('');
+
+        const viewAllText = blog.homepageViewAllText || 'Read All Posts';
+        document.getElementById('blogViewAllCta').innerHTML = `<a href="blog.html" class="btn-secondary">${viewAllText} ${arrowSvg}</a>`;
     }
 
     function bootSite() {

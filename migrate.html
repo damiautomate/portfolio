@@ -218,19 +218,25 @@
         // STEP 4 — Upload
         try {
             setStep(4, 'Uploading to Firestore...');
-            log('Uploading SITE_DATA to site/content...');
-            await firebase.firestore()
-                .collection(SITE_DOC_PATH.collection)
-                .doc(SITE_DOC_PATH.doc)
-                .set(SITE_DATA);
+            const firestore = firebase.firestore();
+
+            // Upload to BOTH site/content (published) AND site/draft (working copy)
+            log('Uploading to site/content (live)...');
+            await firestore.collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).set(SITE_DATA);
+            log('✓ Published to site/content', 'success');
+
+            log('Uploading to site/draft (working copy)...');
+            await firestore.collection(DRAFT_DOC_PATH.collection).doc(DRAFT_DOC_PATH.doc).set(SITE_DATA);
+            log('✓ Seeded site/draft', 'success');
+
             setStep(4, '✓ Uploaded successfully!', 'success');
-            log('✓ Content written to Firestore: ' + SITE_DOC_PATH.collection + '/' + SITE_DOC_PATH.doc, 'success');
             log('', '');
             log('MIGRATION COMPLETE!', 'success');
             log('Next steps:', '');
             log('1. Delete this migrate.html file', '');
-            log('2. Your admin panel now reads/writes from Firestore', '');
-            log('3. Your homepage fetches content from Firestore', '');
+            log('2. Admin panel now loads from site/draft', '');
+            log('3. Your live site loads from site/content', '');
+            log('4. Click "Publish to Live" in admin to push changes live', '');
             runBtn.textContent = '✓ Done — You can delete this file';
             runBtn.style.background = 'var(--success)';
         } catch (e) {

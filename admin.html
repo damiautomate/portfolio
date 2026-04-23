@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
 
+    <!-- Quill.js rich text editor (used for blog posts) -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+
     <style>
         /* ============================================================
            ADMIN PANEL — FULL VISUAL EDITOR
@@ -313,6 +316,43 @@
 
         /* Scroll target offset so sticky topbar doesn't hide titles */
         .section-card { scroll-margin-top: 90px; }
+
+        /* ============================================================
+           QUILL.JS RICH TEXT EDITOR (dark/light theme overrides)
+           ============================================================ */
+        .ql-toolbar.ql-snow {
+            border: 1px solid var(--border); border-bottom: none;
+            border-radius: 10px 10px 0 0;
+            background: var(--bg-card);
+            padding: 0.5rem;
+        }
+        .ql-container.ql-snow {
+            border: 1px solid var(--border);
+            border-radius: 0 0 10px 10px;
+            background: var(--bg-secondary);
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+        }
+        .ql-editor { color: var(--text); min-height: 350px; padding: 1rem 1.2rem; }
+        .ql-editor.ql-blank::before { color: var(--text-muted); font-style: normal; }
+        .ql-editor h1, .ql-editor h2, .ql-editor h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; }
+        .ql-editor a { color: var(--accent); }
+        .ql-editor blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--text-muted); }
+        .ql-editor code, .ql-editor pre { background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.3rem; font-family: monospace; }
+        .ql-editor pre { padding: 0.8rem; border-radius: 8px; overflow-x: auto; }
+        /* Toolbar buttons - fix dark theme */
+        [data-theme="dark"] .ql-snow .ql-stroke { stroke: var(--text); }
+        [data-theme="dark"] .ql-snow .ql-fill, [data-theme="dark"] .ql-snow .ql-stroke.ql-fill { fill: var(--text); }
+        [data-theme="dark"] .ql-snow .ql-picker { color: var(--text); }
+        [data-theme="dark"] .ql-snow .ql-picker-options { background: var(--bg-card); border-color: var(--border); }
+        [data-theme="dark"] .ql-snow.ql-toolbar button:hover .ql-stroke,
+        [data-theme="dark"] .ql-snow.ql-toolbar button.ql-active .ql-stroke { stroke: var(--accent); }
+        [data-theme="dark"] .ql-snow.ql-toolbar button:hover .ql-fill,
+        [data-theme="dark"] .ql-snow.ql-toolbar button.ql-active .ql-fill { fill: var(--accent); }
+        [data-theme="dark"] .ql-snow.ql-toolbar button:hover,
+        [data-theme="dark"] .ql-snow.ql-toolbar button.ql-active { color: var(--accent); }
+        .ql-tooltip { background: var(--bg-card) !important; border: 1px solid var(--border) !important; color: var(--text) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important; }
+        .ql-tooltip input[type=text] { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text); }
         .image-field-input { flex: 1; }
 
         /* CHECKBOX */
@@ -544,6 +584,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <!-- Quill.js rich text editor -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="firebase-config.js"></script>
     <!-- site-data.js is kept as a fallback in case Firestore is unreachable -->
     <script src="site-data.js"></script>
@@ -562,6 +604,8 @@
     let activeSection = 'hero';
     let activeCaseStudyId = null;   // which case study is being edited (null = list view)
     let activeClientId = null;      // which client is being edited (null = list view)
+    let activeBlogPostId = null;    // which blog post is being edited (null = list view)
+    let quillEditor = null;         // Quill.js instance for blog post editor
     let isDirty = false;
     let currentUser = null;   // Firebase user
     let db = null;            // Firestore instance
@@ -594,7 +638,8 @@
         { group: 'Site Settings', items: [
             { id: 'meta', label: 'Page Info', icon: ICONS.site },
             { id: 'theme', label: 'Theme & Colors', icon: ICONS.palette },
-            { id: 'nav', label: 'Navigation', icon: ICONS.nav }
+            { id: 'nav', label: 'Navigation', icon: ICONS.nav },
+            { id: 'analytics', label: 'Analytics & Tracking', icon: ICONS.grid }
         ]},
         { group: 'Homepage Sections', items: [
             { id: 'hero', label: 'Hero', icon: ICONS.home },
@@ -610,6 +655,10 @@
         ]},
         { group: 'Case Studies', items: [
             { id: 'caseStudies', label: 'All Case Studies', icon: ICONS.grid }
+        ]},
+        { group: 'Blog', items: [
+            { id: 'blogSettings', label: 'Blog Settings', icon: ICONS.site },
+            { id: 'blogPosts', label: 'All Posts', icon: ICONS.folder }
         ]},
         { group: 'Admin Only (Private)', items: [
             { id: 'clients', label: 'Clients List', icon: ICONS.user }
@@ -952,7 +1001,10 @@
             projectsPageItems: 'Projects Page — Project Cards',
             caseStudies: 'Case Studies',
             caseStudyEditor: 'Edit Case Study',
-            clients: 'Clients List (Private)'
+            clients: 'Clients List (Private)',
+            blogSettings: 'Blog Settings',
+            blogPosts: 'Blog Posts',
+            analytics: 'Analytics & Tracking'
         };
         document.getElementById('topbarTitle').textContent = titles[activeSection] || 'Editor';
 
@@ -980,6 +1032,12 @@
                 if (activeClientId) renderClientEditor(content, activeClientId);
                 else renderClientsListEditor(content);
                 break;
+            case 'blogSettings': renderBlogSettingsEditor(content); break;
+            case 'blogPosts':
+                if (activeBlogPostId) renderBlogPostEditor(content, activeBlogPostId);
+                else renderBlogPostsListEditor(content);
+                break;
+            case 'analytics': renderAnalyticsEditor(content); break;
         }
 
         attachInputHandlers(content);
@@ -2215,6 +2273,392 @@
     }
 
     // ============================================================
+    // BLOG SETTINGS EDITOR (categories, homepage section config)
+    // ============================================================
+    function renderBlogSettingsEditor(el) {
+        if (!data.blog) { data.blog = defaultBlog(); saveDraft(); }
+        const b = data.blog;
+
+        el.innerHTML = sectionHeader('Blog Settings', 'Configure your blog page meta, categories, and the "Latest from Blog" section on your homepage. Individual posts are edited in "All Posts".') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Blog Page Meta</div>
+                ${field('Page Title', 'blog.meta.title', b.meta?.title || '', { hint: 'Browser tab title for blog.html' })}
+                ${field('Meta Description', 'blog.meta.description', b.meta?.description || '', { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Blog Page Header</div>
+                ${field('Title', 'blog.header.title', b.header?.title || '')}
+                ${field('Subtitle', 'blog.header.subtitle', b.header?.subtitle || '', { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Categories</div>
+                <div class="section-card-desc">The filter buttons above the blog grid. The <code>id</code> is used as the category key on individual posts.</div>
+                <div class="list-items">
+                    ${(b.categories || []).map((c, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(c.label)}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="blog.categories.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="blog.categories.${i}" ${i === b.categories.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="blog.categories.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                ${field('ID (category key)', `blog.categories.${i}.id`, c.id, { hint: 'lowercase, no spaces. "all" shows all posts.' })}
+                                ${field('Display Label', `blog.categories.${i}.label`, c.label)}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="blog.categories">${ICONS.add} Add Category</button>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">"Latest from Blog" Section on Homepage</div>
+                <div class="section-card-desc">Show a 3-post preview on your homepage between Projects and Testimonials.</div>
+                ${field('Show on homepage', 'blog.showOnHomepage', b.showOnHomepage !== false, { type: 'checkbox' })}
+                ${field('Section Label', 'blog.homepageSectionLabel', b.homepageSectionLabel || '')}
+                ${field('Section Title', 'blog.homepageTitle', b.homepageTitle || '')}
+                ${field('Section Subtitle', 'blog.homepageSubtitle', b.homepageSubtitle || '', { type: 'textarea', rows: 2 })}
+                ${field('"View All" Button Text', 'blog.homepageViewAllText', b.homepageViewAllText || 'Read All Posts')}
+            </div>`;
+    }
+
+    // ============================================================
+    // BLOG POSTS — LIST VIEW
+    // ============================================================
+    function renderBlogPostsListEditor(el) {
+        if (!data.blog) { data.blog = defaultBlog(); saveDraft(); }
+        if (!data.blog.posts) data.blog.posts = {};
+
+        const postIds = Object.keys(data.blog.posts);
+        const posts = postIds.map(id => ({ id, ...data.blog.posts[id] }));
+        const published = posts.filter(p => p.published).length;
+        const drafts = posts.filter(p => !p.published).length;
+
+        el.innerHTML = sectionHeader('Blog Posts', 'Create and manage blog posts. Posts marked as <strong>draft</strong> are not visible on your public site.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Summary</div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:0.5rem;">
+                    <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--accent);">${posts.length}</div>
+                        <div style="font-size:0.78rem;color:var(--text-muted);">Total Posts</div>
+                    </div>
+                    <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--success);">${published}</div>
+                        <div style="font-size:0.78rem;color:var(--text-muted);">Published</div>
+                    </div>
+                    <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:#F5A623;">${drafts}</div>
+                        <div style="font-size:0.78rem;color:var(--text-muted);">Drafts</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">All Blog Posts</div>
+                <div class="section-card-desc">Click any post to edit. Draft posts are hidden from your public site until published.</div>
+                <div class="list-items">
+                    ${postIds.length === 0
+                        ? `<div style="padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">No blog posts yet. Create your first one below.</div>`
+                        : posts.sort((a, b) => (b.publishedDate || '').localeCompare(a.publishedDate || '')).map(p => {
+                            const statusColor = p.published ? 'var(--success)' : '#F5A623';
+                            const statusLabel = p.published ? (p.featured ? 'FEATURED' : 'PUBLISHED') : 'DRAFT';
+                            return `<div class="list-item" style="cursor:pointer;" data-open-post="${esc(p.id)}">
+                                <div class="list-item-header">
+                                    <div class="list-item-title">
+                                        <span class="list-item-number" style="background:${statusColor}22;color:${statusColor};">${esc((p.title || '?').substring(0, 2).toUpperCase())}</span>
+                                        <span>${esc(p.title || '(Untitled)')}</span>
+                                        <span style="font-size:0.68rem;color:${statusColor};text-transform:uppercase;letter-spacing:0.08em;margin-left:0.4rem;">${statusLabel}</span>
+                                    </div>
+                                    <div class="list-item-actions">
+                                        <button class="list-item-btn" data-open-post="${esc(p.id)}" title="Edit">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        </button>
+                                        <button class="list-item-btn danger" data-delete-post="${esc(p.id)}" title="Delete">${ICONS.del}</button>
+                                    </div>
+                                </div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); padding-left: 34px;">
+                                    ${esc(p.excerpt || '').substring(0, 120)}${(p.excerpt || '').length > 120 ? '…' : ''}
+                                    <br><span style="font-size:0.72rem;">${esc(categoryLabel(p.category))} · ${esc(p.publishedDate || 'no date')} · ${p.readTimeMinutes || 3} min read</span>
+                                </div>
+                            </div>`;
+                        }).join('')
+                    }
+                </div>
+
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <label class="field-label">Create new blog post</label>
+                    <div style="display:flex; gap: 0.5rem;">
+                        <input type="text" class="field-input" id="newBlogPostId" placeholder="url-safe-id (e.g. how-to-setup-zoho-crm)" style="flex: 1;">
+                        <button class="topbar-btn primary" id="createBlogPostBtn">${ICONS.add} Create Post</button>
+                    </div>
+                    <div class="field-hint">URL-safe ID. Use lowercase letters, numbers, and hyphens. This becomes the URL: <code>blog-post.html?id=<span id="blogIdPreview">your-id</span></code></div>
+                </div>
+            </div>`;
+
+        // Handlers
+        el.querySelectorAll('[data-open-post]').forEach(e => {
+            e.addEventListener('click', (ev) => {
+                if (ev.target.closest('[data-delete-post]')) return;
+                ev.stopPropagation();
+                activeBlogPostId = e.dataset.openPost;
+                renderEditor();
+            });
+        });
+        el.querySelectorAll('[data-delete-post]').forEach(e => {
+            e.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                const id = e.dataset.deletePost;
+                if (confirm(`Delete blog post "${id}"? This cannot be undone.`)) {
+                    delete data.blog.posts[id];
+                    saveDraft();
+                    renderEditor();
+                }
+            });
+        });
+        const idInput = document.getElementById('newBlogPostId');
+        const idPreview = document.getElementById('blogIdPreview');
+        idInput?.addEventListener('input', () => {
+            const slug = idInput.value.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
+            if (slug !== idInput.value) idInput.value = slug;
+            idPreview.textContent = slug || 'your-id';
+        });
+        document.getElementById('createBlogPostBtn')?.addEventListener('click', () => {
+            const id = (idInput.value || '').trim();
+            if (!id) { toast('Enter a post ID', 'error'); return; }
+            if (data.blog.posts[id]) { toast('A post with that ID already exists', 'error'); return; }
+            data.blog.posts[id] = defaultBlogPost();
+            saveDraft();
+            activeBlogPostId = id;
+            renderEditor();
+        });
+    }
+
+    // Helper to resolve category label for display
+    function categoryLabel(catId) {
+        const cats = data.blog?.categories || [];
+        const cat = cats.find(c => c.id === catId);
+        return cat ? cat.label : (catId || 'Uncategorized');
+    }
+
+    // ============================================================
+    // BLOG POST DETAIL EDITOR (with Quill.js rich text)
+    // ============================================================
+    function renderBlogPostEditor(el, postId) {
+        const p = data.blog?.posts?.[postId];
+        if (!p) { activeBlogPostId = null; renderEditor(); return; }
+
+        // Clean up any previous Quill instance
+        if (quillEditor) { quillEditor = null; }
+
+        const categories = data.blog?.categories || [];
+        const categoryOptions = categories.filter(c => c.id !== 'all');
+
+        el.innerHTML = `<button class="topbar-btn" id="backToBlogPosts" style="margin-bottom: 1rem;">← Back to all posts</button>` +
+            sectionHeader(`Edit: ${esc(p.title || postId)}`, `URL: <code>blog-post.html?id=${esc(postId)}</code>`) +
+
+            `<div class="section-card">
+                <div class="section-card-title">Status</div>
+                <div class="field-row">
+                    ${field('Published (visible on your public site)', `blog.posts.${postId}.published`, p.published, { type: 'checkbox' })}
+                    ${field('Featured (shown at top of blog page)', `blog.posts.${postId}.featured`, p.featured, { type: 'checkbox' })}
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Post Info</div>
+                ${field('Title', `blog.posts.${postId}.title`, p.title || '', { hint: 'The H1 of your post' })}
+                ${field('Excerpt', `blog.posts.${postId}.excerpt`, p.excerpt || '', { type: 'textarea', rows: 2, hint: 'A 1-2 sentence summary shown on listings and meta descriptions' })}
+                ${imageField('Featured Image', `blog.posts.${postId}.featuredImage`, p.featuredImage || '', 'The hero image shown on the post and listings. Upload to ibb.co, paste URL.')}
+                <div class="field-row">
+                    <div class="field"><label class="field-label">Category</label>
+                        <select class="field-select" data-bind="blog.posts.${postId}.category">
+                            ${categoryOptions.map(c => `<option value="${esc(c.id)}" ${p.category === c.id ? 'selected' : ''}>${esc(c.label)}</option>`).join('')}
+                        </select>
+                    </div>
+                    ${field('Publish Date', `blog.posts.${postId}.publishedDate`, p.publishedDate || '', { type: 'date' })}
+                </div>
+                <div class="field-row">
+                    ${field('Reading Time (minutes)', `blog.posts.${postId}.readTimeMinutes`, p.readTimeMinutes || 3, { type: 'number' })}
+                    <div class="field"><label class="field-label">Tags (press Enter to add)</label>
+                        <div class="tags-input" data-tags="blog.posts.${postId}.tags">
+                            ${(p.tags || []).map((t, ti) => `<span class="tag-chip">${esc(t)}<button class="tag-chip-remove" data-remove-tag="blog.posts.${postId}.tags.${ti}">&times;</button></span>`).join('')}
+                            <input type="text" placeholder="Add a tag...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Post Content</div>
+                <div class="section-card-desc">Rich text editor. Use the toolbar above to format — headings, bold, lists, links, images, code, quotes.</div>
+                <div id="quillEditorHost" style="background:var(--bg-secondary);border-radius:10px;"></div>
+                <div class="field-hint" style="margin-top:0.5rem;">Changes auto-save as you type. For images: Click the image icon in the toolbar and paste a URL from ibb.co or similar.</div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">Preview this post</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Opens <code>blog-post.html?id=${esc(postId)}</code> in a new tab. <strong>Shows the LIVE published version</strong> — click "Publish to Live" first to see your latest draft changes.</div>
+                </div>
+                <a href="blog-post.html?id=${encodeURIComponent(postId)}" target="_blank" class="topbar-btn">Open Preview →</a>
+            </div>`;
+
+        // Initialize Quill.js
+        setTimeout(() => initQuill(postId), 30);
+
+        // Back button
+        document.getElementById('backToBlogPosts')?.addEventListener('click', () => {
+            // Save any pending Quill content
+            if (quillEditor && data.blog?.posts?.[postId]) {
+                data.blog.posts[postId].content = quillEditor.root.innerHTML;
+                saveDraft();
+            }
+            quillEditor = null;
+            activeBlogPostId = null;
+            renderEditor();
+        });
+    }
+
+    function initQuill(postId) {
+        const host = document.getElementById('quillEditorHost');
+        if (!host || typeof Quill === 'undefined') return;
+
+        // Style the editor for our theme
+        const toolbarOptions = [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'align': [] }],
+            ['blockquote', 'code-block'],
+            ['link', 'image'],
+            [{ 'color': [] }, { 'background': [] }],
+            ['clean']
+        ];
+
+        quillEditor = new Quill(host, {
+            theme: 'snow',
+            placeholder: 'Write your blog post here...',
+            modules: { toolbar: toolbarOptions }
+        });
+
+        // Set initial content
+        const post = data.blog?.posts?.[postId];
+        if (post?.content) {
+            quillEditor.root.innerHTML = post.content;
+        }
+
+        // Auto-save on change (debounced)
+        let quillDebounce;
+        quillEditor.on('text-change', () => {
+            clearTimeout(quillDebounce);
+            quillDebounce = setTimeout(() => {
+                if (data.blog?.posts?.[postId]) {
+                    data.blog.posts[postId].content = quillEditor.root.innerHTML;
+                    saveDraft();
+                }
+            }, 400);
+        });
+
+        // Set min-height so it feels usable
+        const editorEl = host.querySelector('.ql-editor');
+        if (editorEl) { editorEl.style.minHeight = '350px'; editorEl.style.fontSize = '0.92rem'; }
+    }
+
+    // ============================================================
+    // ANALYTICS SETTINGS EDITOR
+    // ============================================================
+    function renderAnalyticsEditor(el) {
+        if (!data.meta) data.meta = {};
+        if (!('ga4MeasurementId' in data.meta)) data.meta.ga4MeasurementId = '';
+        if (!('cookieBannerEnabled' in data.meta)) data.meta.cookieBannerEnabled = true;
+
+        el.innerHTML = sectionHeader('Analytics & Tracking', 'Connect Google Analytics 4 to track visitors, page views, and user behavior on your site.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Google Analytics 4</div>
+                <div class="section-card-desc">Paste your GA4 Measurement ID. Get one free at <a href="https://analytics.google.com" target="_blank" style="color:var(--accent);">analytics.google.com</a>. The ID looks like <code>G-XXXXXXXXXX</code>.</div>
+                ${field('GA4 Measurement ID', 'meta.ga4MeasurementId', data.meta.ga4MeasurementId, { placeholder: 'G-XXXXXXXXXX', hint: 'Must start with "G-" followed by letters and numbers. Leave empty to disable tracking.' })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Cookie Consent Banner</div>
+                <div class="section-card-desc">GDPR-friendly cookie banner. Shows before loading GA4, lets users accept or decline tracking. Recommended: ON.</div>
+                ${field('Show cookie banner before loading analytics', 'meta.cookieBannerEnabled', data.meta.cookieBannerEnabled !== false, { type: 'checkbox', hint: 'If OFF, GA4 loads without asking permission (not recommended in EU).' })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">How to set up GA4</div>
+                <div class="section-card-desc" style="line-height:1.8;">
+                    <strong>1.</strong> Go to <a href="https://analytics.google.com" target="_blank" style="color:var(--accent);">analytics.google.com</a> and sign in.<br>
+                    <strong>2.</strong> Click <strong>Admin</strong> (gear icon, bottom-left) → <strong>Create Property</strong>.<br>
+                    <strong>3.</strong> Fill in property name (e.g. "Damilare Portfolio"), currency, timezone.<br>
+                    <strong>4.</strong> Under <strong>Platform</strong>, pick <strong>Web</strong>. Enter your site URL.<br>
+                    <strong>5.</strong> Copy the <strong>Measurement ID</strong> (format: <code>G-XXXXXXXXXX</code>) and paste above.<br>
+                    <strong>6.</strong> Save draft → Publish to Live. Analytics starts tracking immediately.<br>
+                    <strong>7.</strong> Check real-time reports at analytics.google.com to verify it's working.
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Analytics Dashboard</div>
+                <div class="section-card-desc">GA4 doesn't provide an embeddable dashboard widget, but you can bookmark these useful views in your GA4 account:</div>
+                <ul style="padding-left:1.5rem;margin-top:0.8rem;line-height:1.9;font-size:0.9rem;">
+                    <li><strong>Reports → Realtime:</strong> Who's on your site right now</li>
+                    <li><strong>Reports → Engagement → Pages and screens:</strong> Which pages are viewed most</li>
+                    <li><strong>Reports → Acquisition:</strong> Where your traffic comes from (Google, LinkedIn, direct, etc.)</li>
+                    <li><strong>Reports → Engagement → Events:</strong> Button clicks, form submits, etc.</li>
+                </ul>
+            </div>`;
+    }
+
+    // ============================================================
+    // BLOG DEFAULTS
+    // ============================================================
+    function defaultBlog() {
+        return {
+            meta: { title: 'Blog — Damilare Babalola', description: 'Thoughts on marketing automation and CRM strategy.' },
+            header: { title: 'The Blog', subtitle: 'Tutorials, strategy, and lessons from real projects.' },
+            categories: [
+                { id: 'all', label: 'All' },
+                { id: 'automation', label: 'Automation' },
+                { id: 'crm', label: 'CRM Strategy' },
+                { id: 'ai', label: 'AI Tools' },
+                { id: 'business', label: 'Business' },
+                { id: 'tutorials', label: 'Tutorials' }
+            ],
+            showOnHomepage: true,
+            homepageSectionLabel: 'Latest Writing',
+            homepageTitle: 'From the Blog',
+            homepageSubtitle: 'Sharing what I learn about marketing automation and scaling businesses.',
+            homepageViewAllText: 'Read All Posts',
+            posts: {}
+        };
+    }
+
+    function defaultBlogPost() {
+        const today = new Date().toISOString().slice(0, 10);
+        return {
+            title: 'New Blog Post',
+            excerpt: 'A short excerpt that shows up in listings and meta descriptions.',
+            featuredImage: '',
+            category: 'business',
+            tags: [],
+            readTimeMinutes: 3,
+            publishedDate: today,
+            published: false,
+            featured: false,
+            content: '<p>Start writing your post here. Use the toolbar above for formatting.</p>'
+        };
+    }
+
+    // ============================================================
     // INPUT HANDLERS (two-way binding + list ops)
     // ============================================================
     function attachInputHandlers(root) {
@@ -2380,8 +2824,9 @@
         // e.g. "caseStudies.njs-royale.challenge.paragraphs" -> "caseStudies.{id}.challenge.paragraphs"
         //      "projectsPage.items.3" -> "projectsPage.items"
         const normalized = path
-            .replace(/\.\d+(?=\.|$)/g, '')          // strip trailing numeric indices
-            .replace(/^caseStudies\.[^.]+/, 'caseStudies.{id}'); // normalize case study ID
+            .replace(/\.\d+(?=\.|$)/g, '')          // strip numeric indices
+            .replace(/^caseStudies\.[^.]+/, 'caseStudies.{id}')
+            .replace(/^blog\.posts\.[^.]+/, 'blog.posts.{id}');
 
         const defaults = {
             // Homepage
@@ -2409,7 +2854,11 @@
             'caseStudies.{id}.tools': 'New Tool',
 
             // Projects Page items tools (nested)
-            'projectsPage.items.tools': 'New Tool'
+            'projectsPage.items.tools': 'New Tool',
+
+            // Blog
+            'blog.categories': { id: 'new', label: 'New Category' },
+            'blog.posts.{id}.tags': 'new-tag'
         };
 
         const value = defaults[normalized];

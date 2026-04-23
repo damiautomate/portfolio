@@ -11,7 +11,9 @@ const SITE_DATA = {
     title: "Damilare Babalola — Marketing Automation Expert",
     description: "I help businesses build systems that work for them. CRM setup, customer journey design, business process automation, and AI-powered workflows.",
     faviconUrl: "",
-    ogImage: ""
+    ogImage: "",
+    ga4MeasurementId: "",         // e.g. "G-XXXXXXXXXX" — paste from GA4 dashboard
+    cookieBannerEnabled: true     // show cookie consent banner before loading GA4
   },
 
   // ---- THEME SETTINGS ----
@@ -315,6 +317,52 @@ const SITE_DATA = {
         subtitle: "Book a free strategy call and let's discuss building the CRM and automation system your venue or business needs.",
         buttonText: "Book a Free Call",
         buttonUrl: "https://cal.com/dami-digital-market"
+      }
+    }
+  },
+
+  // ---- BLOG ----
+  blog: {
+    meta: {
+      title: "Blog — Damilare Babalola",
+      description: "Thoughts on marketing automation, CRM strategy, AI workflows, and building systems that scale."
+    },
+    header: {
+      title: "The Blog",
+      subtitle: "Thoughts, tutorials, and case studies on marketing automation, CRM strategy, and building systems that work."
+    },
+    categories: [
+      { id: "all", label: "All" },
+      { id: "automation", label: "Automation" },
+      { id: "crm", label: "CRM Strategy" },
+      { id: "ai", label: "AI Tools" },
+      { id: "business", label: "Business" },
+      { id: "tutorials", label: "Tutorials" }
+    ],
+    // Show the "Latest from the Blog" section on homepage?
+    showOnHomepage: true,
+    homepageSectionLabel: "Latest Writing",
+    homepageTitle: "From the Blog",
+    homepageSubtitle: "Sharing what I learn about marketing automation, CRM, and scaling businesses.",
+    homepageViewAllText: "Read All Posts",
+    // Posts keyed by URL-safe ID. Fields:
+    // - published: bool (false = draft, only visible in admin)
+    // - featured: bool (show at top of blog listing)
+    // - title, excerpt, featuredImage, category, tags[], readTimeMinutes
+    // - content: HTML (Quill output)
+    // - publishedDate (ISO date string)
+    posts: {
+      "welcome-post": {
+        title: "Welcome to the Blog",
+        excerpt: "A quick introduction to what you'll find here — tutorials, strategy breakdowns, and lessons from real automation projects.",
+        featuredImage: "",
+        category: "business",
+        tags: ["introduction"],
+        readTimeMinutes: 2,
+        publishedDate: "2026-04-20",
+        published: true,
+        featured: true,
+        content: "<h2>Welcome!</h2><p>This is the first post on my new blog. I'll be sharing everything I learn about building <strong>marketing automation systems</strong>, <strong>CRM strategy</strong>, and <strong>AI-powered workflows</strong> for real businesses.</p><p>Expect tutorials, strategy breakdowns, honest lessons from client projects, and my take on the tools I use every day — Zoho, GoHighLevel, n8n, Make.com, and more.</p><p>If there's something specific you'd like me to cover, feel free to reach out via any of my social links at the bottom of the page. Thanks for reading!</p>"
       }
     }
   }

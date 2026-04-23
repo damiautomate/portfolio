@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Blog Post — Damilare Babalola</title>
+    <meta name="description" id="pageMeta" content="">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent: #00D4AA; --accent-dim: #00D4AA22; --accent-glow: #00D4AA40;
+            --dark-bg: #0A0A0F; --dark-bg-secondary: #12121A; --dark-bg-card: #16161F;
+            --dark-text: #E8E8ED; --dark-text-muted: #8888A0; --dark-border: #2A2A3A;
+            --light-bg: #F5F3F0; --light-bg-secondary: #EDEAE6; --light-bg-card: #FFFFFF;
+            --light-text: #1A1A2E; --light-text-muted: #6B6B80; --light-border: #D8D5D0;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --section-padding: clamp(3rem, 8vw, 5rem);
+            --article-width: 720px;
+        }
+        [data-theme="dark"] { --bg: var(--dark-bg); --bg-secondary: var(--dark-bg-secondary); --bg-card: var(--dark-bg-card); --text: var(--dark-text); --text-muted: var(--dark-text-muted); --border: var(--dark-border); }
+        [data-theme="light"] { --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary); --bg-card: var(--light-bg-card); --text: var(--light-text); --text-muted: var(--light-text-muted); --border: var(--light-border); }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.75; transition: background 0.3s, color 0.3s; }
+        a { color: inherit; text-decoration: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .article-container { max-width: var(--article-width); margin: 0 auto; padding: 0 2rem; }
+        @media (max-width: 640px) { .container, .article-container { padding: 0 1.25rem; } }
+
+        /* Reading progress bar */
+        .progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); z-index: 200; width: 0%; transition: width 0.1s; }
+
+        /* NAV (same as other pages) */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 0; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: transparent; transition: all 0.3s; }
+        .navbar.scrolled { background: color-mix(in srgb, var(--bg) 85%, transparent); border-bottom: 1px solid var(--border); }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { font-size: 0.9rem; color: var(--text-muted); transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-actions { display: flex; gap: 0.75rem; align-items: center; }
+        .theme-toggle { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+        .btn-nav { padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--accent); color: #0A0A0F; font-size: 0.88rem; font-weight: 600; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+        .nav-hamburger { display: none; background: none; border: 1px solid var(--border); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; align-items: center; justify-content: center; flex-direction: column; gap: 3px; }
+        .nav-hamburger span { display: block; width: 16px; height: 2px; background: var(--text); border-radius: 2px; }
+        .mobile-nav { position: fixed; inset: 0; background: var(--bg); z-index: 200; display: none; padding: 5rem 2rem 2rem; flex-direction: column; gap: 1.5rem; }
+        .mobile-nav.active { display: flex; }
+        .mobile-nav a { font-family: var(--font-display); font-size: 1.5rem; color: var(--text); }
+        .mobile-nav-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 2rem; color: var(--text); cursor: pointer; }
+        @media (max-width: 900px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .btn-nav { display: none; } }
+
+        /* HERO */
+        .post-hero { padding: calc(var(--section-padding) + 2rem) 0 2rem; }
+        .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; display: flex; gap: 0.5rem; }
+        .breadcrumb a { color: var(--accent); transition: opacity 0.2s; }
+        .breadcrumb a:hover { opacity: 0.7; }
+
+        .post-category { display: inline-block; padding: 0.3rem 0.85rem; border-radius: 50px; background: var(--accent-dim); color: var(--accent); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
+        .post-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.5rem; }
+        .post-meta { display: flex; flex-wrap: wrap; gap: 1.2rem; font-size: 0.88rem; color: var(--text-muted); margin-bottom: 2rem; align-items: center; }
+        .post-meta .author { display: flex; align-items: center; gap: 0.6rem; }
+        .post-meta .author-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-dim); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; overflow: hidden; }
+        .post-meta .author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .post-meta .author-name { color: var(--text); font-weight: 600; }
+
+        .post-featured-image { max-width: 1100px; margin: 0 auto 3rem; padding: 0 2rem; }
+        .post-featured-image img { width: 100%; border-radius: 16px; display: block; }
+
+        /* ARTICLE CONTENT — this is the rich text output */
+        .post-content { font-size: 1.08rem; line-height: 1.85; }
+        .post-content > * { margin-bottom: 1.3rem; }
+        .post-content > *:last-child { margin-bottom: 0; }
+        .post-content h1, .post-content h2, .post-content h3, .post-content h4 {
+            font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; line-height: 1.25;
+            margin-top: 2.5rem; margin-bottom: 1rem;
+        }
+        .post-content h1 { font-size: 2rem; }
+        .post-content h2 { font-size: 1.6rem; }
+        .post-content h3 { font-size: 1.3rem; }
+        .post-content h4 { font-size: 1.1rem; }
+        .post-content p { color: var(--text); }
+        .post-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+        .post-content a:hover { opacity: 0.8; }
+        .post-content strong { color: var(--text); font-weight: 700; }
+        .post-content ul, .post-content ol { padding-left: 1.5rem; color: var(--text); }
+        .post-content ul li, .post-content ol li { margin-bottom: 0.5rem; line-height: 1.75; }
+        .post-content blockquote {
+            border-left: 3px solid var(--accent); padding: 0.5rem 0 0.5rem 1.5rem; margin: 2rem 0;
+            font-style: italic; color: var(--text-muted); font-size: 1.1rem;
+        }
+        .post-content pre {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+            padding: 1.2rem; overflow-x: auto; font-family: 'Courier New', monospace;
+            font-size: 0.88rem; line-height: 1.6; margin: 1.5rem 0;
+        }
+        .post-content code {
+            background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 4px;
+            font-family: 'Courier New', monospace; font-size: 0.9em;
+            border: 1px solid var(--border);
+        }
+        .post-content pre code { background: none; border: none; padding: 0; }
+        .post-content img { max-width: 100%; height: auto; border-radius: 10px; display: block; margin: 2rem auto; }
+        .post-content hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+        .post-content .ql-align-center { text-align: center; }
+        .post-content .ql-align-right { text-align: right; }
+        .post-content .ql-align-justify { text-align: justify; }
+
+        /* SHARE BAR */
+        .post-share { display: flex; gap: 0.6rem; align-items: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+        .post-share-label { font-size: 0.85rem; color: var(--text-muted); margin-right: 0.5rem; }
+        .share-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; cursor: pointer; }
+        .share-btn:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+        .share-btn svg { width: 16px; height: 16px; }
+
+        /* TAGS */
+        .post-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+        .post-tag { padding: 0.35rem 0.85rem; border-radius: 50px; background: var(--bg-card); border: 1px solid var(--border); font-size: 0.78rem; color: var(--text-muted); }
+
+        /* AUTHOR BOX */
+        .author-box { margin-top: 3rem; padding: 2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center; }
+        .author-box-avatar { width: 80px; height: 80px; border-radius: 50%; overflow: hidden; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; }
+        .author-box-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .author-box-name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .author-box-bio { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+        .author-box-link { color: var(--accent); font-size: 0.85rem; font-weight: 600; }
+        @media (max-width: 600px) { .author-box { grid-template-columns: 1fr; text-align: center; } .author-box-avatar { margin: 0 auto; } }
+
+        /* PREV/NEXT */
+        .post-nav { margin: 4rem 0; padding: 3rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .post-nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .post-nav-item { padding: 1.5rem; border: 1px solid var(--border); border-radius: 14px; background: var(--bg-card); transition: all 0.3s; display: flex; flex-direction: column; gap: 0.5rem; }
+        .post-nav-item:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .post-nav-direction { font-size: 0.75rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+        .post-nav-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+        .post-nav-item.next { text-align: right; }
+        @media (max-width: 700px) { .post-nav-grid { grid-template-columns: 1fr; } .post-nav-item.next { text-align: left; } }
+
+        /* RELATED POSTS */
+        .related-section { padding: var(--section-padding) 0 3rem; }
+        .related-label { font-family: var(--font-display); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); font-weight: 600; margin-bottom: 0.5rem; }
+        .related-title { font-family: var(--font-display); font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2.5rem; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.8rem; }
+        .related-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: transform 0.3s, border-color 0.3s; }
+        .related-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .related-card-image { height: 160px; background: var(--bg-secondary); }
+        .related-card-image img { width: 100%; height: 100%; object-fit: cover; }
+        .related-card-body { padding: 1.2rem; }
+        .related-card-meta { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 0.5rem; }
+        .related-card-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; line-height: 1.3; }
+
+        /* CTA */
+        .cta-section { padding: var(--section-padding) 0; text-align: center; }
+        .cta-content { max-width: 640px; margin: 0 auto; padding: 3rem 2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; }
+        .cta-content h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
+        .cta-content p { color: var(--text-muted); margin-bottom: 1.8rem; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.5rem; border-radius: 10px; background: var(--accent); color: #0A0A0F; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+
+        /* FOOTER */
+        footer { padding: 4rem 0 2.5rem; border-top: 1px solid var(--border); }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+        .footer-left { font-size: 0.85rem; color: var(--text-muted); }
+        .footer-socials { display: flex; gap: 0.75rem; }
+        .social-icon { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: all 0.2s; }
+        .social-icon:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+        .social-icon svg { width: 16px; height: 16px; }
+
+        /* COOKIE BANNER */
+        .cookie-banner { position: fixed; bottom: 1.2rem; left: 1.2rem; right: 1.2rem; max-width: 680px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.4rem; z-index: 500; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner-text { flex: 1; font-size: 0.85rem; color: var(--text-muted); min-width: 280px; }
+        .cookie-banner-text strong { color: var(--text); }
+        .cookie-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+        .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; transition: all 0.2s; }
+        .cookie-btn.primary { background: var(--accent); color: #0A0A0F; border-color: var(--accent); }
+        .cookie-btn:hover { transform: translateY(-1px); }
+    </style>
+</head>
+<body>
+
+    <!-- INITIAL SPLASH -->
+    <div id="initialSplash" style="position:fixed;inset:0;z-index:10000;background:#0A0A0F;display:flex;align-items:center;justify-content:center;transition:opacity 0.4s ease, visibility 0.4s;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#E8E8ED;animation:splashPulse 1.5s ease-in-out infinite;">Damilare<span style="color:#00D4AA;">.</span></div>
+    </div>
+    <style>
+        [data-theme="light"] #initialSplash { background: #F5F3F0 !important; }
+        [data-theme="light"] #initialSplash > div { color: #1A1A2E !important; }
+        #initialSplash.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
+        @keyframes splashPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    </style>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- NAV -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo" id="navLogo">Damilare<span>.</span></a>
+            <div class="nav-links">
+                <a href="index.html#about">About</a>
+                <a href="index.html#services">Services</a>
+                <a href="projects.html">Projects</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="index.html#testimonials">Reviews</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <a href="#" target="_blank" class="btn-nav" id="navBookBtn">Book a Call</a>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
+        <a href="index.html#about">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="projects.html">Projects</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="index.html#contact">Contact</a>
+    </div>
+
+    <!-- MAIN CONTENT rendered here -->
+    <div id="postContent"></div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left" id="footerLeft"></div>
+                <div class="footer-socials" id="footerSocials"></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- COOKIE BANNER -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-banner-text">
+            <strong>We use cookies for analytics.</strong> By continuing, you help me understand which content is useful. You can decline — it won't affect anything on the site.
+        </div>
+        <div class="cookie-banner-actions">
+            <button class="cookie-btn" id="cookieDecline">Decline</button>
+            <button class="cookie-btn primary" id="cookieAccept">Accept</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="site-data.js"></script>
+
+    <script>
+    const SOCIAL_ICONS = {
+        twitter: '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>',
+        linkedin: '<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>',
+        instagram: '<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>',
+        facebook: '<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>',
+        tiktok: '<path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>',
+        upwork: '<path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/>'
+    };
+
+    function esc(s) {
+        if (s == null) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function formatDate(iso) {
+        if (!iso) return '';
+        try {
+            const d = new Date(iso);
+            return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        } catch(e) { return iso; }
+    }
+
+    function getPostId() {
+        return new URLSearchParams(window.location.search).get('id') || '';
+    }
+
+    // Sanitize HTML from rich editor — strip script/iframe/style tags for safety
+    function sanitizeHtml(html) {
+        if (!html) return '';
+        // Remove script/iframe/style/object/embed tags and event handlers
+        return html
+            .replace(/<script[\s\S]*?<\/script>/gi, '')
+            .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
+            .replace(/<style[\s\S]*?<\/style>/gi, '')
+            .replace(/<object[\s\S]*?<\/object>/gi, '')
+            .replace(/<embed[\s\S]*?>/gi, '')
+            .replace(/\son\w+\s*=\s*"[^"]*"/gi, '')
+            .replace(/\son\w+\s*=\s*'[^']*'/gi, '')
+            .replace(/javascript:/gi, '');
+    }
+
+    // ============================================================
+    // META TAGS
+    // ============================================================
+    function applyMetaTags(d, pageTitle, pageDesc, ogImageOverride) {
+        if (!d) return;
+        const head = document.head;
+        const title = pageTitle || d.meta?.title || '';
+        const desc = pageDesc || d.meta?.description || '';
+
+        if (d.meta?.faviconUrl) {
+            let fav = head.querySelector('link[rel="icon"]');
+            if (!fav) { fav = document.createElement('link'); fav.setAttribute('rel', 'icon'); head.appendChild(fav); }
+            fav.setAttribute('href', d.meta.faviconUrl);
+        }
+
+        function setMeta(selector, attrs, value) {
+            if (!value) return;
+            let el = head.querySelector(selector);
+            if (!el) {
+                el = document.createElement('meta');
+                Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+                head.appendChild(el);
+            }
+            el.setAttribute('content', value);
+        }
+
+        const ogImage = ogImageOverride || d.meta?.ogImage || '';
+        setMeta('meta[property="og:title"]', { property: 'og:title' }, title);
+        setMeta('meta[property="og:description"]', { property: 'og:description' }, desc);
+        setMeta('meta[property="og:type"]', { property: 'og:type' }, 'article');
+        setMeta('meta[property="og:image"]', { property: 'og:image' }, ogImage);
+        setMeta('meta[property="og:url"]', { property: 'og:url' }, window.location.href);
+        setMeta('meta[name="twitter:card"]', { name: 'twitter:card' }, 'summary_large_image');
+        setMeta('meta[name="twitter:title"]', { name: 'twitter:title' }, title);
+        setMeta('meta[name="twitter:description"]', { name: 'twitter:description' }, desc);
+        setMeta('meta[name="twitter:image"]', { name: 'twitter:image' }, ogImage);
+    }
+
+    // ============================================================
+    // GA4 ANALYTICS
+    // ============================================================
+    function setupAnalytics(d) {
+        const ga4Id = d.meta?.ga4MeasurementId;
+        if (!ga4Id || !/^G-[A-Z0-9]+$/.test(ga4Id)) return;
+        const cookieBannerEnabled = d.meta?.cookieBannerEnabled !== false;
+        let consent = null;
+        try { consent = localStorage.getItem('ga_consent'); } catch(e) {}
+        if (consent === 'accepted') loadGA4(ga4Id);
+        else if (consent === 'declined') return;
+        else if (cookieBannerEnabled) showCookieBanner(ga4Id);
+        else loadGA4(ga4Id);
+    }
+    function loadGA4(id) {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+        document.head.appendChild(script);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', id, { anonymize_ip: true });
+    }
+    function showCookieBanner(id) {
+        const banner = document.getElementById('cookieBanner');
+        if (!banner) return;
+        banner.classList.add('visible');
+        document.getElementById('cookieAccept').addEventListener('click', () => {
+            try { localStorage.setItem('ga_consent', 'accepted'); } catch(e) {}
+            banner.classList.remove('visible');
+            loadGA4(id);
+        });
+        document.getElementById('cookieDecline').addEventListener('click', () => {
+            try { localStorage.setItem('ga_consent', 'declined'); } catch(e) {}
+            banner.classList.remove('visible');
+        });
+    }
+
+    // ============================================================
+    // RENDER NOT FOUND
+    // ============================================================
+    function renderNotFound(msg) {
+        document.getElementById('postContent').innerHTML = `
+            <section style="padding: 8rem 2rem; text-align: center;">
+                <div class="container">
+                    <h1 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 1rem;">Post Not Found</h1>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">${esc(msg || 'The post you\'re looking for doesn\'t exist.')}</p>
+                    <a href="blog.html" class="btn-primary">Back to Blog <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                </div>
+            </section>`;
+    }
+
+    // ============================================================
+    // RENDER POST
+    // ============================================================
+    function renderPost(data, postId) {
+        // Theme
+        try { const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.setAttribute('data-theme', data.theme.defaultTheme); } catch(e) {}
+        if (data.theme.accentColor !== '#00D4AA') {
+            document.documentElement.style.setProperty('--accent', data.theme.accentColor);
+            document.documentElement.style.setProperty('--accent-dim', data.theme.accentColor + '22');
+            document.documentElement.style.setProperty('--accent-glow', data.theme.accentColor + '40');
+        }
+
+        // Nav & Footer
+        document.getElementById('navLogo').innerHTML = data.nav.logo + '<span>.</span>';
+        const bookBtn = document.getElementById('navBookBtn');
+        bookBtn.href = data.nav.bookingUrl; bookBtn.textContent = data.nav.bookingText;
+        document.getElementById('footerLeft').innerHTML = `<strong>${esc(data.footer.name)}</strong><br>&copy; ${data.footer.year} — All rights reserved.`;
+        document.getElementById('footerSocials').innerHTML = data.footer.socials.map(s =>
+            `<a href="${s.url}" target="_blank" class="social-icon" aria-label="${esc(s.platform)}"><svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS[s.icon] || ''}</svg></a>`
+        ).join('');
+
+        // Find the post
+        const post = data.blog?.posts?.[postId];
+        if (!post || !post.published) {
+            renderNotFound(`No published post with ID "${postId}".`);
+            return;
+        }
+
+        // Meta + OG
+        document.title = post.title + ' — ' + (data.footer?.name || 'Blog');
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', post.excerpt || '');
+        applyMetaTags(data, post.title, post.excerpt, post.featuredImage);
+
+        // Category label
+        const cats = data.blog?.categories || [];
+        const catLabel = (cats.find(c => c.id === post.category) || {}).label || post.category || '';
+
+        // Related posts — same category, not this one, published, sorted by date
+        const allPosts = data.blog?.posts || {};
+        const relatedPosts = Object.keys(allPosts)
+            .filter(id => id !== postId && allPosts[id].published && allPosts[id].category === post.category)
+            .map(id => ({ id, ...allPosts[id] }))
+            .sort((a, b) => (b.publishedDate || '').localeCompare(a.publishedDate || ''))
+            .slice(0, 3);
+
+        // Prev/next (chronological, within published posts)
+        const sortedIds = Object.keys(allPosts)
+            .filter(id => allPosts[id].published)
+            .sort((a, b) => (allPosts[a].publishedDate || '').localeCompare(allPosts[b].publishedDate || ''));
+        const idx = sortedIds.indexOf(postId);
+        const prevId = idx > 0 ? sortedIds[idx - 1] : null;
+        const nextId = idx >= 0 && idx < sortedIds.length - 1 ? sortedIds[idx + 1] : null;
+
+        // Share URLs
+        const pageUrl = encodeURIComponent(window.location.href);
+        const shareTitle = encodeURIComponent(post.title);
+
+        // Author box
+        const authorName = data.footer?.name || 'Damilare Babalola';
+        const authorBio = data.about?.paragraphs?.[0]
+            ? data.about.paragraphs[0].replace(/<[^>]*>/g, '').substring(0, 160) + '...'
+            : 'Marketing automation specialist helping businesses build systems that scale.';
+        const authorAvatar = data.about?.photoUrl;
+
+        // Tags
+        const tagsHtml = (post.tags || []).length > 0
+            ? `<div class="post-tags">${post.tags.map(t => `<span class="post-tag">${esc(t)}</span>`).join('')}</div>`
+            : '';
+
+        // Prev/next HTML
+        let prevNextHtml = '';
+        if (prevId || nextId) {
+            prevNextHtml = `<section class="post-nav"><div class="container"><div class="post-nav-grid">`;
+            if (prevId) {
+                prevNextHtml += `<a href="blog-post.html?id=${encodeURIComponent(prevId)}" class="post-nav-item prev">
+                    <span class="post-nav-direction">← Previous</span>
+                    <span class="post-nav-title">${esc(allPosts[prevId].title)}</span>
+                </a>`;
+            } else prevNextHtml += `<div></div>`;
+            if (nextId) {
+                prevNextHtml += `<a href="blog-post.html?id=${encodeURIComponent(nextId)}" class="post-nav-item next">
+                    <span class="post-nav-direction">Next →</span>
+                    <span class="post-nav-title">${esc(allPosts[nextId].title)}</span>
+                </a>`;
+            } else prevNextHtml += `<div></div>`;
+            prevNextHtml += `</div></div></section>`;
+        }
+
+        // Related HTML
+        let relatedHtml = '';
+        if (relatedPosts.length > 0) {
+            relatedHtml = `<section class="related-section"><div class="container">
+                <div class="related-label">More to read</div>
+                <h2 class="related-title">Related posts</h2>
+                <div class="related-grid">${relatedPosts.map(rp => {
+                    const imgHtml = rp.featuredImage
+                        ? `<img src="${esc(rp.featuredImage)}" alt="${esc(rp.title)}">`
+                        : '';
+                    return `<a href="blog-post.html?id=${encodeURIComponent(rp.id)}" class="related-card">
+                        <div class="related-card-image">${imgHtml}</div>
+                        <div class="related-card-body">
+                            <div class="related-card-meta">${esc(catLabel)}</div>
+                            <div class="related-card-title">${esc(rp.title)}</div>
+                        </div>
+                    </a>`;
+                }).join('')}</div>
+            </div></section>`;
+        }
+
+        // Featured image
+        const featuredHtml = post.featuredImage
+            ? `<div class="post-featured-image"><img src="${esc(post.featuredImage)}" alt="${esc(post.title)}"></div>`
+            : '';
+
+        // Compose everything
+        document.getElementById('postContent').innerHTML = `
+            <section class="post-hero">
+                <div class="article-container">
+                    <div class="breadcrumb">
+                        <a href="index.html">Home</a><span>/</span>
+                        <a href="blog.html">Blog</a><span>/</span>
+                        <span>${esc(post.title).substring(0, 40)}${post.title.length > 40 ? '…' : ''}</span>
+                    </div>
+                    ${catLabel ? `<span class="post-category">${esc(catLabel)}</span>` : ''}
+                    <h1 class="post-title">${esc(post.title)}</h1>
+                    <div class="post-meta">
+                        <div class="author">
+                            <div class="author-avatar">
+                                ${authorAvatar ? `<img src="${esc(authorAvatar)}" alt="${esc(authorName)}">` : esc((authorName).substring(0, 2).toUpperCase())}
+                            </div>
+                            <span class="author-name">${esc(authorName)}</span>
+                        </div>
+                        <span>${formatDate(post.publishedDate)}</span>
+                        <span>${post.readTimeMinutes || 3} min read</span>
+                    </div>
+                </div>
+            </section>
+
+            ${featuredHtml}
+
+            <article class="article-container">
+                <div class="post-content">${sanitizeHtml(post.content || '')}</div>
+                ${tagsHtml}
+
+                <!-- Share -->
+                <div class="post-share">
+                    <span class="post-share-label">Share:</span>
+                    <a href="https://twitter.com/intent/tweet?text=${shareTitle}&url=${pageUrl}" target="_blank" class="share-btn" aria-label="Share on Twitter">
+                        <svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS.twitter}</svg>
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}" target="_blank" class="share-btn" aria-label="Share on LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS.linkedin}</svg>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=${pageUrl}" target="_blank" class="share-btn" aria-label="Share on Facebook">
+                        <svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS.facebook}</svg>
+                    </a>
+                    <button class="share-btn" id="copyLinkBtn" title="Copy link" aria-label="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                    </button>
+                </div>
+
+                <!-- Author Box -->
+                <div class="author-box">
+                    <div class="author-box-avatar">
+                        ${authorAvatar ? `<img src="${esc(authorAvatar)}" alt="${esc(authorName)}">` : `<span style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--accent);">${esc(authorName.substring(0,2).toUpperCase())}</span>`}
+                    </div>
+                    <div>
+                        <div class="author-box-name">Written by ${esc(authorName)}</div>
+                        <div class="author-box-bio">${esc(authorBio)}</div>
+                        <a href="index.html#about" class="author-box-link">Read more about me →</a>
+                    </div>
+                </div>
+            </article>
+
+            ${prevNextHtml}
+            ${relatedHtml}
+
+            <!-- CTA -->
+            <section class="cta-section">
+                <div class="container">
+                    <div class="cta-content">
+                        <h2>Need help building a system like this?</h2>
+                        <p>Book a free strategy call and let's talk about the CRM, automation, or workflow your business needs.</p>
+                        <a href="${esc(data.nav.bookingUrl)}" target="_blank" class="btn-primary">
+                            ${esc(data.nav.bookingText)}
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        // Copy link button
+        const copyBtn = document.getElementById('copyLinkBtn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>';
+                    }, 2000);
+                } catch(e) {}
+            });
+        }
+
+        setupAnalytics(data);
+    }
+
+    // Static nav/theme/progress handlers
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        const n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', n);
+        try { localStorage.setItem('theme', n); } catch(e) {}
+    });
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        const p = document.documentElement.scrollHeight - window.innerHeight;
+        document.getElementById('progressBar').style.width = (p > 0 ? (window.scrollY / p) * 100 : 0) + '%';
+    });
+    document.getElementById('navHamburger').addEventListener('click', () => document.getElementById('mobileNav').classList.add('active'));
+    document.getElementById('mobileNavClose').addEventListener('click', () => document.getElementById('mobileNav').classList.remove('active'));
+
+    // Boot
+    const FIRESTORE_CACHE_KEY = 'siteContentCache';
+    function dismissSplash() {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            const splash = document.getElementById('initialSplash');
+            if (splash) splash.classList.add('loaded');
+            setTimeout(() => { if (splash) splash.remove(); }, 500);
+        }));
+    }
+
+    function bootSite() {
+        const postId = getPostId();
+        if (!postId) { renderNotFound('No post ID specified in URL.'); dismissSplash(); return; }
+
+        let renderedFromCache = false, initialRender = null;
+        try {
+            const cached = localStorage.getItem(FIRESTORE_CACHE_KEY);
+            if (cached) {
+                const parsed = JSON.parse(cached);
+                if (parsed.blog) { initialRender = parsed; renderedFromCache = true; }
+            }
+        } catch(e) {}
+        if (!initialRender && typeof SITE_DATA !== 'undefined') initialRender = SITE_DATA;
+
+        if (initialRender) {
+            renderPost(initialRender, postId);
+            dismissSplash();
+        } else {
+            setTimeout(dismissSplash, 1500);
+        }
+
+        const oldCacheJson = renderedFromCache ? localStorage.getItem(FIRESTORE_CACHE_KEY) : null;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            firebase.firestore().collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get()
+                .then(doc => {
+                    if (!doc.exists) return;
+                    const fresh = doc.data();
+                    const freshJson = JSON.stringify(fresh);
+                    if (freshJson !== oldCacheJson) renderPost(fresh, postId);
+                    try { localStorage.setItem(FIRESTORE_CACHE_KEY, freshJson); } catch(e) {}
+                })
+                .catch(err => console.warn('Firestore fetch failed:', err));
+        } catch(e) {
+            console.warn('Firebase init failed:', e);
+        }
+    }
+    bootSite();
+    </script>
+
+</body>
+</html>
