@@ -49,6 +49,7 @@ const SITE_DATA = {
     sectionLabel: "About Me",
     photoUrl: "https://i.ibb.co/8gXVzv8f/IMG-1402-1.jpg",
     photoAlt: "Damilare Babalola",
+    imageDeco: "glow",  // "glow" | "shape" | "dots" | "mix" | "framed" | "none" — background decoration style
     title: "I'm Damilare Babalola",
     paragraphs: [
       'A Marketing Automation Expert passionate about helping businesses work smarter, not harder. I don\'t just set up tools — I design <strong>complete systems</strong> that connect your sales, marketing, and operations into one seamless machine.',
@@ -365,5 +366,220 @@ const SITE_DATA = {
         content: "<h2>Welcome!</h2><p>This is the first post on my new blog. I'll be sharing everything I learn about building <strong>marketing automation systems</strong>, <strong>CRM strategy</strong>, and <strong>AI-powered workflows</strong> for real businesses.</p><p>Expect tutorials, strategy breakdowns, honest lessons from client projects, and my take on the tools I use every day — Zoho, GoHighLevel, n8n, Make.com, and more.</p><p>If there's something specific you'd like me to cover, feel free to reach out via any of my social links at the bottom of the page. Thanks for reading!</p>"
       }
     }
+  },
+
+  // ---- INTEGRATIONS (3rd-party service keys) ----
+  integrations: {
+    web3formsAccessKey: "",  // Get free at web3forms.com — handles form submissions
+    tawktoPropertyId: "",    // Get at tawk.to (dashboard → Admin → Chat Widget → looks like "67f123..."
+    tawktoWidgetId: "1default"  // usually stays as 1default
+  },
+
+  // ---- SERVICES & PRICING PAGE ----
+  servicesPage: {
+    meta: {
+      title: "Services & Pricing — Damilare Babalola",
+      description: "Transparent pricing for CRM setup, automation workflows, and business process design. Get a system that fits your business."
+    },
+    header: {
+      title: "Services & Pricing",
+      subtitle: "Transparent packages for real businesses. No hidden fees, no runaround — just clear deliverables and outcomes."
+    },
+    // Pricing tiers
+    tiers: [
+      {
+        name: "Starter",
+        bestFor: "Solo founders & small teams ready to stop drowning in manual work",
+        price: "$350",
+        priceNote: "starting at",
+        billingCycle: "one-time",
+        description: "A focused CRM setup to replace spreadsheets and sticky notes.",
+        features: [
+          "Zoho CRM or GoHighLevel setup",
+          "Up to 3 custom pipelines",
+          "5+ essential automations",
+          "Email template library",
+          "1 hour onboarding call",
+          "14 days post-launch support"
+        ],
+        ctaText: "Get Started",
+        ctaUrl: "https://cal.com/dami-digital-market?package=starter",
+        highlighted: false
+      },
+      {
+        name: "Growth",
+        bestFor: "Growing businesses that need systems to scale past the founder",
+        price: "$850",
+        priceNote: "starting at",
+        billingCycle: "one-time",
+        description: "Full CRM ecosystem with customer journeys, automation workflows, and reporting.",
+        features: [
+          "Everything in Starter, plus:",
+          "Custom customer journey design",
+          "10+ automation workflows",
+          "Reporting dashboards",
+          "Integration with up to 5 tools",
+          "Team training (2 hours)",
+          "30 days post-launch support"
+        ],
+        ctaText: "Book Growth Package",
+        ctaUrl: "https://cal.com/dami-digital-market?package=growth",
+        highlighted: true
+      },
+      {
+        name: "Scale",
+        bestFor: "Established businesses ready for AI-powered operations",
+        price: "$1,800",
+        priceNote: "starting at",
+        billingCycle: "one-time",
+        description: "End-to-end business operating system with AI workflows and deep integrations.",
+        features: [
+          "Everything in Growth, plus:",
+          "AI-powered workflows (n8n + APIs)",
+          "Advanced integrations & custom APIs",
+          "Multi-department pipelines",
+          "Monthly optimization reviews",
+          "Priority support",
+          "60 days post-launch support"
+        ],
+        ctaText: "Book Scale Package",
+        ctaUrl: "https://cal.com/dami-digital-market?package=scale",
+        highlighted: false
+      },
+      {
+        name: "Custom",
+        bestFor: "Unique projects that don't fit the packages above",
+        price: "Custom Quote",
+        priceNote: "",
+        billingCycle: "",
+        description: "Have something specific in mind? Let's scope it together.",
+        features: [
+          "Tailored to your exact needs",
+          "Ongoing retainer options available",
+          "White-label / agency partnerships",
+          "Complex multi-system builds",
+          "Enterprise requirements"
+        ],
+        ctaText: "Request a Quote",
+        ctaUrl: "contact.html",
+        highlighted: false
+      }
+    ],
+    guarantee: {
+      enabled: true,
+      title: "30-day satisfaction guarantee",
+      description: "If I don't deliver what we agreed on within the scope, you get a full refund. No questions, no drama. I only take on projects I know I can nail."
+    },
+    cta: {
+      sectionLabel: "Not sure which fits?",
+      title: "Let's talk it through",
+      subtitle: "A 30-minute strategy call costs nothing and usually clarifies exactly what you need.",
+      buttonText: "Book a Free Strategy Call",
+      buttonUrl: "https://cal.com/dami-digital-market"
+    }
+  },
+
+  // ---- FAQ (reusable — shown on services page, optional on homepage) ----
+  faq: {
+    sectionLabel: "Common Questions",
+    title: "Frequently Asked Questions",
+    subtitle: "Quick answers to what clients ask most often.",
+    showOnHomepage: false,
+    // Items
+    items: [
+      {
+        question: "How long does a typical CRM setup take?",
+        answer: "Most Starter projects are done in 1–2 weeks. Growth projects typically run 3–4 weeks. Scale projects range from 4–8 weeks depending on complexity. I give you a specific timeline before we start so there are no surprises."
+      },
+      {
+        question: "Do you work with clients outside Nigeria?",
+        answer: "Absolutely. I work with clients globally — most project delivery happens async via Loom recordings, Slack/WhatsApp, and scheduled calls in your timezone. I've delivered projects in 10+ countries."
+      },
+      {
+        question: "What tools do you specialize in?",
+        answer: "Primary: Zoho ecosystem (CRM, Bookings, SalesIQ, One), GoHighLevel, n8n, Make.com, Zapier. I also work with Airtable, Notion, ClickUp, Salesforce, and most modern SaaS tools via their APIs."
+      },
+      {
+        question: "Can you take over an existing CRM that's a mess?",
+        answer: "Yes, and I love this kind of project. I'll audit what you have, document what's broken, then clean it up or rebuild it properly depending on what makes more sense."
+      },
+      {
+        question: "Do you offer ongoing support?",
+        answer: "Every package includes post-launch support (14–60 days depending on tier). After that, I offer monthly retainer plans for ongoing optimization, new automation builds, and team training."
+      },
+      {
+        question: "What if I'm not sure what I need yet?",
+        answer: "Book a free strategy call. We'll walk through your business, identify what's eating your time, and I'll recommend the best-fit package — or tell you honestly if you don't need me yet."
+      }
+    ]
+  },
+
+  // ---- LEAD MAGNET (downloadable resource in exchange for email) ----
+  leadMagnet: {
+    enabled: true,
+    title: "Free: The Zoho CRM Setup Checklist",
+    subtitle: "The 47-point checklist I use for every client engagement — copy it, adapt it, run your own implementation.",
+    description: "Enter your email and I'll send you the checklist PDF plus occasional tips on building systems that scale.",
+    bulletPoints: [
+      "Complete field & module setup guide",
+      "Automation rule templates",
+      "Email & workflow triggers blueprint",
+      "Common pitfalls to avoid"
+    ],
+    resourceUrl: "",  // Upload your PDF to Firebase Storage, Google Drive (public), or Dropbox and paste URL
+    resourceName: "zoho-crm-setup-checklist.pdf",
+    emailSubjectLine: "Here's your Zoho CRM Setup Checklist",
+    successMessage: "Check your email! The checklist is on its way to you.",
+    buttonText: "Get the Free Checklist",
+    // Where to show the widget
+    showOnHomepage: true,
+    homepagePosition: "above-cta"  // "above-cta" or "below-hero"
+  },
+
+  // ---- CONTACT PAGE ----
+  contactPage: {
+    meta: {
+      title: "Contact — Damilare Babalola",
+      description: "Get in touch about a project, quote, or just to say hi. I respond within 24 hours."
+    },
+    header: {
+      title: "Let's talk",
+      subtitle: "Whether you're ready to start, just exploring, or have a weird question — I read every message and respond within 24 hours."
+    },
+    // Contact methods besides the form
+    contactMethods: [
+      { icon: "📧", label: "Email", value: "damidigitalmarket@gmail.com", link: "mailto:damidigitalmarket@gmail.com" },
+      { icon: "📅", label: "Book a call", value: "Free 30-min strategy call", link: "https://cal.com/dami-digital-market" },
+      { icon: "💬", label: "LinkedIn", value: "Fastest for quick questions", link: "https://www.linkedin.com/in/damidigitalmarket" }
+    ],
+    form: {
+      title: "Send a message",
+      subtitle: "Fill this out and I'll get back to you within 24 hours.",
+      // Project types for dropdown
+      projectTypes: [
+        "CRM Setup",
+        "Automation Project",
+        "Customer Journey Design",
+        "AI Workflow",
+        "Ongoing Support / Retainer",
+        "Just a question",
+        "Other"
+      ],
+      submitText: "Send Message",
+      successMessage: "Thanks! I've got your message and will reply within 24 hours."
+    }
+  },
+
+  // ---- NEWSLETTER ----
+  newsletter: {
+    enabled: true,
+    title: "Get the newsletter",
+    subtitle: "Occasional tips on building better business systems. No fluff, no spam. Unsubscribe any time.",
+    placeholder: "your@email.com",
+    buttonText: "Subscribe",
+    successMessage: "You're in! Look for the first email soon.",
+    // Where to show
+    showInFooter: true,
+    showOnBlog: true
   }
 };

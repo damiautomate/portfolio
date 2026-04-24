@@ -660,8 +660,17 @@
             { id: 'blogSettings', label: 'Blog Settings', icon: ICONS.site },
             { id: 'blogPosts', label: 'All Posts', icon: ICONS.folder }
         ]},
+        { group: 'Conversion Tools', items: [
+            { id: 'servicesPricing', label: 'Services & Pricing', icon: ICONS.grid },
+            { id: 'faqEditor', label: 'FAQ', icon: ICONS.site },
+            { id: 'leadMagnet', label: 'Lead Magnet', icon: ICONS.star },
+            { id: 'contactPage', label: 'Contact Page', icon: ICONS.call },
+            { id: 'newsletter', label: 'Newsletter', icon: ICONS.foot },
+            { id: 'integrations', label: 'Integrations', icon: ICONS.nav }
+        ]},
         { group: 'Admin Only (Private)', items: [
-            { id: 'clients', label: 'Clients List', icon: ICONS.user }
+            { id: 'clients', label: 'Clients List', icon: ICONS.user },
+            { id: 'submissions', label: 'Submissions Inbox', icon: ICONS.folder }
         ]},
         { group: 'Global', items: [
             { id: 'footer', label: 'Footer & Socials', icon: ICONS.foot }
@@ -1004,7 +1013,14 @@
             clients: 'Clients List (Private)',
             blogSettings: 'Blog Settings',
             blogPosts: 'Blog Posts',
-            analytics: 'Analytics & Tracking'
+            analytics: 'Analytics & Tracking',
+            servicesPricing: 'Services & Pricing',
+            faqEditor: 'FAQ',
+            leadMagnet: 'Lead Magnet',
+            contactPage: 'Contact Page',
+            newsletter: 'Newsletter',
+            integrations: 'Integrations (Web3Forms, Tawk.to)',
+            submissions: 'Submissions Inbox'
         };
         document.getElementById('topbarTitle').textContent = titles[activeSection] || 'Editor';
 
@@ -1038,6 +1054,13 @@
                 else renderBlogPostsListEditor(content);
                 break;
             case 'analytics': renderAnalyticsEditor(content); break;
+            case 'servicesPricing': renderServicesPricingEditor(content); break;
+            case 'faqEditor': renderFaqEditor(content); break;
+            case 'leadMagnet': renderLeadMagnetEditor(content); break;
+            case 'contactPage': renderContactPageEditor(content); break;
+            case 'newsletter': renderNewsletterEditor(content); break;
+            case 'integrations': renderIntegrationsEditor(content); break;
+            case 'submissions': renderSubmissionsEditor(content); break;
         }
 
         attachInputHandlers(content);
@@ -1269,13 +1292,40 @@
 
     // ---- ABOUT ----
     function renderAboutEditor(el) {
+        // Ensure backwards compat
+        if (!data.about.imageDeco) data.about.imageDeco = 'glow';
+        const decoOptions = [
+            { value: 'glow',   label: '✨ Glow — Soft radial gradient (recommended for transparent PNG)' },
+            { value: 'shape',  label: '◼ Shape — Accent color rectangle offset behind' },
+            { value: 'dots',   label: '⋯ Dots — Subtle dot pattern with circle accent' },
+            { value: 'mix',    label: '🎨 Mix — Glow + dots + geometric accent (striking)' },
+            { value: 'framed', label: '🖼 Framed — Classic card with border (for JPEG without transparency)' },
+            { value: 'none',   label: '⚪ None — Just the image with drop shadow, no decoration' }
+        ];
+
         el.innerHTML = sectionHeader('About Section', 'Your personal story and the tools you use.') +
             `<div class="section-card">
                 <div class="section-card-title">Basics</div>
                 ${field('Section Label', 'about.sectionLabel', data.about.sectionLabel, { hint: 'The small label above the title, e.g. "About Me"' })}
                 ${field('Title', 'about.title', data.about.title)}
-                ${imageField('Your Photo', 'about.photoUrl', data.about.photoUrl, 'Upload to ibb.co and paste the direct image URL here')}
+                ${imageField('Your Photo', 'about.photoUrl', data.about.photoUrl, 'For best look: upload a transparent PNG to Cloudinary (free) and paste URL here. Also works with regular JPEGs.')}
                 ${field('Photo Alt Text', 'about.photoAlt', data.about.photoAlt, { hint: 'For accessibility and SEO' })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Photo Decoration Style</div>
+                <div class="section-card-desc">
+                    The visual treatment behind your photo. <strong>"Glow", "Shape", "Dots", or "Mix"</strong> work best with transparent PNG images (they let the decoration shine through). <strong>"Framed"</strong> is the classic card look for regular JPEG photos.
+                </div>
+                <div class="field">
+                    <label class="field-label">Decoration Style</label>
+                    <select class="field-select" data-bind="about.imageDeco">
+                        ${decoOptions.map(o => `<option value="${o.value}" ${data.about.imageDeco === o.value ? 'selected' : ''}>${o.label}</option>`).join('')}
+                    </select>
+                    <div class="field-hint" style="margin-top:0.5rem;">
+                        <strong>Tip:</strong> Want transparency? Sign up at <a href="https://cloudinary.com" target="_blank" style="color:var(--accent);">cloudinary.com</a> (free), upload a PNG with transparent background, and paste the URL above. Your image will "float" on the page instead of sitting in a card.
+                    </div>
+                </div>
             </div>
 
             <div class="section-card">
@@ -2655,6 +2705,511 @@
             published: false,
             featured: false,
             content: '<p>Start writing your post here. Use the toolbar above for formatting.</p>'
+        };
+    }
+
+    // ============================================================
+    // INTEGRATIONS EDITOR (Web3Forms, Tawk.to)
+    // ============================================================
+    function renderIntegrationsEditor(el) {
+        if (!data.integrations) data.integrations = { web3formsAccessKey: '', tawktoPropertyId: '', tawktoWidgetId: '1default' };
+        const i = data.integrations;
+
+        el.innerHTML = sectionHeader('Integrations', 'Connect 3rd-party services so your forms and live chat actually work.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Web3Forms (Form submissions → your email)</div>
+                <div class="section-card-desc">Web3Forms is a free service that takes form submissions and emails them to you. Without this, your contact form, newsletter, and lead magnet forms won't send you notifications (submissions are still saved in Firestore). Get a free key at <a href="https://web3forms.com" target="_blank" style="color:var(--accent);">web3forms.com</a>.</div>
+                ${field('Web3Forms Access Key', 'integrations.web3formsAccessKey', i.web3formsAccessKey || '', { placeholder: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', hint: 'UUID format. 250 free submissions/month.' })}
+                <div class="field-hint" style="line-height:1.8;">
+                    <strong>Setup (2 minutes):</strong><br>
+                    1. Go to <a href="https://web3forms.com" target="_blank" style="color:var(--accent);">web3forms.com</a><br>
+                    2. Enter the email address where you want to receive form submissions<br>
+                    3. Copy the Access Key they send you<br>
+                    4. Paste above, Save Draft → Publish to Live
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Tawk.to (Live chat widget)</div>
+                <div class="section-card-desc">Tawk.to puts a floating live chat button on your site. 100% free forever, unlimited agents. Get it at <a href="https://tawk.to" target="_blank" style="color:var(--accent);">tawk.to</a>.</div>
+                ${field('Tawk.to Property ID', 'integrations.tawktoPropertyId', i.tawktoPropertyId || '', { placeholder: '67abc123456789...', hint: 'Found in Tawk.to dashboard → Admin → Chat Widget → the alphanumeric ID' })}
+                ${field('Tawk.to Widget ID', 'integrations.tawktoWidgetId', i.tawktoWidgetId || '1default', { hint: 'Usually "1default". Only change if you have multiple widgets.' })}
+                <div class="field-hint" style="line-height:1.8;">
+                    <strong>Setup:</strong> Sign up at tawk.to, create a property, and find the IDs in <strong>Admin → Chat Widget → Direct Chat Link</strong>. The URL looks like <code>embed.tawk.to/PROPERTY_ID/WIDGET_ID</code>.
+                </div>
+            </div>`;
+    }
+
+    // ============================================================
+    // SERVICES & PRICING EDITOR
+    // ============================================================
+    function renderServicesPricingEditor(el) {
+        if (!data.servicesPage) data.servicesPage = defaultServicesPage();
+        const sp = data.servicesPage;
+
+        el.innerHTML = sectionHeader('Services & Pricing Page', 'Edit pricing tiers, guarantee, CTA, and page meta for <code>services.html</code>.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Page Meta</div>
+                ${field('Browser Title', 'servicesPage.meta.title', sp.meta.title)}
+                ${field('Meta Description', 'servicesPage.meta.description', sp.meta.description, { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Page Header</div>
+                ${field('Title', 'servicesPage.header.title', sp.header.title)}
+                ${field('Subtitle', 'servicesPage.header.subtitle', sp.header.subtitle, { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Pricing Tiers</div>
+                <div class="section-card-desc">Each tier is a card on the pricing page. Check "Highlighted" on one tier to make it stand out as "Most Popular".</div>
+                <div class="list-items">
+                    ${sp.tiers.map((t, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(t.name)}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="servicesPage.tiers.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="servicesPage.tiers.${i}" ${i === sp.tiers.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="servicesPage.tiers.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                ${field('Name', `servicesPage.tiers.${i}.name`, t.name)}
+                                ${field('Highlighted ("Most Popular")', `servicesPage.tiers.${i}.highlighted`, t.highlighted, { type: 'checkbox' })}
+                            </div>
+                            ${field('Best For', `servicesPage.tiers.${i}.bestFor`, t.bestFor || '')}
+                            <div class="field-row-3">
+                                ${field('Price', `servicesPage.tiers.${i}.price`, t.price, { hint: 'e.g. $350, Custom Quote' })}
+                                ${field('Price Note', `servicesPage.tiers.${i}.priceNote`, t.priceNote || '', { hint: 'e.g. "starting at"' })}
+                                ${field('Billing Cycle', `servicesPage.tiers.${i}.billingCycle`, t.billingCycle || '', { hint: 'e.g. one-time, per month' })}
+                            </div>
+                            ${field('Description', `servicesPage.tiers.${i}.description`, t.description || '', { type: 'textarea', rows: 2 })}
+                            <div class="field"><label class="field-label">Features (one per line)</label>
+                                <div class="list-items" style="margin-top:0.5rem;">
+                                    ${(t.features || []).map((f, fi) => `
+                                        <div class="list-item" style="padding: 0.5rem 0.8rem;">
+                                            <div style="display:flex;gap:0.5rem;align-items:center;">
+                                                <input type="text" class="field-input" style="flex:1;" data-bind="servicesPage.tiers.${i}.features.${fi}" value="${esc(f)}">
+                                                <button class="list-item-btn danger" data-remove="servicesPage.tiers.${i}.features.${fi}">${ICONS.del}</button>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <button class="add-item-btn" data-add="servicesPage.tiers.${i}.features">${ICONS.add} Add Feature</button>
+                            </div>
+                            <div class="field-row">
+                                ${field('CTA Text', `servicesPage.tiers.${i}.ctaText`, t.ctaText)}
+                                ${field('CTA URL', `servicesPage.tiers.${i}.ctaUrl`, t.ctaUrl)}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="servicesPage.tiers">${ICONS.add} Add Tier</button>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Guarantee Bar</div>
+                <div class="section-card-desc">Builds trust by showing you stand behind your work.</div>
+                ${field('Show guarantee', 'servicesPage.guarantee.enabled', sp.guarantee?.enabled !== false, { type: 'checkbox' })}
+                ${field('Title', 'servicesPage.guarantee.title', sp.guarantee?.title || '')}
+                ${field('Description', 'servicesPage.guarantee.description', sp.guarantee?.description || '', { type: 'textarea', rows: 3 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Bottom CTA</div>
+                ${field('Section Label', 'servicesPage.cta.sectionLabel', sp.cta?.sectionLabel || '')}
+                ${field('Title', 'servicesPage.cta.title', sp.cta?.title || '')}
+                ${field('Subtitle', 'servicesPage.cta.subtitle', sp.cta?.subtitle || '', { type: 'textarea', rows: 2 })}
+                <div class="field-row">
+                    ${field('Button Text', 'servicesPage.cta.buttonText', sp.cta?.buttonText || '')}
+                    ${field('Button URL', 'servicesPage.cta.buttonUrl', sp.cta?.buttonUrl || '', { type: 'url' })}
+                </div>
+            </div>`;
+    }
+
+    // ============================================================
+    // FAQ EDITOR
+    // ============================================================
+    function renderFaqEditor(el) {
+        if (!data.faq) data.faq = { sectionLabel: 'FAQ', title: 'Questions?', subtitle: '', showOnHomepage: false, items: [] };
+        const f = data.faq;
+
+        el.innerHTML = sectionHeader('FAQ', 'The FAQ is shown on your services page (and optionally homepage).') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Section Header</div>
+                ${field('Section Label', 'faq.sectionLabel', f.sectionLabel)}
+                ${field('Title', 'faq.title', f.title)}
+                ${field('Subtitle', 'faq.subtitle', f.subtitle || '', { type: 'textarea', rows: 2 })}
+                ${field('Also show on homepage', 'faq.showOnHomepage', f.showOnHomepage, { type: 'checkbox' })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">FAQ Items</div>
+                <div class="list-items">
+                    ${(f.items || []).map((item, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(item.question.substring(0, 60))}${item.question.length > 60 ? '…' : ''}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="faq.items.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="faq.items.${i}" ${i === f.items.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="faq.items.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            ${field('Question', `faq.items.${i}.question`, item.question)}
+                            ${field('Answer', `faq.items.${i}.answer`, item.answer, { type: 'textarea', rows: 4 })}
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="faq.items">${ICONS.add} Add Q&A</button>
+            </div>`;
+    }
+
+    // ============================================================
+    // LEAD MAGNET EDITOR
+    // ============================================================
+    function renderLeadMagnetEditor(el) {
+        if (!data.leadMagnet) data.leadMagnet = defaultLeadMagnet();
+        const lm = data.leadMagnet;
+
+        el.innerHTML = sectionHeader('Lead Magnet', 'A free downloadable resource (like a PDF) you give away in exchange for an email address. Captures leads to your Submissions Inbox.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Status</div>
+                ${field('Enable lead magnet', 'leadMagnet.enabled', lm.enabled !== false, { type: 'checkbox', hint: 'Master on/off switch' })}
+                ${field('Show on homepage', 'leadMagnet.showOnHomepage', lm.showOnHomepage !== false, { type: 'checkbox' })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Widget Content</div>
+                ${field('Title', 'leadMagnet.title', lm.title, { hint: 'e.g. "Free: The Zoho CRM Setup Checklist"' })}
+                ${field('Subtitle', 'leadMagnet.subtitle', lm.subtitle, { type: 'textarea', rows: 2 })}
+                ${field('Description (shown above form)', 'leadMagnet.description', lm.description, { type: 'textarea', rows: 2 })}
+                ${field('Button Text', 'leadMagnet.buttonText', lm.buttonText || 'Get it free')}
+                ${field('Success Message', 'leadMagnet.successMessage', lm.successMessage, { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Bullet Points (benefits)</div>
+                <div class="list-items">
+                    ${(lm.bulletPoints || []).map((b, i) => `
+                        <div class="list-item" style="padding: 0.5rem 0.8rem;">
+                            <div style="display:flex;gap:0.5rem;align-items:center;">
+                                <input type="text" class="field-input" style="flex:1;" data-bind="leadMagnet.bulletPoints.${i}" value="${esc(b)}">
+                                <button class="list-item-btn danger" data-remove="leadMagnet.bulletPoints.${i}">${ICONS.del}</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="leadMagnet.bulletPoints">${ICONS.add} Add Bullet</button>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">The Resource</div>
+                <div class="section-card-desc">Upload your PDF to Google Drive (share: "Anyone with the link"), Dropbox, or Firebase Storage, then paste the direct URL here. This is what users get when they submit their email.</div>
+                ${field('Resource URL (direct download link)', 'leadMagnet.resourceUrl', lm.resourceUrl || '', { type: 'url', placeholder: 'https://...' })}
+                ${field('Resource Name', 'leadMagnet.resourceName', lm.resourceName || '', { placeholder: 'e.g. zoho-crm-checklist.pdf' })}
+                <div class="field-hint" style="line-height:1.8;">
+                    <strong>Tip:</strong> When user submits, the resource URL opens automatically in a new tab. Users also see the URL as a clickable link in the success message as a backup.
+                </div>
+            </div>`;
+    }
+
+    // ============================================================
+    // CONTACT PAGE EDITOR
+    // ============================================================
+    function renderContactPageEditor(el) {
+        if (!data.contactPage) data.contactPage = defaultContactPage();
+        const cp = data.contactPage;
+
+        el.innerHTML = sectionHeader('Contact Page', 'Edit <code>contact.html</code> — the contact form and alternative contact methods.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Page Meta</div>
+                ${field('Browser Title', 'contactPage.meta.title', cp.meta?.title || '')}
+                ${field('Meta Description', 'contactPage.meta.description', cp.meta?.description || '', { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Page Header</div>
+                ${field('Title', 'contactPage.header.title', cp.header?.title || '')}
+                ${field('Subtitle', 'contactPage.header.subtitle', cp.header?.subtitle || '', { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Contact Methods (besides the form)</div>
+                <div class="section-card-desc">Shown on the left side of the contact page. Add your email, booking link, LinkedIn, etc.</div>
+                <div class="list-items">
+                    ${(cp.contactMethods || []).map((m, i) => `
+                        <div class="list-item">
+                            <div class="list-item-header">
+                                <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(m.label)}</div>
+                                <div class="list-item-actions">
+                                    <button class="list-item-btn" data-move-up="contactPage.contactMethods.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                    <button class="list-item-btn" data-move-down="contactPage.contactMethods.${i}" ${i === cp.contactMethods.length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                    <button class="list-item-btn danger" data-remove="contactPage.contactMethods.${i}">${ICONS.del}</button>
+                                </div>
+                            </div>
+                            <div class="field-row-3">
+                                ${field('Icon (emoji)', `contactPage.contactMethods.${i}.icon`, m.icon)}
+                                ${field('Label', `contactPage.contactMethods.${i}.label`, m.label)}
+                                ${field('Value', `contactPage.contactMethods.${i}.value`, m.value)}
+                            </div>
+                            ${field('Link', `contactPage.contactMethods.${i}.link`, m.link, { hint: 'mailto:, tel:, or https:// URL' })}
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="contactPage.contactMethods">${ICONS.add} Add Contact Method</button>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Contact Form</div>
+                ${field('Form Title', 'contactPage.form.title', cp.form?.title || '')}
+                ${field('Form Subtitle', 'contactPage.form.subtitle', cp.form?.subtitle || '')}
+                ${field('Submit Button Text', 'contactPage.form.submitText', cp.form?.submitText || '')}
+                ${field('Success Message (after submission)', 'contactPage.form.successMessage', cp.form?.successMessage || '', { type: 'textarea', rows: 2 })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Project Type Options (dropdown on form)</div>
+                <div class="list-items">
+                    ${(cp.form?.projectTypes || []).map((t, i) => `
+                        <div class="list-item" style="padding: 0.5rem 0.8rem;">
+                            <div style="display:flex;gap:0.5rem;align-items:center;">
+                                <input type="text" class="field-input" style="flex:1;" data-bind="contactPage.form.projectTypes.${i}" value="${esc(t)}">
+                                <button class="list-item-btn danger" data-remove="contactPage.form.projectTypes.${i}">${ICONS.del}</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-item-btn" data-add="contactPage.form.projectTypes">${ICONS.add} Add Option</button>
+            </div>`;
+    }
+
+    // ============================================================
+    // NEWSLETTER EDITOR
+    // ============================================================
+    function renderNewsletterEditor(el) {
+        if (!data.newsletter) data.newsletter = { enabled: true, title: '', subtitle: '', placeholder: 'your@email.com', buttonText: 'Subscribe', successMessage: 'Thanks!', showInFooter: true, showOnBlog: true };
+        const n = data.newsletter;
+
+        el.innerHTML = sectionHeader('Newsletter Signup', 'Simple email-only signup form shown in your footer and optionally on the blog.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Status</div>
+                ${field('Enable newsletter', 'newsletter.enabled', n.enabled !== false, { type: 'checkbox' })}
+                ${field('Show in footer (all pages)', 'newsletter.showInFooter', n.showInFooter !== false, { type: 'checkbox' })}
+                ${field('Show on blog page', 'newsletter.showOnBlog', n.showOnBlog !== false, { type: 'checkbox' })}
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title">Widget Content</div>
+                ${field('Title', 'newsletter.title', n.title, { hint: 'e.g. "Get the newsletter"' })}
+                ${field('Subtitle', 'newsletter.subtitle', n.subtitle, { type: 'textarea', rows: 2 })}
+                ${field('Email Placeholder', 'newsletter.placeholder', n.placeholder || 'your@email.com')}
+                ${field('Button Text', 'newsletter.buttonText', n.buttonText || 'Subscribe')}
+                ${field('Success Message', 'newsletter.successMessage', n.successMessage || '', { type: 'textarea', rows: 2 })}
+            </div>`;
+    }
+
+    // ============================================================
+    // SUBMISSIONS INBOX EDITOR
+    // ============================================================
+    let submissionsTab = 'contactSubmissions';
+    let submissionsCache = { leads: null, contactSubmissions: null, newsletterSubscribers: null };
+
+    function renderSubmissionsEditor(el) {
+        el.innerHTML = sectionHeader('Submissions Inbox', 'View all form submissions: lead magnet captures, contact form messages, and newsletter subscribers.') +
+
+            `<div class="section-card">
+                <div class="section-card-title">Choose inbox</div>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                    <button class="topbar-btn ${submissionsTab === 'contactSubmissions' ? 'primary' : ''}" data-tab="contactSubmissions">📧 Contact Form</button>
+                    <button class="topbar-btn ${submissionsTab === 'leads' ? 'primary' : ''}" data-tab="leads">🧲 Lead Magnet</button>
+                    <button class="topbar-btn ${submissionsTab === 'newsletterSubscribers' ? 'primary' : ''}" data-tab="newsletterSubscribers">✉️ Newsletter</button>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-card-title" id="inboxTitle">Loading...</div>
+                <div id="inboxList" style="margin-top:1rem;">
+                    <div style="padding: 2rem; text-align: center; color: var(--text-muted);">Loading submissions...</div>
+                </div>
+                <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:0.5rem;">
+                    <button class="topbar-btn" id="refreshInboxBtn">↻ Refresh</button>
+                    <button class="topbar-btn" id="exportInboxBtn">⬇ Export CSV</button>
+                </div>
+            </div>`;
+
+        // Tab switching
+        el.querySelectorAll('[data-tab]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                submissionsTab = btn.dataset.tab;
+                renderEditor();
+            });
+        });
+
+        document.getElementById('refreshInboxBtn')?.addEventListener('click', () => {
+            submissionsCache[submissionsTab] = null;
+            loadAndDisplaySubmissions();
+        });
+
+        document.getElementById('exportInboxBtn')?.addEventListener('click', () => {
+            exportSubmissionsCSV(submissionsCache[submissionsTab] || [], submissionsTab);
+        });
+
+        loadAndDisplaySubmissions();
+    }
+
+    async function loadAndDisplaySubmissions() {
+        const title = document.getElementById('inboxTitle');
+        const listEl = document.getElementById('inboxList');
+        if (!title || !listEl) return;
+
+        const tabLabels = {
+            contactSubmissions: '📧 Contact Form Submissions',
+            leads: '🧲 Lead Magnet Downloads',
+            newsletterSubscribers: '✉️ Newsletter Subscribers'
+        };
+        title.textContent = tabLabels[submissionsTab] || 'Submissions';
+
+        try {
+            if (!submissionsCache[submissionsTab]) {
+                const snap = await db.collection('admin').doc(submissionsTab).collection('items').orderBy('submittedAt', 'desc').limit(200).get();
+                submissionsCache[submissionsTab] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            }
+            renderSubmissionsList(submissionsCache[submissionsTab]);
+        } catch (e) {
+            listEl.innerHTML = `<div style="padding:1.5rem;color:var(--danger);">Error loading: ${esc(e.message)}</div>`;
+        }
+    }
+
+    function renderSubmissionsList(items) {
+        const listEl = document.getElementById('inboxList');
+        if (!listEl) return;
+
+        if (!items || items.length === 0) {
+            listEl.innerHTML = `<div style="padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">No submissions yet. They'll appear here when people fill out your forms.</div>`;
+            return;
+        }
+
+        listEl.innerHTML = `<div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;">${items.length} submission${items.length === 1 ? '' : 's'} (newest first, max 200)</div>` +
+        items.map((item) => {
+            const date = item.submittedAt ? new Date(item.submittedAt).toLocaleString() : '';
+            if (submissionsTab === 'contactSubmissions') {
+                return `<div class="list-item">
+                    <div class="list-item-header">
+                        <div class="list-item-title">
+                            <span class="list-item-number" style="background:var(--accent-dim);color:var(--accent);">${esc((item.name || '?').substring(0,2).toUpperCase())}</span>
+                            <span>${esc(item.name || 'Unknown')}</span>
+                            <span style="font-size:0.72rem;color:var(--text-muted);font-weight:400;margin-left:0.5rem;">${date}</span>
+                        </div>
+                    </div>
+                    <div style="padding-left:34px; font-size:0.85rem; color:var(--text-muted); line-height:1.7;">
+                        <div><strong style="color:var(--text);">Email:</strong> <a href="mailto:${esc(item.email)}" style="color:var(--accent);">${esc(item.email)}</a></div>
+                        ${item.projectType ? `<div><strong style="color:var(--text);">Type:</strong> ${esc(item.projectType)}</div>` : ''}
+                        ${item.message ? `<div style="margin-top:0.5rem;padding:0.75rem;background:var(--bg-secondary);border-radius:6px;color:var(--text);white-space:pre-wrap;">${esc(item.message)}</div>` : ''}
+                    </div>
+                </div>`;
+            } else if (submissionsTab === 'leads') {
+                return `<div class="list-item">
+                    <div class="list-item-header">
+                        <div class="list-item-title">
+                            <span class="list-item-number" style="background:#F5A62322;color:#F5A623;">🧲</span>
+                            <span>${esc(item.name || 'Unknown')}</span>
+                            <span style="font-size:0.72rem;color:var(--text-muted);font-weight:400;margin-left:0.5rem;">${date}</span>
+                        </div>
+                    </div>
+                    <div style="padding-left:34px; font-size:0.85rem; color:var(--text-muted);">
+                        <div><strong style="color:var(--text);">Email:</strong> <a href="mailto:${esc(item.email)}" style="color:var(--accent);">${esc(item.email)}</a></div>
+                        ${item.resource ? `<div><strong style="color:var(--text);">Resource:</strong> ${esc(item.resource)}</div>` : ''}
+                    </div>
+                </div>`;
+            } else { // newsletterSubscribers
+                return `<div class="list-item">
+                    <div class="list-item-header">
+                        <div class="list-item-title">
+                            <span class="list-item-number" style="background:var(--success);color:#0A0A0F;">✉</span>
+                            <span><a href="mailto:${esc(item.email)}" style="color:var(--accent);">${esc(item.email)}</a></span>
+                            <span style="font-size:0.72rem;color:var(--text-muted);font-weight:400;margin-left:0.5rem;">${date}</span>
+                        </div>
+                    </div>
+                </div>`;
+            }
+        }).join('');
+    }
+
+    function exportSubmissionsCSV(items, type) {
+        if (!items || items.length === 0) { toast('Nothing to export', 'error'); return; }
+        let csv;
+        if (type === 'newsletterSubscribers') {
+            csv = 'email,date\n' + items.map(i => `${escCSV(i.email)},${escCSV(i.submittedAt || '')}`).join('\n');
+        } else if (type === 'leads') {
+            csv = 'name,email,resource,date\n' + items.map(i => `${escCSV(i.name)},${escCSV(i.email)},${escCSV(i.resource)},${escCSV(i.submittedAt || '')}`).join('\n');
+        } else {
+            csv = 'name,email,project_type,message,date\n' + items.map(i => `${escCSV(i.name)},${escCSV(i.email)},${escCSV(i.projectType)},${escCSV(i.message)},${escCSV(i.submittedAt || '')}`).join('\n');
+        }
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${type}-${new Date().toISOString().slice(0,10)}.csv`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        toast(`Exported ${items.length} rows`, 'success');
+    }
+    function escCSV(v) {
+        if (v == null) return '';
+        const s = String(v);
+        return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g, '""')}"` : s;
+    }
+
+    // ============================================================
+    // FACTORY DEFAULTS for conversion sections
+    // ============================================================
+    function defaultServicesPage() {
+        return {
+            meta: { title: 'Services & Pricing', description: 'Transparent pricing packages.' },
+            header: { title: 'Services & Pricing', subtitle: 'Clear packages, no hidden fees.' },
+            tiers: [],
+            guarantee: { enabled: false, title: '', description: '' },
+            cta: { sectionLabel: '', title: '', subtitle: '', buttonText: 'Book a call', buttonUrl: '' }
+        };
+    }
+
+    function defaultLeadMagnet() {
+        return {
+            enabled: true,
+            title: 'Free Resource',
+            subtitle: 'Something valuable for your audience',
+            description: 'Enter your email to get it.',
+            bulletPoints: [],
+            resourceUrl: '',
+            resourceName: 'resource.pdf',
+            emailSubjectLine: 'Your free resource',
+            successMessage: 'Check your email!',
+            buttonText: 'Get it free',
+            showOnHomepage: true,
+            homepagePosition: 'above-cta'
+        };
+    }
+
+    function defaultContactPage() {
+        return {
+            meta: { title: 'Contact', description: 'Get in touch.' },
+            header: { title: "Let's talk", subtitle: "I respond within 24 hours." },
+            contactMethods: [],
+            form: {
+                title: 'Send a message',
+                subtitle: '',
+                projectTypes: ['General inquiry', 'Project inquiry', 'Other'],
+                submitText: 'Send',
+                successMessage: "Thanks! I'll reply soon."
+            }
         };
     }
 

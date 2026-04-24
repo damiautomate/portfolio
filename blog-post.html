@@ -8,6 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="forms.css">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <style>
@@ -205,11 +206,11 @@
             <a href="index.html" class="nav-logo" id="navLogo">Damilare<span>.</span></a>
             <div class="nav-links">
                 <a href="index.html#about">About</a>
-                <a href="index.html#services">Services</a>
+                <a href="services.html">Services</a>
                 <a href="projects.html">Projects</a>
                 <a href="blog.html" class="active">Blog</a>
                 <a href="index.html#testimonials">Reviews</a>
-                <a href="index.html#contact">Contact</a>
+                <a href="contact.html">Contact</a>
             </div>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -223,11 +224,11 @@
     <div class="mobile-nav" id="mobileNav">
         <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
         <a href="index.html#about">About</a>
-        <a href="index.html#services">Services</a>
+        <a href="services.html">Services</a>
         <a href="projects.html">Projects</a>
         <a href="blog.html">Blog</a>
         <a href="index.html#testimonials">Reviews</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="contact.html">Contact</a>
     </div>
 
     <!-- MAIN CONTENT rendered here -->
@@ -258,6 +259,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
     <script src="site-data.js"></script>
+    <script src="forms.js"></script>
 
     <script>
     const SOCIAL_ICONS = {
@@ -600,6 +602,7 @@
         }
 
         setupAnalytics(data);
+        if (typeof window.__loadTawkTo === "function") window.__loadTawkTo(data);
     }
 
     // Static nav/theme/progress handlers

@@ -8,6 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="forms.css">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <style>
@@ -109,10 +110,135 @@
 
         /* ABOUT */
         .about-grid { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 3.5rem; align-items: start; margin-top: 2.5rem; }
-        .about-image-wrapper { position: relative; }
-        .about-image { width: 100%; aspect-ratio: 3/4; border-radius: 16px; overflow: hidden; background: var(--bg-card); border: 1px solid var(--border); position: relative; }
-        .about-image img { width: 100%; height: 100%; object-fit: cover; }
-        .about-image-wrapper::after { content: ''; position: absolute; bottom: -12px; right: -12px; width: 50%; height: 50%; border: 2px solid var(--accent); border-radius: 16px; z-index: -1; opacity: 0.3; }
+
+        /* =============================================================
+           ABOUT IMAGE — supports multiple decoration styles via data-deco
+           Styles: none | glow | shape | dots | mix
+           Transparent PNGs work naturally since the frame is removed.
+           ============================================================= */
+        .about-image-wrapper {
+            position: relative;
+            /* The wrapper has no frame itself — the image "floats" on the page */
+            padding: 2.5rem;
+            aspect-ratio: 3/4;
+            display: flex; align-items: center; justify-content: center;
+            isolation: isolate;  /* creates its own stacking context for ::before/::after */
+        }
+        .about-image {
+            position: relative; z-index: 2;
+            width: 100%; height: 100%;
+            /* No background, no border, no frame — just the image */
+            display: flex; align-items: center; justify-content: center;
+        }
+        .about-image img {
+            width: 100%; height: 100%; object-fit: contain;
+            /* Drop shadow enhances the floating effect, visible on both themes */
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25));
+        }
+
+        /* Fallback for when user still has a JPEG/background image:
+           if they want the old "framed" look, setting data-deco="framed" restores it */
+        .about-image-wrapper[data-deco="framed"] .about-image {
+            border-radius: 16px; overflow: hidden;
+            background: var(--bg-card); border: 1px solid var(--border);
+        }
+        .about-image-wrapper[data-deco="framed"] .about-image img {
+            object-fit: cover; filter: none;
+        }
+        .about-image-wrapper[data-deco="framed"]::after {
+            content: ''; position: absolute; bottom: -12px; right: -12px;
+            width: 50%; height: 50%; border: 2px solid var(--accent);
+            border-radius: 16px; z-index: 0; opacity: 0.3;
+        }
+
+        /* --- GLOW: soft radial gradient behind the image --- */
+        .about-image-wrapper[data-deco="glow"]::before {
+            content: ''; position: absolute; inset: -10%;
+            background: radial-gradient(circle at center,
+                color-mix(in srgb, var(--accent) 35%, transparent) 0%,
+                color-mix(in srgb, var(--accent) 12%, transparent) 35%,
+                transparent 70%);
+            z-index: 1;
+            filter: blur(30px);
+            animation: glowPulse 6s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* --- SHAPE: solid accent-colored rectangle behind, offset --- */
+        .about-image-wrapper[data-deco="shape"]::before {
+            content: ''; position: absolute;
+            top: 8%; left: 8%; right: -8%; bottom: -8%;
+            background: var(--accent);
+            opacity: 0.15;
+            border-radius: 20px;
+            z-index: 1;
+            transition: transform 0.4s, opacity 0.4s;
+        }
+        .about-image-wrapper[data-deco="shape"]::after {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 2px solid var(--accent);
+            opacity: 0.25;
+            border-radius: 16px;
+            z-index: 1;
+            transform: translate(-12px, -12px);
+        }
+        .about-image-wrapper[data-deco="shape"]:hover::before {
+            transform: translate(-5px, -5px);
+            opacity: 0.22;
+        }
+
+        /* --- DOTS: subtle dot pattern behind --- */
+        .about-image-wrapper[data-deco="dots"]::before {
+            content: ''; position: absolute;
+            top: -15px; left: -15px; right: -15px; bottom: -15px;
+            background-image: radial-gradient(circle, var(--text-muted) 1.3px, transparent 1.3px);
+            background-size: 16px 16px;
+            opacity: 0.3;
+            z-index: 0;
+            mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+        }
+        .about-image-wrapper[data-deco="dots"]::after {
+            content: ''; position: absolute;
+            width: 60%; height: 60%;
+            bottom: -5%; right: -5%;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            opacity: 0.35;
+            z-index: 1;
+        }
+
+        /* --- MIX: glow + dots combined (editorial/striking) --- */
+        .about-image-wrapper[data-deco="mix"]::before {
+            content: ''; position: absolute; inset: -10%;
+            background:
+                radial-gradient(circle at center,
+                    color-mix(in srgb, var(--accent) 30%, transparent) 0%,
+                    color-mix(in srgb, var(--accent) 10%, transparent) 30%,
+                    transparent 60%),
+                radial-gradient(circle, var(--text-muted) 1.2px, transparent 1.2px);
+            background-size: 100% 100%, 18px 18px;
+            z-index: 0;
+            opacity: 0.85;
+        }
+        .about-image-wrapper[data-deco="mix"]::after {
+            content: ''; position: absolute;
+            top: 15%; right: -5%;
+            width: 40%; height: 70%;
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            opacity: 0.35;
+            z-index: 1;
+            transform: rotate(3deg);
+        }
+
+        /* NONE: no decoration, just the floating image with drop shadow */
+        .about-image-wrapper[data-deco="none"]::before,
+        .about-image-wrapper[data-deco="none"]::after { content: none; }
         .about-text p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.92rem; line-height: 1.75; }
         .about-text strong { color: var(--text); font-weight: 600; }
         .about-tagline { color: var(--text) !important; font-size: 0.95rem !important; font-weight: 500; margin-top: 0.4rem; padding-left: 1rem; border-left: 3px solid var(--accent); }
@@ -275,7 +401,7 @@
         <div class="container">
             <a href="#" class="nav-logo" id="navLogo"></a>
             <div class="nav-links">
-                <a href="#about">About</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="blog.html">Blog</a><a href="#testimonials">Reviews</a><a href="#contact">Contact</a>
+                <a href="#about">About</a><a href="services.html">Services</a><a href="#projects">Projects</a><a href="blog.html">Blog</a><a href="#testimonials">Reviews</a><a href="contact.html">Contact</a>
             </div>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -288,7 +414,7 @@
     </nav>
     <div class="mobile-nav" id="mobileNav">
         <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
-        <a href="#about" onclick="closeMobileNav()">About</a><a href="#services" onclick="closeMobileNav()">Services</a><a href="#projects" onclick="closeMobileNav()">Projects</a><a href="blog.html" onclick="closeMobileNav()">Blog</a><a href="#testimonials" onclick="closeMobileNav()">Reviews</a><a href="#contact" onclick="closeMobileNav()">Contact</a>
+        <a href="#about" onclick="closeMobileNav()">About</a><a href="services.html" onclick="closeMobileNav()">Services</a><a href="#projects" onclick="closeMobileNav()">Projects</a><a href="blog.html" onclick="closeMobileNav()">Blog</a><a href="#testimonials" onclick="closeMobileNav()">Reviews</a><a href="contact.html" onclick="closeMobileNav()">Contact</a>
         <a href="#" target="_blank" onclick="closeMobileNav()" id="mobileBookBtn">Book a Call</a>
     </div>
 
@@ -305,7 +431,7 @@
     <section id="about"><div class="container">
         <div class="reveal"><span class="section-label" id="aboutLabel"></span></div>
         <div class="about-grid">
-            <div class="about-image-wrapper reveal reveal-delay-1"><div class="about-image" id="aboutImage"></div></div>
+            <div class="about-image-wrapper reveal reveal-delay-1" id="aboutImageWrapper" data-deco="glow"><div class="about-image" id="aboutImage"></div></div>
             <div class="about-text reveal reveal-delay-2">
                 <h2 class="section-title" id="aboutTitle"></h2>
                 <div id="aboutParagraphs"></div>
@@ -367,6 +493,11 @@
         </div>
     </div></section>
 
+    <!-- LEAD MAGNET (shown when enabled in admin) -->
+    <section id="lead-magnet-section" style="display:none; padding: 4rem 0;"><div class="container">
+        <div id="leadMagnetContainer" class="reveal"></div>
+    </div></section>
+
     <!-- CTA -->
     <section id="contact" class="cta-section"><div class="container"><div class="cta-content reveal">
         <span class="section-label" id="ctaLabel"></span>
@@ -376,10 +507,13 @@
     </div></div></section>
 
     <!-- FOOTER -->
-    <footer><div class="container"><div class="footer-content">
-        <div class="footer-left" id="footerLeft"></div>
-        <div class="footer-socials" id="footerSocials"></div>
-    </div></div></footer>
+    <footer><div class="container">
+        <div id="newsletterFooter" style="display:none; margin-bottom: 3rem;"></div>
+        <div class="footer-content">
+            <div class="footer-left" id="footerLeft"></div>
+            <div class="footer-socials" id="footerSocials"></div>
+        </div>
+    </div></footer>
 
     <!-- COOKIE BANNER (shown only if GA4 is configured and consent not yet given) -->
     <div class="cookie-banner" id="cookieBanner">
@@ -401,6 +535,7 @@
     <script src="firebase-config.js"></script>
     <!-- Bundled site-data.js as offline fallback -->
     <script src="site-data.js"></script>
+    <script src="forms.js"></script>
 
     <!-- ============================================================
          RENDER ENGINE — POPULATES THE PAGE FROM SITE_DATA
@@ -535,8 +670,11 @@
         // About
         document.getElementById('aboutLabel').textContent = d.about.sectionLabel;
         document.getElementById('aboutImage').innerHTML = d.about.photoUrl
-            ? `<img src="${d.about.photoUrl}" alt="${d.about.photoAlt}" style="width:100%;height:100%;object-fit:cover;">`
+            ? `<img src="${d.about.photoUrl}" alt="${d.about.photoAlt}">`
             : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.85rem;">Your Photo Here</div>`;
+        // Apply decoration style (glow / shape / dots / mix / framed / none)
+        const decoStyle = d.about.imageDeco || 'glow';
+        document.getElementById('aboutImageWrapper').setAttribute('data-deco', decoStyle);
         document.getElementById('aboutTitle').textContent = d.about.title;
         document.getElementById('aboutParagraphs').innerHTML = d.about.paragraphs.map(p => `<p>${p}</p>`).join('');
         document.getElementById('aboutTagline').innerHTML = d.about.tagline;
@@ -599,6 +737,26 @@
 
         // Setup analytics (GA4 with cookie consent)
         setupAnalytics(d);
+        if (typeof window.__loadTawkTo === 'function') window.__loadTawkTo(d);
+
+        // Lead magnet (if enabled)
+        if (d.leadMagnet?.enabled && d.leadMagnet?.showOnHomepage !== false) {
+            const section = document.getElementById('lead-magnet-section');
+            const container = document.getElementById('leadMagnetContainer');
+            if (section && container && typeof window.__renderLeadMagnetWidget === 'function') {
+                section.style.display = '';
+                window.__renderLeadMagnetWidget(container, d);
+            }
+        }
+
+        // Newsletter in footer (if enabled)
+        if (d.newsletter?.enabled && d.newsletter?.showInFooter) {
+            const container = document.getElementById('newsletterFooter');
+            if (container && typeof window.__renderNewsletterWidget === 'function') {
+                container.style.display = '';
+                window.__renderNewsletterWidget(container, d);
+            }
+        }
     }
 
     // ============================================================
