@@ -109,8 +109,9 @@
         .section-subtitle { font-size: 0.95rem; color: var(--text-muted); max-width: 550px; line-height: 1.7; }
 
         /* ABOUT */
-        .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 3.5rem; align-items: center; margin-top: 2.5rem; }
-        .about-grid > * { min-width: 0; }  /* CRITICAL: prevents grid children from overflowing when content is wider than column */
+        .about-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 3.5rem; align-items: center; margin-top: 2.5rem; }
+        .about-grid > * { min-width: 0; }
+        .about-image-wrapper { max-width: 460px; width: 100%; justify-self: center; }
 
         /* =============================================================
            ABOUT IMAGE — supports multiple decoration styles via data-deco
@@ -130,9 +131,39 @@
         }
         .about-image img {
             width: 100%; height: 100%; object-fit: contain;
-            /* Scale up to compensate for transparent padding in typical subject-isolated photos */
-            transform: scale(1.15);
+            /* Bigger scale — fills more of the frame */
+            transform: scale(1.3);
+            transform-origin: bottom center;
             filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35));
+            /* Fade the bottom of the image so it doesn't look sharply cut off */
+            mask-image: linear-gradient(to bottom,
+                black 0%,
+                black 88%,
+                transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom,
+                black 0%,
+                black 88%,
+                transparent 100%);
+        }
+        /* Soft platform shadow beneath — makes the cutout feel grounded, not floating mid-air */
+        .about-image::after {
+            content: '';
+            position: absolute;
+            left: 15%; right: 15%;
+            bottom: 2%;
+            height: 30px;
+            background: radial-gradient(ellipse at center,
+                rgba(0, 0, 0, 0.5) 0%,
+                rgba(0, 0, 0, 0.2) 40%,
+                transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        [data-theme="light"] .about-image::after {
+            background: radial-gradient(ellipse at center,
+                rgba(0, 0, 0, 0.25) 0%,
+                rgba(0, 0, 0, 0.1) 40%,
+                transparent 70%);
         }
 
         /* Fallback for when user still has a JPEG/background image:
@@ -142,7 +173,15 @@
             background: var(--bg-card); border: 1px solid var(--border);
         }
         .about-image-wrapper[data-deco="framed"] .about-image img {
-            object-fit: cover; filter: none;
+            object-fit: cover;
+            filter: none;
+            transform: none;
+            mask-image: none;
+            -webkit-mask-image: none;
+        }
+        /* Suppress platform shadow for framed variant */
+        .about-image-wrapper[data-deco="framed"] .about-image::after {
+            display: none;
         }
         .about-image-wrapper[data-deco="framed"]::after {
             content: ''; position: absolute; bottom: -12px; right: -12px;
