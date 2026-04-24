@@ -109,7 +109,7 @@
         .section-subtitle { font-size: 0.95rem; color: var(--text-muted); max-width: 550px; line-height: 1.7; }
 
         /* ABOUT */
-        .about-grid { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 3.5rem; align-items: start; margin-top: 2.5rem; }
+        .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 3.5rem; align-items: center; margin-top: 2.5rem; }
 
         /* =============================================================
            ABOUT IMAGE — supports multiple decoration styles via data-deco
@@ -118,22 +118,20 @@
            ============================================================= */
         .about-image-wrapper {
             position: relative;
-            /* The wrapper has no frame itself — the image "floats" on the page */
-            padding: 2.5rem;
+            /* No padding — image fills the wrapper, decoration extends around it */
             aspect-ratio: 3/4;
             display: flex; align-items: center; justify-content: center;
-            isolation: isolate;  /* creates its own stacking context for ::before/::after */
+            isolation: isolate;
         }
         .about-image {
             position: relative; z-index: 2;
             width: 100%; height: 100%;
-            /* No background, no border, no frame — just the image */
             display: flex; align-items: center; justify-content: center;
         }
         .about-image img {
             width: 100%; height: 100%; object-fit: contain;
-            /* Drop shadow enhances the floating effect, visible on both themes */
-            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25));
+            /* Drop shadow enhances the floating effect */
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
         }
 
         /* Fallback for when user still has a JPEG/background image:
@@ -153,10 +151,10 @@
 
         /* --- GLOW: soft radial gradient behind the image --- */
         .about-image-wrapper[data-deco="glow"]::before {
-            content: ''; position: absolute; inset: -10%;
+            content: ''; position: absolute; inset: -15%;
             background: radial-gradient(circle at center,
                 color-mix(in srgb, var(--accent) 35%, transparent) 0%,
-                color-mix(in srgb, var(--accent) 12%, transparent) 35%,
+                color-mix(in srgb, var(--accent) 12%, transparent) 40%,
                 transparent 70%);
             z-index: 1;
             filter: blur(30px);
@@ -170,7 +168,7 @@
         /* --- SHAPE: solid accent-colored rectangle behind, offset --- */
         .about-image-wrapper[data-deco="shape"]::before {
             content: ''; position: absolute;
-            top: 8%; left: 8%; right: -8%; bottom: -8%;
+            top: 5%; left: 5%; right: -10%; bottom: -10%;
             background: var(--accent);
             opacity: 0.15;
             border-radius: 20px;
@@ -179,12 +177,12 @@
         }
         .about-image-wrapper[data-deco="shape"]::after {
             content: ''; position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            inset: -5%;
             border: 2px solid var(--accent);
-            opacity: 0.25;
+            opacity: 0.3;
             border-radius: 16px;
             z-index: 1;
-            transform: translate(-12px, -12px);
+            transform: translate(-10px, -10px);
         }
         .about-image-wrapper[data-deco="shape"]:hover::before {
             transform: translate(-5px, -5px);
@@ -194,18 +192,18 @@
         /* --- DOTS: subtle dot pattern behind --- */
         .about-image-wrapper[data-deco="dots"]::before {
             content: ''; position: absolute;
-            top: -15px; left: -15px; right: -15px; bottom: -15px;
+            inset: -12%;
             background-image: radial-gradient(circle, var(--text-muted) 1.3px, transparent 1.3px);
             background-size: 16px 16px;
-            opacity: 0.3;
+            opacity: 0.35;
             z-index: 0;
-            mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+            mask-image: radial-gradient(ellipse at center, black 45%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 45%, transparent 80%);
         }
         .about-image-wrapper[data-deco="dots"]::after {
             content: ''; position: absolute;
-            width: 60%; height: 60%;
-            bottom: -5%; right: -5%;
+            width: 55%; height: 55%;
+            bottom: -3%; right: -3%;
             border: 2px solid var(--accent);
             border-radius: 50%;
             opacity: 0.35;
@@ -214,7 +212,7 @@
 
         /* --- MIX: glow + dots combined (editorial/striking) --- */
         .about-image-wrapper[data-deco="mix"]::before {
-            content: ''; position: absolute; inset: -10%;
+            content: ''; position: absolute; inset: -12%;
             background:
                 radial-gradient(circle at center,
                     color-mix(in srgb, var(--accent) 30%, transparent) 0%,
@@ -227,8 +225,8 @@
         }
         .about-image-wrapper[data-deco="mix"]::after {
             content: ''; position: absolute;
-            top: 15%; right: -5%;
-            width: 40%; height: 70%;
+            top: 10%; right: -8%;
+            width: 38%; height: 70%;
             border: 2px solid var(--accent);
             border-radius: 14px;
             opacity: 0.35;
