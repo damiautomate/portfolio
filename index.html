@@ -135,35 +135,55 @@
             transform: scale(1.3);
             transform-origin: bottom center;
             filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35));
-            /* Fade the bottom of the image so it doesn't look sharply cut off */
+            /* Fade the bottom of the image so it doesn't look sharply cut off.
+               Stronger fade (starting earlier) — works even with dark clothing. */
             mask-image: linear-gradient(to bottom,
                 black 0%,
-                black 88%,
+                black 75%,
+                rgba(0, 0, 0, 0.5) 90%,
                 transparent 100%);
             -webkit-mask-image: linear-gradient(to bottom,
                 black 0%,
-                black 88%,
+                black 75%,
+                rgba(0, 0, 0, 0.5) 90%,
                 transparent 100%);
         }
-        /* Soft platform shadow beneath — makes the cutout feel grounded, not floating mid-air */
+        /* GROUND LINE + soft shadow — gives the cutout a clean baseline to "stand on" */
+        .about-image::before {
+            content: '';
+            position: absolute;
+            left: 8%; right: 8%;
+            bottom: 4%;
+            height: 1px;
+            background: linear-gradient(to right,
+                transparent 0%,
+                color-mix(in srgb, var(--accent) 60%, transparent) 20%,
+                var(--accent) 50%,
+                color-mix(in srgb, var(--accent) 60%, transparent) 80%,
+                transparent 100%);
+            opacity: 0.7;
+            z-index: 3;
+            pointer-events: none;
+        }
+        /* Soft platform shadow beneath — grounds the figure */
         .about-image::after {
             content: '';
             position: absolute;
-            left: 15%; right: 15%;
-            bottom: 2%;
-            height: 30px;
+            left: 12%; right: 12%;
+            bottom: 1%;
+            height: 25px;
             background: radial-gradient(ellipse at center,
-                rgba(0, 0, 0, 0.5) 0%,
-                rgba(0, 0, 0, 0.2) 40%,
-                transparent 70%);
+                rgba(0, 0, 0, 0.55) 0%,
+                rgba(0, 0, 0, 0.25) 45%,
+                transparent 75%);
             z-index: 1;
             pointer-events: none;
         }
         [data-theme="light"] .about-image::after {
             background: radial-gradient(ellipse at center,
-                rgba(0, 0, 0, 0.25) 0%,
-                rgba(0, 0, 0, 0.1) 40%,
-                transparent 70%);
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0.12) 45%,
+                transparent 75%);
         }
 
         /* Fallback for when user still has a JPEG/background image:
@@ -179,7 +199,8 @@
             mask-image: none;
             -webkit-mask-image: none;
         }
-        /* Suppress platform shadow for framed variant */
+        /* Suppress ground line and platform shadow for framed variant */
+        .about-image-wrapper[data-deco="framed"] .about-image::before,
         .about-image-wrapper[data-deco="framed"] .about-image::after {
             display: none;
         }
