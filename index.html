@@ -110,6 +110,7 @@
 
         /* ABOUT */
         .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 3.5rem; align-items: center; margin-top: 2.5rem; }
+        .about-grid > * { min-width: 0; }  /* CRITICAL: prevents grid children from overflowing when content is wider than column */
 
         /* =============================================================
            ABOUT IMAGE — supports multiple decoration styles via data-deco
@@ -118,7 +119,6 @@
            ============================================================= */
         .about-image-wrapper {
             position: relative;
-            /* No padding — image fills the wrapper, decoration extends around it */
             aspect-ratio: 3/4;
             display: flex; align-items: center; justify-content: center;
             isolation: isolate;
@@ -130,8 +130,9 @@
         }
         .about-image img {
             width: 100%; height: 100%; object-fit: contain;
-            /* Drop shadow enhances the floating effect */
-            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+            /* Scale up to compensate for transparent padding in typical subject-isolated photos */
+            transform: scale(1.15);
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35));
         }
 
         /* Fallback for when user still has a JPEG/background image:
@@ -168,7 +169,7 @@
         /* --- SHAPE: solid accent-colored rectangle behind, offset --- */
         .about-image-wrapper[data-deco="shape"]::before {
             content: ''; position: absolute;
-            top: 5%; left: 5%; right: -10%; bottom: -10%;
+            top: 10%; left: 8%; right: -5%; bottom: -5%;
             background: var(--accent);
             opacity: 0.15;
             border-radius: 20px;
@@ -177,12 +178,11 @@
         }
         .about-image-wrapper[data-deco="shape"]::after {
             content: ''; position: absolute;
-            inset: -5%;
+            top: -3%; left: -3%; right: 3%; bottom: 3%;
             border: 2px solid var(--accent);
-            opacity: 0.3;
+            opacity: 0.45;
             border-radius: 16px;
             z-index: 1;
-            transform: translate(-10px, -10px);
         }
         .about-image-wrapper[data-deco="shape"]:hover::before {
             transform: translate(-5px, -5px);
@@ -212,7 +212,7 @@
 
         /* --- MIX: glow + dots combined (editorial/striking) --- */
         .about-image-wrapper[data-deco="mix"]::before {
-            content: ''; position: absolute; inset: -12%;
+            content: ''; position: absolute; inset: -15%;
             background:
                 radial-gradient(circle at center,
                     color-mix(in srgb, var(--accent) 30%, transparent) 0%,
@@ -222,16 +222,18 @@
             background-size: 100% 100%, 18px 18px;
             z-index: 0;
             opacity: 0.85;
+            mask-image: radial-gradient(ellipse at center, black 45%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 45%, transparent 80%);
         }
         .about-image-wrapper[data-deco="mix"]::after {
             content: ''; position: absolute;
-            top: 10%; right: -8%;
-            width: 38%; height: 70%;
+            top: 5%; right: -3%;
+            width: 40%; height: 80%;
             border: 2px solid var(--accent);
             border-radius: 14px;
-            opacity: 0.35;
+            opacity: 0.4;
             z-index: 1;
-            transform: rotate(3deg);
+            transform: rotate(2deg);
         }
 
         /* NONE: no decoration, just the floating image with drop shadow */
@@ -338,8 +340,8 @@
         /* RESPONSIVE */
         @media (max-width: 900px) {
             .nav-links { display: none; } .nav-hamburger { display: flex; } .btn-nav { display: none; }
-            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-            .about-image-wrapper { order: -1; max-width: 350px; margin: 0 auto; }
+            .about-grid { grid-template-columns: 1fr !important; gap: 2.5rem; }
+            .about-image-wrapper { order: -1; max-width: 420px; margin: 0 auto; width: 100%; }
             .hero-trust { gap: 1.5rem; }
             .projects-grid { grid-template-columns: 1fr; }
             .services-grid { grid-template-columns: 1fr; }
