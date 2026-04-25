@@ -111,7 +111,7 @@
         /* ABOUT */
         .about-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 3.5rem; align-items: center; margin-top: 2.5rem; }
         .about-grid > * { min-width: 0; }
-        .about-image-wrapper { max-width: 380px; width: 100%; justify-self: center; }
+        .about-image-wrapper { max-width: 460px; width: 100%; justify-self: center; }
 
         /* =============================================================
            ABOUT IMAGE — supports multiple decoration styles via data-deco
@@ -131,7 +131,7 @@
         }
         .about-image img {
             width: 100%; height: 100%; object-fit: contain; object-position: center bottom;
-            transform: scale(1.2);
+            transform: scale(1.3);
             transform-origin: bottom center;
             filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35));
         }
@@ -159,7 +159,7 @@
         /* --- GLOW: soft radial gradient, only covers shoulder-to-image-bottom area --- */
         .about-image-wrapper[data-deco="glow"]::before {
             content: ''; position: absolute;
-            top: 25%; left: -10%; right: -10%; bottom: 0%;
+            top: 40%; left: -10%; right: -10%; bottom: 0%;
             background: radial-gradient(circle at center,
                 color-mix(in srgb, var(--accent) 35%, transparent) 0%,
                 color-mix(in srgb, var(--accent) 12%, transparent) 40%,
@@ -176,7 +176,7 @@
         /* --- SHAPE: accent rectangle, starts at shoulders, ends at image bottom --- */
         .about-image-wrapper[data-deco="shape"]::before {
             content: ''; position: absolute;
-            top: 28%; left: 8%; right: -5%; bottom: 0%;
+            top: 42%; left: 8%; right: -5%; bottom: 0%;
             background: var(--accent);
             opacity: 0.15;
             border-radius: 20px;
@@ -185,7 +185,7 @@
         }
         .about-image-wrapper[data-deco="shape"]::after {
             content: ''; position: absolute;
-            top: 23%; left: -3%; right: 3%; bottom: 0%;
+            top: 38%; left: -3%; right: 3%; bottom: 0%;
             border: 2px solid var(--accent);
             opacity: 0.45;
             border-radius: 16px;
@@ -199,7 +199,7 @@
         /* --- DOTS: dot pattern only behind body, not head, ends where image ends --- */
         .about-image-wrapper[data-deco="dots"]::before {
             content: ''; position: absolute;
-            top: 25%; left: -10%; right: -10%; bottom: 0%;
+            top: 40%; left: -10%; right: -10%; bottom: 0%;
             background-image: radial-gradient(circle, var(--text-muted) 1.3px, transparent 1.3px);
             background-size: 16px 16px;
             opacity: 0.35;
@@ -220,7 +220,7 @@
         /* --- MIX: glow + dots + accent rectangle, all only on lower portion --- */
         .about-image-wrapper[data-deco="mix"]::before {
             content: ''; position: absolute;
-            top: 25%; left: -12%; right: -12%; bottom: 0%;
+            top: 40%; left: -12%; right: -12%; bottom: 0%;
             background:
                 radial-gradient(circle at center,
                     color-mix(in srgb, var(--accent) 30%, transparent) 0%,
@@ -235,7 +235,7 @@
         }
         .about-image-wrapper[data-deco="mix"]::after {
             content: ''; position: absolute;
-            top: 28%; right: -3%; bottom: 0%;
+            top: 42%; right: -3%; bottom: 0%;
             width: 38%;
             border: 2px solid var(--accent);
             border-radius: 14px;
