@@ -156,10 +156,10 @@
             border-radius: 16px; z-index: 0; opacity: 0.3;
         }
 
-        /* --- GLOW: soft radial gradient, only covers lower 75% (head pops above) --- */
+        /* --- GLOW: soft radial gradient, only covers shoulder-to-image-bottom area --- */
         .about-image-wrapper[data-deco="glow"]::before {
             content: ''; position: absolute;
-            top: 25%; left: -10%; right: -10%; bottom: 0;
+            top: 25%; left: -10%; right: -10%; bottom: 22%;
             background: radial-gradient(circle at center,
                 color-mix(in srgb, var(--accent) 35%, transparent) 0%,
                 color-mix(in srgb, var(--accent) 12%, transparent) 40%,
@@ -173,10 +173,10 @@
             50% { opacity: 1; transform: scale(1.05); }
         }
 
-        /* --- SHAPE: accent rectangle behind, starts at shoulders, ends at image bottom --- */
+        /* --- SHAPE: accent rectangle, starts at shoulders, ends at image bottom --- */
         .about-image-wrapper[data-deco="shape"]::before {
             content: ''; position: absolute;
-            top: 28%; left: 8%; right: -5%; bottom: 0;
+            top: 28%; left: 8%; right: -5%; bottom: 18%;
             background: var(--accent);
             opacity: 0.15;
             border-radius: 20px;
@@ -185,7 +185,7 @@
         }
         .about-image-wrapper[data-deco="shape"]::after {
             content: ''; position: absolute;
-            top: 23%; left: -3%; right: 3%; bottom: 0;
+            top: 23%; left: -3%; right: 3%; bottom: 22%;
             border: 2px solid var(--accent);
             opacity: 0.45;
             border-radius: 16px;
@@ -196,10 +196,10 @@
             opacity: 0.22;
         }
 
-        /* --- DOTS: dot pattern only behind body, not head --- */
+        /* --- DOTS: dot pattern only behind body, not head, ends where image ends --- */
         .about-image-wrapper[data-deco="dots"]::before {
             content: ''; position: absolute;
-            top: 25%; left: -10%; right: -10%; bottom: 0;
+            top: 25%; left: -10%; right: -10%; bottom: 20%;
             background-image: radial-gradient(circle, var(--text-muted) 1.3px, transparent 1.3px);
             background-size: 16px 16px;
             opacity: 0.35;
@@ -209,8 +209,8 @@
         }
         .about-image-wrapper[data-deco="dots"]::after {
             content: ''; position: absolute;
-            width: 50%; height: 50%;
-            bottom: 5%; right: -3%;
+            width: 50%; height: 45%;
+            bottom: 22%; right: -3%;
             border: 2px solid var(--accent);
             border-radius: 50%;
             opacity: 0.35;
@@ -220,7 +220,7 @@
         /* --- MIX: glow + dots + accent rectangle, all only on lower portion --- */
         .about-image-wrapper[data-deco="mix"]::before {
             content: ''; position: absolute;
-            top: 25%; left: -12%; right: -12%; bottom: 0;
+            top: 25%; left: -12%; right: -12%; bottom: 20%;
             background:
                 radial-gradient(circle at center,
                     color-mix(in srgb, var(--accent) 30%, transparent) 0%,
@@ -235,13 +235,37 @@
         }
         .about-image-wrapper[data-deco="mix"]::after {
             content: ''; position: absolute;
-            top: 28%; right: -3%;
-            width: 38%; height: 70%;
+            top: 28%; right: -3%; bottom: 22%;
+            width: 38%;
             border: 2px solid var(--accent);
             border-radius: 14px;
             opacity: 0.4;
             z-index: 1;
             transform: rotate(2deg);
+        }
+
+        /* GROUND LINE — accent-colored horizontal line at the image's actual bottom.
+           Lives on .about-image (which has no other pseudo-elements). */
+        .about-image::after {
+            content: '';
+            position: absolute;
+            left: 8%; right: 8%;
+            bottom: 19%;
+            height: 2px;
+            background: linear-gradient(to right,
+                transparent 0%,
+                var(--accent) 30%,
+                var(--accent) 70%,
+                transparent 100%);
+            opacity: 0.85;
+            z-index: 5;
+            pointer-events: none;
+            box-shadow: 0 0 12px var(--accent);
+        }
+        /* Hide ground line for framed and none variants */
+        .about-image-wrapper[data-deco="framed"] .about-image::after,
+        .about-image-wrapper[data-deco="none"] .about-image::after {
+            display: none;
         }
 
         /* NONE: no decoration, just the floating image with drop shadow */
