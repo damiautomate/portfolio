@@ -1,0 +1,15 @@
+# damimarketautomate.pro
+User-agent: *
+Allow: /
+
+# Admin + maintenance tooling — never index
+Disallow: /admin.html
+Disallow: /migrate.html
+Disallow: /backfill.html
+
+# Query-driven shells with no content of their own.
+# The real pages are reached via ?id= and are canonicalised to their hubs.
+Disallow: /case-study.html$
+Disallow: /blog-post.html$
+
+Sitemap: https://damimarketautomate.pro/sitemap.xml

@@ -3,8 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Blog Post — Damilare Babalola</title>
-    <meta name="description" id="pageMeta" content="">
+    <title>Blog — Damilare Babalola</title>
+    <meta name="description" content="Tutorials and strategy breakdowns on marketing automation, CRM architecture and AI workflows.">
+    <link rel="canonical" href="https://damimarketautomate.pro/blog-post.html">
+    <meta name="robots" content="noindex, follow">
+    <meta name="author" content="Damilare Babalola">
+    <meta name="theme-color" content="#0A0A0F">
+
+    <!-- Social preview. Static on purpose: LinkedIn / X / WhatsApp / Facebook
+         crawlers do not run JavaScript, so JS-injected tags never reach them. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Damilare Babalola">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Blog — Damilare Babalola">
+    <meta property="og:description" content="Tutorials and strategy breakdowns on marketing automation, CRM architecture and AI workflows.">
+    <meta property="og:url" content="https://damimarketautomate.pro/blog-post.html">
+    <meta property="og:image" content="https://damimarketautomate.pro/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Damilare Babalola — Marketing Automation & CRM Consultant">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Dami_Market">
+    <meta name="twitter:creator" content="@Dami_Market">
+    <meta name="twitter:title" content="Blog — Damilare Babalola">
+    <meta name="twitter:description" content="Tutorials and strategy breakdowns on marketing automation, CRM architecture and AI workflows.">
+    <meta name="twitter:image" content="https://damimarketautomate.pro/og-image.png">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <link rel="manifest" href="site.webmanifest">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -183,6 +210,9 @@
         .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; transition: all 0.2s; }
         .cookie-btn.primary { background: var(--accent); color: #0A0A0F; border-color: var(--accent); }
         .cookie-btn:hover { transform: translateY(-1px); }
+    
+        .footer-legal { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; opacity: 0.75; transition: color 0.2s, opacity 0.2s; }
+        .footer-legal:hover { color: var(--accent); opacity: 1; }
     </style>
 </head>
 <body>
@@ -410,7 +440,7 @@
         document.getElementById('navLogo').innerHTML = data.nav.logo + '<span>.</span>';
         const bookBtn = document.getElementById('navBookBtn');
         bookBtn.href = data.nav.bookingUrl; bookBtn.textContent = data.nav.bookingText;
-        document.getElementById('footerLeft').innerHTML = `<strong>${esc(data.footer.name)}</strong><br>&copy; ${data.footer.year} — All rights reserved.`;
+        document.getElementById('footerLeft').innerHTML = `<strong>${esc(data.footer.name)}</strong><br>&copy; ${data.footer.year} — All rights reserved.<br><a href="privacy.html" class="footer-legal">Privacy Policy</a>`;
         document.getElementById('footerSocials').innerHTML = data.footer.socials.map(s =>
             `<a href="${s.url}" target="_blank" class="social-icon" aria-label="${esc(s.platform)}"><svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS[s.icon] || ''}</svg></a>`
         ).join('');
@@ -491,7 +521,7 @@
                 <h2 class="related-title">Related posts</h2>
                 <div class="related-grid">${relatedPosts.map(rp => {
                     const imgHtml = rp.featuredImage
-                        ? `<img src="${esc(rp.featuredImage)}" alt="${esc(rp.title)}">`
+                        ? `<img src="${esc(rp.featuredImage)}" alt="${esc(rp.title)}" loading="lazy" decoding="async">`
                         : '';
                     return `<a href="blog-post.html?id=${encodeURIComponent(rp.id)}" class="related-card">
                         <div class="related-card-image">${imgHtml}</div>
@@ -506,7 +536,7 @@
 
         // Featured image
         const featuredHtml = post.featuredImage
-            ? `<div class="post-featured-image"><img src="${esc(post.featuredImage)}" alt="${esc(post.title)}"></div>`
+            ? `<div class="post-featured-image"><img src="${esc(post.featuredImage)}" alt="${esc(post.title)}" decoding="async"></div>`
             : '';
 
         // Compose everything
@@ -523,7 +553,7 @@
                     <div class="post-meta">
                         <div class="author">
                             <div class="author-avatar">
-                                ${authorAvatar ? `<img src="${esc(authorAvatar)}" alt="${esc(authorName)}">` : esc((authorName).substring(0, 2).toUpperCase())}
+                                ${authorAvatar ? `<img src="${esc(authorAvatar)}" alt="${esc(authorName)}" loading="lazy" decoding="async">` : esc((authorName).substring(0, 2).toUpperCase())}
                             </div>
                             <span class="author-name">${esc(authorName)}</span>
                         </div>

@@ -86,7 +86,15 @@
         <h1>Migration<span>.</span></h1>
         <p class="subtitle">One-time upload of your current site content to Firestore. Run this once, then delete this file.</p>
 
-        <div class="warning">⚠️ <strong>Run this only once.</strong> Running it again will overwrite any edits you've made through the admin panel.</div>
+        <div class="warning">
+            ⚠️ <strong>Destructive — first-time seeding only.</strong> This replaces both Firestore
+            documents wholesale with <code>site-data.js</code>. Every edit ever made in the admin panel
+            (blog posts, case studies, integration keys, project cards) is wiped.
+            <br><br>
+            <strong>If your site is already live, you almost certainly want
+            <a href="backfill.html" style="color:#00D4AA;">backfill.html</a> instead</strong> — it fills in
+            only the missing sections and keeps everything else untouched.
+        </div>
 
         <div class="step" id="step1">
             <div class="step-num">1</div>
@@ -197,6 +205,14 @@
         const password = document.getElementById('password').value;
         if (!email || !password) { showError('Enter your admin email and password'); return; }
 
+        if (!confirm(
+            'This REPLACES your live site content and draft with site-data.js.\n\n' +
+            'Blog posts, case studies, integration keys and project cards edited in the ' +
+            'admin panel will be lost.\n\n' +
+            'To only fill in missing sections instead, cancel and open backfill.html.\n\n' +
+            'Continue with the full overwrite?'
+        )) return;
+
         runBtn.disabled = true;
         runBtn.textContent = 'Running...';
 
@@ -219,6 +235,36 @@
         try {
             setStep(4, 'Uploading to Firestore...');
             const firestore = firebase.firestore();
+
+            // Snapshot whatever is currently stored before destroying it.
+            // Without this there is no way back from an accidental second run.
+            log('Backing up existing documents first...');
+            try {
+                const [pDoc, dDoc] = await Promise.all([
+                    firestore.collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get(),
+                    firestore.collection(DRAFT_DOC_PATH.collection).doc(DRAFT_DOC_PATH.doc).get()
+                ]);
+                if (pDoc.exists || dDoc.exists) {
+                    const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+                    const blob = new Blob([JSON.stringify({
+                        exportedAt: new Date().toISOString(),
+                        note: 'Automatic snapshot taken immediately before migrate.html overwrote these documents.',
+                        published: pDoc.exists ? pDoc.data() : null,
+                        draft: dDoc.exists ? dDoc.data() : null
+                    }, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = `firestore-backup-${stamp}.json`;
+                    document.body.appendChild(a); a.click(); a.remove();
+                    setTimeout(() => URL.revokeObjectURL(url), 4000);
+                    log('✓ Backup downloaded — keep this file', 'success');
+                } else {
+                    log('Nothing stored yet — no backup needed', '');
+                }
+            } catch (e) {
+                log('Backup failed: ' + e.message, 'error');
+                throw new Error('Stopped before overwriting, because the backup failed.');
+            }
 
             // Upload to BOTH site/content (published) AND site/draft (working copy)
             log('Uploading to site/content (live)...');

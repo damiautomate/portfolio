@@ -543,6 +543,10 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         Preview
                     </button>
+                    <button class="topbar-btn" id="backupBtn" title="Download a JSON snapshot of all content">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Backup
+                    </button>
                     <button class="topbar-btn" id="exportBtn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-8H7v8M7 3v5h8M21 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v5z"/></svg>
                         Save Draft
@@ -726,6 +730,7 @@
         document.getElementById('previewBtn').addEventListener('click', openPreview);
         document.getElementById('exportBtn').addEventListener('click', saveDraftToCloud);
         document.getElementById('publishBtn').addEventListener('click', publishToLive);
+        document.getElementById('backupBtn').addEventListener('click', downloadBackup);
         document.getElementById('logoutBtn').addEventListener('click', handleLogout);
 
         // Preview modal
@@ -821,10 +826,10 @@
             // Then load the draft — fall back to published if no draft exists
             const draftDoc = await db.collection(DRAFT_DOC_PATH.collection).doc(DRAFT_DOC_PATH.doc).get();
             if (draftDoc.exists) {
-                data = draftDoc.data();
+                data = applySchemaDefaults(draftDoc.data());
             } else if (publishedData) {
                 // No draft yet — clone published as starting point
-                data = JSON.parse(JSON.stringify(publishedData));
+                data = applySchemaDefaults(JSON.parse(JSON.stringify(publishedData)));
                 toast('No draft found — starting from published version', '');
             } else {
                 // Neither exists — use bundled SITE_DATA
@@ -865,6 +870,83 @@
                 markDirty();
             }
         }
+    }
+
+    // ============================================================
+    // BACKUP
+    // Nothing here is version-controlled — Firestore keeps one copy of the
+    // document and Publish overwrites it. Take a snapshot before big edits.
+    // ============================================================
+    function downloadBackup() {
+        try {
+            const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+            const payload = JSON.stringify({
+                exportedAt: new Date().toISOString(),
+                source: 'admin.html',
+                note: 'Snapshot of the working draft. To restore, paste this back into the site/draft document in the Firebase console, then Publish.',
+                content: data
+            }, null, 2);
+            const url = URL.createObjectURL(new Blob([payload], { type: 'application/json' }));
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `site-backup-${stamp}.json`;
+            document.body.appendChild(a); a.click(); a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 4000);
+            toast('Backup downloaded', 'success');
+        } catch (e) {
+            toast('Backup failed: ' + e.message, 'error');
+        }
+    }
+
+    // ============================================================
+    // SCHEMA DEFAULTS
+    // The stored document is whatever was saved the last time someone hit
+    // Publish. When a new section is added to site-data.js, that section does
+    // not exist in the stored document — so its editor renders blank, saves
+    // blank, and the matching public page renders blank. (This is exactly how
+    // the services page went empty.) Filling gaps from site-data.js on load
+    // means a new section shows up in the panel the moment it ships.
+    // Existing values always win; nothing stored is ever overwritten.
+    // ============================================================
+    function applySchemaDefaults(loaded) {
+        if (typeof SITE_DATA === 'undefined' || !SITE_DATA) return loaded;
+
+        const isObj = v => v !== null && typeof v === 'object' && !Array.isArray(v);
+        const isEmpty = v => {
+            if (v === undefined || v === null) return true;
+            if (typeof v === 'string') return v.trim() === '';
+            if (Array.isArray(v)) return v.length === 0;
+            if (isObj(v)) return Object.keys(v).length === 0;
+            return false;   // false and 0 are real values, not gaps
+        };
+
+        const added = [];
+        function merge(target, defaults, path) {
+            const out = isObj(target) ? { ...target } : {};
+            for (const key of Object.keys(defaults)) {
+                const here = path ? path + '.' + key : key;
+                if (isEmpty(out[key]) && !isEmpty(defaults[key])) {
+                    out[key] = JSON.parse(JSON.stringify(defaults[key]));
+                    added.push(here);
+                } else if (isObj(defaults[key]) && isObj(out[key])) {
+                    out[key] = merge(out[key], defaults[key], here);
+                }
+                // Populated arrays are left alone — merging into them would
+                // resurrect items the user deliberately deleted.
+            }
+            return out;
+        }
+
+        const result = merge(loaded || {}, SITE_DATA, '');
+        if (added.length) {
+            const sections = [...new Set(added.map(p => p.split('.')[0]))];
+            console.info('[admin] Restored missing content from schema:', added);
+            setTimeout(() => toast(
+                `Restored ${added.length} missing value${added.length === 1 ? '' : 's'} (${sections.join(', ')}) — review, then Publish`,
+                ''
+            ), 900);
+        }
+        return result;
     }
 
     async function loadClients() {
@@ -2911,6 +2993,12 @@
             <div class="section-card">
                 <div class="section-card-title">The Resource</div>
                 <div class="section-card-desc">Upload your PDF to Google Drive (share: "Anyone with the link"), Dropbox, or Firebase Storage, then paste the direct URL here. This is what users get when they submit their email.</div>
+                ${!lm.resourceUrl || !String(lm.resourceUrl).trim() ? `
+                <div class="field-hint" style="line-height:1.7;background:rgba(255,176,32,0.08);border:1px solid rgba(255,176,32,0.35);border-radius:8px;padding:0.85rem 1rem;margin-bottom:1rem;">
+                    <strong style="color:#FFB020;">Widget is hidden on the live site.</strong><br>
+                    There is no file to deliver yet, so the signup form stays off rather than collecting
+                    emails for a download that never arrives. Paste a URL below to switch it on.
+                </div>` : ''}
                 ${field('Resource URL (direct download link)', 'leadMagnet.resourceUrl', lm.resourceUrl || '', { type: 'url', placeholder: 'https://...' })}
                 ${field('Resource Name', 'leadMagnet.resourceName', lm.resourceName || '', { placeholder: 'e.g. zoho-crm-checklist.pdf' })}
                 <div class="field-hint" style="line-height:1.8;">

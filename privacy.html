@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<!--
+  NOTE FOR DAMILARE: this is written to match what the site actually does —
+  GA4 behind a consent banner, Web3Forms for email delivery, Firestore for
+  storing submissions, Tawk.to live chat, Cal.com booking, Google Fonts.
+  If you add or remove any of those, update the matching section below.
+  It is not legal advice; have it reviewed if you start handling client data
+  at scale or sign contracts that require a specific DPA.
+-->
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Damilare Babalola</title>
+<meta name="description" content="What data this site collects, why, how long it is kept, and how to have it deleted.">
+<link rel="canonical" href="https://damimarketautomate.pro/privacy.html">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0A0A0F">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Damilare Babalola">
+<meta property="og:title" content="Privacy Policy — Damilare Babalola">
+<meta property="og:description" content="What data this site collects, why, how long it is kept, and how to have it deleted.">
+<meta property="og:url" content="https://damimarketautomate.pro/privacy.html">
+<meta property="og:image" content="https://damimarketautomate.pro/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#00D4AA;--accent-dim:#00D4AA22;
+    --dark-bg:#0A0A0F;--dark-bg-2:#12121A;--dark-card:#16161F;--dark-text:#E8E8ED;--dark-muted:#8888A0;--dark-border:#2A2A3A;
+    --light-bg:#F5F3F0;--light-bg-2:#EDEAE6;--light-card:#FFFFFF;--light-text:#1A1A2E;--light-muted:#6B6B80;--light-border:#D8D5D0;
+    --font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;
+  }
+  [data-theme="dark"]{--bg:var(--dark-bg);--bg-2:var(--dark-bg-2);--card:var(--dark-card);--text:var(--dark-text);--muted:var(--dark-muted);--border:var(--dark-border)}
+  [data-theme="light"]{--bg:var(--light-bg);--bg-2:var(--light-bg-2);--card:var(--light-card);--text:var(--light-text);--muted:var(--light-muted);--border:var(--light-border)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.75;transition:background .3s,color .3s}
+  .container{max-width:760px;margin:0 auto;padding:0 1.5rem}
+
+  header.bar{border-bottom:1px solid var(--border);padding:1.1rem 0;position:sticky;top:0;
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);z-index:10}
+  .bar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .logo{font-family:var(--font-display);font-weight:800;font-size:1.15rem;letter-spacing:-.02em;color:var(--text);text-decoration:none}
+  .logo span{color:var(--accent)}
+  .bar a.back{color:var(--muted);text-decoration:none;font-size:.88rem;transition:color .18s}
+  .bar a.back:hover{color:var(--accent)}
+
+  .head{padding:3.5rem 0 2rem}
+  .crumb{font-size:.82rem;color:var(--muted);margin-bottom:1rem}
+  .crumb a{color:var(--accent);text-decoration:none}
+  h1{font-family:var(--font-display);font-weight:800;font-size:clamp(2rem,6vw,3rem);letter-spacing:-.03em;line-height:1.08;margin-bottom:.8rem}
+  .updated{display:inline-block;font-size:.78rem;color:var(--accent);background:var(--accent-dim);
+    padding:.35rem .8rem;border-radius:99px;font-weight:600}
+  .lede{color:var(--muted);font-size:1.05rem;margin-top:1.3rem}
+
+  main{padding-bottom:4rem}
+  section{padding-top:2.6rem}
+  h2{font-family:var(--font-display);font-weight:700;font-size:1.25rem;letter-spacing:-.01em;margin-bottom:.9rem;scroll-margin-top:5rem}
+  h3{font-family:var(--font-display);font-weight:600;font-size:1rem;margin:1.4rem 0 .5rem}
+  p{color:var(--muted);margin-bottom:1rem}
+  p strong,li strong{color:var(--text);font-weight:600}
+  ul{color:var(--muted);padding-left:1.1rem;margin-bottom:1rem}
+  li{margin-bottom:.5rem}
+  a{color:var(--accent)}
+  .box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.4rem;margin:1.2rem 0}
+  .box p:last-child{margin-bottom:0}
+  table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.9rem}
+  th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-family:var(--font-display);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text)}
+  td{color:var(--muted)}
+  td:first-child{color:var(--text);font-weight:500;white-space:nowrap}
+  footer{border-top:1px solid var(--border);padding:2rem 0;color:var(--muted);font-size:.85rem}
+  footer a{text-decoration:none}
+  @media(max-width:560px){table,thead,tbody,tr,th,td{display:block}th{display:none}
+    td{border:none;padding:.15rem 0}tr{border-bottom:1px solid var(--border);padding:.8rem 0;display:block}
+    td:first-child{font-family:var(--font-display);font-size:.9rem;margin-bottom:.2rem}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="container bar-inner">
+    <a href="/" class="logo">Damilare<span>.</span></a>
+    <a href="/" class="back">← Back to site</a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="head">
+    <div class="crumb"><a href="/">Home</a> / Privacy</div>
+    <h1>Privacy Policy</h1>
+    <span class="updated">Last updated: July 2026</span>
+    <p class="lede">
+      This is a one-person consulting site. It collects very little, sells nothing to anyone,
+      and everything below describes what actually happens rather than what a generic template
+      would say.
+    </p>
+  </div>
+
+  <main>
+
+    <section>
+      <h2>Who is responsible</h2>
+      <p>
+        This site is operated by <strong>Damilare Babalola</strong>, an independent marketing
+        automation consultant based in Lagos, Nigeria. For anything on this page, write to
+        <a href="mailto:damidigitalmarket@gmail.com">damidigitalmarket@gmail.com</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>What gets collected</h2>
+
+      <h3>Only when you choose to send it</h3>
+      <ul>
+        <li><strong>Contact form</strong> — your name, email address, the project type you pick, and your message.</li>
+        <li><strong>Newsletter</strong> — your email address.</li>
+        <li><strong>Free resource downloads</strong> — your name and email address.</li>
+        <li><strong>Live chat</strong> — whatever you type into the chat widget, plus any name or email you give it.</li>
+      </ul>
+
+      <h3>Collected automatically</h3>
+      <ul>
+        <li><strong>Analytics</strong> — page views, approximate location at city level, device and browser type, and how you arrived. Only after you accept the cookie banner. IP addresses are anonymised.</li>
+        <li><strong>Submission context</strong> — when you send a form, the browser you used and the page you came from are stored alongside it, to help filter spam.</li>
+      </ul>
+
+      <div class="box">
+        <p>
+          <strong>Not collected:</strong> payment details (booking and invoicing happen on
+          third-party platforms), and no account is ever created for you on this site.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why, and on what basis</h2>
+      <table>
+        <thead>
+          <tr><th>Data</th><th>Purpose</th><th>Legal basis</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Contact form</td>
+            <td>Reply to your enquiry and scope potential work</td>
+            <td>Your request / steps before a contract</td>
+          </tr>
+          <tr>
+            <td>Newsletter email</td>
+            <td>Send occasional articles and updates</td>
+            <td>Your consent</td>
+          </tr>
+          <tr>
+            <td>Resource download</td>
+            <td>Deliver the file and follow up once</td>
+            <td>Your consent</td>
+          </tr>
+          <tr>
+            <td>Analytics</td>
+            <td>Understand which pages are useful</td>
+            <td>Your consent, via the cookie banner</td>
+          </tr>
+          <tr>
+            <td>Live chat</td>
+            <td>Answer questions in real time</td>
+            <td>Your request</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Cookies and local storage</h2>
+      <p>
+        No analytics cookie is set until you press <strong>Accept</strong> on the banner. If you
+        decline, that choice is remembered and no tracking script ever loads.
+      </p>
+      <ul>
+        <li><strong>Theme preference</strong> — remembers whether you chose dark or light mode. Stored in your browser only.</li>
+        <li><strong>Cookie choice</strong> — remembers your accept/decline answer so you are not asked again.</li>
+        <li><strong>Content cache</strong> — a copy of the site's own text is kept locally so pages load instantly on your next visit. It contains no personal data.</li>
+        <li><strong>Google Analytics</strong> — set only after consent. Used to count visits and see which pages get read.</li>
+        <li><strong>Live chat</strong> — the chat widget sets its own cookie so a conversation survives a page refresh.</li>
+      </ul>
+      <p>
+        To change your mind, clear this site's data in your browser settings and the banner will
+        appear again on your next visit.
+      </p>
+    </section>
+
+    <section>
+      <h2>Services used</h2>
+      <p>A handful of third parties process data on this site's behalf. Each has its own privacy policy:</p>
+      <ul>
+        <li><strong>Google Firebase</strong> — stores the site's content and any form submissions.</li>
+        <li><strong>Google Analytics</strong> — visitor statistics, loaded only after consent.</li>
+        <li><strong>Web3Forms</strong> — delivers form submissions to my inbox.</li>
+        <li><strong>Tawk.to</strong> — the live chat widget.</li>
+        <li><strong>Cal.com</strong> — booking calls. Anything you enter there is handled by Cal.com.</li>
+        <li><strong>Google Fonts</strong> — serves the typefaces used across the site.</li>
+      </ul>
+      <p>
+        Some of these operate servers outside Nigeria, so your data may be processed abroad under
+        the standard safeguards those providers publish. Your data is never sold, rented, or
+        handed to advertisers.
+      </p>
+    </section>
+
+    <section>
+      <h2>How long it is kept</h2>
+      <ul>
+        <li><strong>Enquiries</strong> — kept while a conversation or project is active, and for up to two years afterwards for tax and reference purposes.</li>
+        <li><strong>Newsletter</strong> — until you unsubscribe. Every email carries an unsubscribe link.</li>
+        <li><strong>Analytics</strong> — retained on Google's default schedule, currently 14 months.</li>
+        <li><strong>Chat transcripts</strong> — kept for up to 12 months.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Your rights</h2>
+      <p>
+        Under Nigeria's Data Protection Act and, where it applies to you, the GDPR, you can ask
+        for a copy of your data, ask for it to be corrected or deleted, withdraw consent at any
+        time, or object to how it is being used.
+      </p>
+      <div class="box">
+        <p>
+          Email <a href="mailto:damidigitalmarket@gmail.com">damidigitalmarket@gmail.com</a> and
+          say what you want done. No forms, no process — I will confirm within
+          <strong>30 days</strong>, usually far sooner. If you ask for deletion, it is deleted;
+          I will only keep what an invoicing or legal obligation requires.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Security</h2>
+      <p>
+        The site is served over HTTPS. Stored submissions sit behind authentication rules that
+        allow the public to read published site content but restrict everything else to my own
+        admin account. No system is perfect, so please do not send passwords, API keys, or client
+        credentials through the contact form — I will set up a proper secure channel once we start
+        working together.
+      </p>
+    </section>
+
+    <section>
+      <h2>Children</h2>
+      <p>
+        This site is aimed at businesses and is not directed at anyone under 18. If a child's data
+        has ended up here by accident, tell me and I will remove it.
+      </p>
+    </section>
+
+    <section>
+      <h2>Changes</h2>
+      <p>
+        If this policy changes in a way that affects you, the date at the top will change and the
+        cookie banner will reappear where consent is involved.
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="container">
+    <strong style="color:var(--text)">Damilare Babalola</strong> — © 2026. All rights reserved.
+    &nbsp;·&nbsp; <a href="/">Home</a> &nbsp;·&nbsp; <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+</body>
+</html>

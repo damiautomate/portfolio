@@ -1,0 +1,12 @@
+{
+  "name": "Damilare Babalola — Marketing Automation",
+  "short_name": "Damilare",
+  "description": "CRM systems, customer journeys and automated workflows for growing businesses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0F",
+  "theme_color": "#0A0A0F",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

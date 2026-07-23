@@ -3,8 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Contact — Damilare Babalola</title>
-    <meta name="description" id="pageMeta" content="">
+    <title>Contact — Damilare Babalola</title>
+    <meta name="description" content="Start a project, request a quote, or ask a question. I read every message and reply within 24 hours.">
+    <link rel="canonical" href="https://damimarketautomate.pro/contact.html">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Damilare Babalola">
+    <meta name="theme-color" content="#0A0A0F">
+
+    <!-- Social preview. Static on purpose: LinkedIn / X / WhatsApp / Facebook
+         crawlers do not run JavaScript, so JS-injected tags never reach them. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Damilare Babalola">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Contact — Damilare Babalola">
+    <meta property="og:description" content="Start a project, request a quote, or ask a question. I read every message and reply within 24 hours.">
+    <meta property="og:url" content="https://damimarketautomate.pro/contact.html">
+    <meta property="og:image" content="https://damimarketautomate.pro/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Damilare Babalola — Marketing Automation & CRM Consultant">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Dami_Market">
+    <meta name="twitter:creator" content="@Dami_Market">
+    <meta name="twitter:title" content="Contact — Damilare Babalola">
+    <meta name="twitter:description" content="Start a project, request a quote, or ask a question. I read every message and reply within 24 hours.">
+    <meta name="twitter:image" content="https://damimarketautomate.pro/og-image.png">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <link rel="manifest" href="site.webmanifest">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +69,11 @@
         .nav-links a { font-size: 0.9rem; color: var(--text-muted); transition: color 0.2s; }
         .nav-links a:hover, .nav-links a.active { color: var(--text); }
         .nav-actions { display: flex; gap: 0.75rem; align-items: center; }
-        .theme-toggle { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+        .theme-toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--border); border: none; cursor: pointer; position: relative; transition: background 0.3s; padding: 0; display: inline-block; }
+        .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); transition: transform 0.3s ease; }
+        [data-theme="light"] .theme-toggle::after { transform: translateX(20px); }
+        .theme-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 0.65rem; line-height: 1; pointer-events: none; }
+        .theme-icon.moon { left: 5px; } .theme-icon.sun { right: 5px; }
         .btn-nav { padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--accent); color: #0A0A0F; font-size: 0.88rem; font-weight: 600; transition: transform 0.2s, box-shadow 0.2s; }
         .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
         .nav-hamburger { display: none; background: none; border: 1px solid var(--border); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; align-items: center; justify-content: center; flex-direction: column; gap: 3px; }
@@ -125,6 +156,9 @@
         .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; transition: all 0.2s; }
         .cookie-btn.primary { background: var(--accent); color: #0A0A0F; border-color: var(--accent); }
         .cookie-btn:hover { transform: translateY(-1px); }
+    
+        .footer-legal { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; opacity: 0.75; transition: color 0.2s, opacity 0.2s; }
+        .footer-legal:hover { color: var(--accent); opacity: 1; }
     </style>
 </head>
 <body>
@@ -149,10 +183,11 @@
                 <a href="services.html">Services</a>
                 <a href="projects.html">Projects</a>
                 <a href="blog.html">Blog</a>
+                <a href="index.html#testimonials">Reviews</a>
                 <a href="contact.html" class="active">Contact</a>
             </div>
             <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><span class="theme-icon moon">🌙</span><span class="theme-icon sun">☀️</span></button>
                 <a href="#" target="_blank" class="btn-nav" id="navBookBtn">Book a Call</a>
                 <button class="nav-hamburger" id="navHamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
             </div>
@@ -164,6 +199,7 @@
         <a href="services.html">Services</a>
         <a href="projects.html">Projects</a>
         <a href="blog.html">Blog</a>
+        <a href="index.html#testimonials">Reviews</a>
         <a href="contact.html">Contact</a>
     </div>
 
@@ -352,7 +388,7 @@
         document.getElementById('navLogo').innerHTML = d.nav.logo + '<span>.</span>';
         const bookBtn = document.getElementById('navBookBtn');
         bookBtn.href = d.nav.bookingUrl; bookBtn.textContent = d.nav.bookingText;
-        document.getElementById('footerLeft').innerHTML = `<strong>${esc(d.footer.name)}</strong><br>&copy; ${d.footer.year} — All rights reserved.`;
+        document.getElementById('footerLeft').innerHTML = `<strong>${esc(d.footer.name)}</strong><br>&copy; ${d.footer.year} — All rights reserved.<br><a href="privacy.html" class="footer-legal">Privacy Policy</a>`;
         document.getElementById('footerSocials').innerHTML = d.footer.socials.map(s =>
             `<a href="${s.url}" target="_blank" class="social-icon" aria-label="${esc(s.platform)}"><svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS[s.icon] || ''}</svg></a>`
         ).join('');

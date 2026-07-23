@@ -218,6 +218,22 @@
         const lm = siteData?.leadMagnet;
         if (!lm || !lm.enabled) { container.style.display = 'none'; return; }
 
+        // A lead magnet with no file behind it is worse than no lead magnet:
+        // the visitor hands over an email for a download that never arrives,
+        // and the first impression of the whole site is a broken promise.
+        // Stay hidden until resourceUrl is set in the admin panel.
+        if (!lm.resourceUrl || !String(lm.resourceUrl).trim()) {
+            container.style.display = 'none';
+            const section = container.closest('section');
+            if (section) section.style.display = 'none';
+            console.warn(
+                '[lead magnet] Hidden — no resourceUrl set. ' +
+                'Add the file URL in Admin → Conversion Tools → Lead Magnet to switch it on.'
+            );
+            return;
+        }
+        container.style.display = '';
+
         const bullets = (lm.bulletPoints || []).map(b => `<li>${esc(b)}</li>`).join('');
 
         container.innerHTML = `

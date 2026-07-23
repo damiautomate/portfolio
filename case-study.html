@@ -3,9 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CHANGE TITLE FOR EACH PROJECT -->
-    <title>Zoho CRM & Bookings for NJS Royale — Damilare Babalola</title>
-    <meta name="description" content="Case study: End-to-end venue booking automation for NJS Royale Event Centre — from tour scheduling to event completion using Zoho CRM & Bookings.">
+    <title>Case Study — Damilare Babalola</title>
+    <meta name="description" content="A detailed breakdown of a real automation build: the problem, the system design, and the measured result.">
+    <link rel="canonical" href="https://damimarketautomate.pro/case-study.html">
+    <meta name="robots" content="noindex, follow">
+    <meta name="author" content="Damilare Babalola">
+    <meta name="theme-color" content="#0A0A0F">
+
+    <!-- Social preview. Static on purpose: LinkedIn / X / WhatsApp / Facebook
+         crawlers do not run JavaScript, so JS-injected tags never reach them. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Damilare Babalola">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Case Study — Damilare Babalola">
+    <meta property="og:description" content="A detailed breakdown of a real automation build: the problem, the system design, and the measured result.">
+    <meta property="og:url" content="https://damimarketautomate.pro/case-study.html">
+    <meta property="og:image" content="https://damimarketautomate.pro/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Damilare Babalola — Marketing Automation & CRM Consultant">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Dami_Market">
+    <meta name="twitter:creator" content="@Dami_Market">
+    <meta name="twitter:title" content="Case Study — Damilare Babalola">
+    <meta name="twitter:description" content="A detailed breakdown of a real automation build: the problem, the system design, and the measured result.">
+    <meta name="twitter:image" content="https://damimarketautomate.pro/og-image.png">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <link rel="manifest" href="site.webmanifest">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -427,6 +453,8 @@
         .footer-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
         .footer-left { font-size: 0.85rem; color: var(--text-muted); }
         .footer-left strong { color: var(--text); font-family: var(--font-display); }
+        .footer-legal { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; opacity: 0.75; transition: color 0.2s, opacity 0.2s; }
+        .footer-legal:hover { color: var(--accent); opacity: 1; }
         .footer-socials { display: flex; gap: 0.6rem; }
         .social-icon { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, background 0.3s, transform 0.2s; color: var(--text-muted); }
         .social-icon:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); transform: translateY(-2px); }
@@ -671,7 +699,7 @@
         bookBtn.href = data.nav.bookingUrl; bookBtn.textContent = data.nav.bookingText;
 
         // Footer
-        document.getElementById('footerLeft').innerHTML = `<strong>${esc(data.footer.name)}</strong><br>&copy; ${data.footer.year} — All rights reserved.`;
+        document.getElementById('footerLeft').innerHTML = `<strong>${esc(data.footer.name)}</strong><br>&copy; ${data.footer.year} — All rights reserved.<br><a href="privacy.html" class="footer-legal">Privacy Policy</a>`;
         document.getElementById('footerSocials').innerHTML = data.footer.socials.map(s =>
             `<a href="${s.url}" target="_blank" class="social-icon" aria-label="${esc(s.platform)}"><svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS[s.icon] || ''}</svg></a>`
         ).join('');
@@ -712,7 +740,7 @@
 
         const solutionPhases = (cs.solution.phases || []).map(phase => {
             const imgHtml = phase.image
-                ? `<div class="case-image"><img src="${esc(phase.image)}" alt="${esc(phase.title)}"><div class="case-image-caption">${esc(phase.imageCaption || '')}</div></div>`
+                ? `<div class="case-image"><img src="${esc(phase.image)}" alt="${esc(phase.title)}" loading="lazy" decoding="async"><div class="case-image-caption">${esc(phase.imageCaption || '')}</div></div>`
                 : (phase.imageCaption ? `<div class="case-image"><div class="placeholder">${esc(phase.imageCaption)}</div><div class="case-image-caption">${esc(phase.imageCaption)}</div></div>` : '');
             return `<p><strong>Phase ${esc(phase.number)} — ${esc(phase.title)}:</strong> ${esc(phase.description)}</p>${imgHtml}`;
         }).join('');
