@@ -2957,7 +2957,7 @@
     // INTEGRATIONS EDITOR (Web3Forms, Tawk.to)
     // ============================================================
     function renderIntegrationsEditor(el) {
-        if (!data.integrations) data.integrations = { web3formsAccessKey: '', tawktoPropertyId: '', tawktoWidgetId: '1default' };
+        if (!data.integrations) data.integrations = { web3formsAccessKey: '', tawktoPropertyId: '', tawktoWidgetId: '1default', whatsappNumber: '', whatsappHours: '' };
         const i = data.integrations;
 
         el.innerHTML = sectionHeader('Integrations', 'Connect 3rd-party services so your forms and live chat actually work.') +
@@ -2976,8 +2976,21 @@
             </div>
 
             <div class="section-card">
+                <div class="section-card-title">WhatsApp (Message-first contact)</div>
+                <div class="section-card-desc">Powers the green "Message on WhatsApp" button on your Work With Me page. Visitors who would rather type than book a call land straight in your chat — with context about what they were reading already filled in. Leave the number empty and the button stays hidden.</div>
+                ${field('WhatsApp Number', 'integrations.whatsappNumber', i.whatsappNumber || '', { placeholder: '2348031234567', hint: 'Digits only, full international format. No +, no spaces, no leading 0.' })}
+                <div class="field-hint" style="line-height:1.8;">
+                    <strong>Getting the format right:</strong><br>
+                    Nigerian number <code>0803 123 4567</code> &rarr; drop the leading 0, add country code 234 &rarr; <code>2348031234567</code><br>
+                    UK <code>07700 900123</code> &rarr; <code>447700900123</code> &nbsp;&middot;&nbsp; US <code>(555) 123-4567</code> &rarr; <code>15551234567</code><br>
+                    <strong>Tip:</strong> use a WhatsApp Business number rather than your personal one &mdash; you get away messages, business hours and labels.
+                </div>
+                ${field('Availability Note', 'integrations.whatsappHours', i.whatsappHours || '', { placeholder: 'Usually replies within a few hours (WAT)', hint: 'Shown under the button. Sets expectations so nobody feels ignored.' })}
+            </div>
+
+            <div class="section-card">
                 <div class="section-card-title">Tawk.to (Live chat widget)</div>
-                <div class="section-card-desc">Tawk.to puts a floating live chat button on your site. 100% free forever, unlimited agents. Get it at <a href="https://tawk.to" target="_blank" style="color:var(--accent);">tawk.to</a>.</div>
+                <div class="section-card-desc">Tawk.to puts a floating live chat button on your site. 100% free forever, unlimited agents. Get it at <a href="https://tawk.to" target="_blank" style="color:var(--accent);">tawk.to</a>. <strong>To remove it, clear the Property ID below</strong> and the widget stops loading everywhere.</div>
                 ${field('Tawk.to Property ID', 'integrations.tawktoPropertyId', i.tawktoPropertyId || '', { placeholder: '67abc123456789...', hint: 'Found in Tawk.to dashboard → Admin → Chat Widget → the alphanumeric ID' })}
                 ${field('Tawk.to Widget ID', 'integrations.tawktoWidgetId', i.tawktoWidgetId || '1default', { hint: 'Usually "1default". Only change if you have multiple widgets.' })}
                 <div class="field-hint" style="line-height:1.8;">

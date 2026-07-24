@@ -618,6 +618,21 @@
     function buildWhatsAppLink(number, prefill) {
         const digits = String(number || '').replace(/\D/g, '');
         if (!digits) return '';
+
+        // wa.me needs a full international number. A leading zero means a local
+        // format was pasted (e.g. 08031234567 instead of 2348031234567), and
+        // anything under 10 digits is incomplete. Guessing the country code
+        // would silently send people to the wrong number, so hide the button
+        // and say why rather than ship a link that 404s.
+        if (digits[0] === '0' || digits.length < 10) {
+            console.warn(
+                '[whatsapp] Number "' + number + '" is not in international format, so the button is hidden. ' +
+                'Use digits only with the country code and no leading zero — e.g. 08031234567 becomes 2348031234567. ' +
+                'Fix it in Admin → Conversion Tools → Integrations.'
+            );
+            return '';
+        }
+
         const text = (prefill || 'Hi Damilare —') + referrerContext();
         return 'https://wa.me/' + digits + '?text=' + encodeURIComponent(text);
     }

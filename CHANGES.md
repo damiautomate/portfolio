@@ -162,9 +162,12 @@ screenshot) before the fix was applied.
 
 ## Deploy, then do this
 
-1. **Admin → Conversion Tools → Integrations** — add your WhatsApp number in
-   full international format, digits only: `2348031234567` (not `+234 803…`).
-   The WhatsApp button stays hidden until you do.
+1. **Admin → Conversion Tools → Integrations → WhatsApp** — add your number in
+   full international format, digits only: `2348031234567`.
+   Nigerian `0803 123 4567` becomes `2348031234567` (drop the leading 0, add 234).
+   Punctuation is stripped automatically, but a leading zero or a number under
+   10 digits is rejected and the button stays hidden — better than a dead link.
+   Check the browser console if it doesn't appear; it explains why.
 2. **Admin → Conversion Tools → Work With Me / Booking** — read through the
    copy. All of it is placeholder-quality until you make it sound like you,
    especially the call agenda and the fit check.
