@@ -155,3 +155,71 @@ screenshot) before the fix was applied.
 - **Shared nav** — still hardcoded in 7 files. It has already drifted once.
 - **OG image per page** — currently one card for the whole site. Per-page cards
   would be better, but need a build step.
+
+---
+
+# Pass 2 — Work With Me page
+
+## Deploy, then do this
+
+1. **Admin → Conversion Tools → Integrations** — add your WhatsApp number in
+   full international format, digits only: `2348031234567` (not `+234 803…`).
+   The WhatsApp button stays hidden until you do.
+2. **Admin → Conversion Tools → Work With Me / Booking** — read through the
+   copy. All of it is placeholder-quality until you make it sound like you,
+   especially the call agenda and the fit check.
+3. **Publish to Live.**
+
+## What was built
+
+**`book.html`** — replaces the raw cal.com link that every "Book a Call"
+button used to point at. Two equal tracks:
+
+- **Book a call** — duration, cost, exact agenda, what to prepare, what happens
+  afterwards. Clicking the CTA reveals a four-field qualifier (bottleneck,
+  tools, timeline, budget) that passes answers to cal.com as booking notes.
+  Skippable in one click, and every attempt is logged to
+  `admin/bookingIntents` so an abandoned qualifier still tells you someone
+  was interested.
+- **Message first** — WhatsApp, on-site chat, or the contact form. The
+  WhatsApp link is prefilled *with context*: someone arriving from the
+  services page opens a thread already saying they want to ask about your
+  services and pricing.
+
+Plus a fit check (good fit / probably not), a "how pricing works" explainer,
+and a booking FAQ. Every string is editable in the admin panel.
+
+## Pricing
+
+No rate card anywhere on this page — scope first, fixed quote after, retainer
+framed as the natural next step rather than an upsell. A **minimum engagement
+line** is built and switched off; turn it on in admin if enquiry quality drops.
+
+## Other fixes in this pass
+
+- **All canonicals, og:urls, sitemap and robots now use `www.`** — the live
+  site 301s non-www to www, so every canonical previously pointed at a URL
+  that redirected.
+- **`window.__logToFirestore`** exported from `forms.js` so pages can record
+  intent without duplicating the Firebase guard.
+- Two bugs caught by tests before shipping: the WhatsApp button stayed visible
+  after a re-render with no number configured, and `projects.html` referenced
+  an out-of-scope variable that broke its entire render.
+- Listener-stacking guards on the new page, same class of bug as the duplicate
+  filter chips.
+
+## Verification
+
+23 assertions across two jsdom suites, all passing — including double-render
+behaviour, WhatsApp link construction, qualifier flow, and that no `$NNN`
+price string appears anywhere on the booking page.
+
+## Still open
+
+- Tawk.to is still live. Clear `tawktoPropertyId` in admin to remove it — but
+  better to wait until the custom chatbot is ready so you're not without a
+  chat channel in between.
+- The **services page still shows the four fixed tiers** ($350 Starter →
+  Custom). That now contradicts the booking page. It needs restructuring to
+  scope-based packages with no prices — that's the natural next job.
+- Project images, case study links, testimonials — unchanged.

@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work With Me — Damilare Babalola</title>
+    <meta name="description" content="Book a free 30-minute call, or send a message first. Either way you get a straight answer on whether automation actually fixes your problem.">
+    <link rel="canonical" href="https://www.damimarketautomate.pro/book.html">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Damilare Babalola">
+    <meta name="theme-color" content="#0A0A0F">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Damilare Babalola">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Work With Me — Damilare Babalola">
+    <meta property="og:description" content="Book a free 30-minute call, or send a message first. Either way you get a straight answer on whether automation actually fixes your problem.">
+    <meta property="og:url" content="https://www.damimarketautomate.pro/book.html">
+    <meta property="og:image" content="https://www.damimarketautomate.pro/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Dami_Market">
+    <meta name="twitter:title" content="Work With Me — Damilare Babalola">
+    <meta name="twitter:description" content="Book a free 30-minute call, or send a message first.">
+    <meta name="twitter:image" content="https://www.damimarketautomate.pro/og-image.png">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <link rel="manifest" href="site.webmanifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="forms.css">
+    <style>
+
+        :root {
+            --accent: #00D4AA; --accent-dim: #00D4AA22; --accent-glow: #00D4AA40;
+            --dark-bg: #0A0A0F; --dark-bg-secondary: #12121A; --dark-bg-card: #16161F;
+            --dark-text: #E8E8ED; --dark-text-muted: #8888A0; --dark-border: #2A2A3A;
+            --light-bg: #F5F3F0; --light-bg-secondary: #EDEAE6; --light-bg-card: #FFFFFF;
+            --light-text: #1A1A2E; --light-text-muted: #6B6B80; --light-border: #D8D5D0;
+            --font-display: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif;
+            --success: #4ADE80; --danger: #FF5A5A;
+            --section-padding: clamp(3rem, 7vw, 5rem);
+        }
+        [data-theme="dark"] { --bg: var(--dark-bg); --bg-secondary: var(--dark-bg-secondary); --bg-card: var(--dark-bg-card); --text: var(--dark-text); --text-muted: var(--dark-text-muted); --border: var(--dark-border); }
+        [data-theme="light"] { --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary); --bg-card: var(--light-bg-card); --text: var(--light-text); --text-muted: var(--light-text-muted); --border: var(--light-border); }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.65; transition: background 0.3s, color 0.3s; }
+        a { color: inherit; text-decoration: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        @media (max-width: 640px) { .container { padding: 0 1.25rem; } }
+
+        /* NAV (same as rest of site) */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 0; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: transparent; transition: all 0.3s; }
+        .navbar.scrolled { background: color-mix(in srgb, var(--bg) 85%, transparent); border-bottom: 1px solid var(--border); }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { font-size: 0.9rem; color: var(--text-muted); transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-actions { display: flex; gap: 0.75rem; align-items: center; }
+        .theme-toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--border); border: none; cursor: pointer; position: relative; transition: background 0.3s; padding: 0; display: inline-block; }
+        .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); transition: transform 0.3s ease; }
+        [data-theme="light"] .theme-toggle::after { transform: translateX(20px); }
+        .theme-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 0.65rem; line-height: 1; pointer-events: none; }
+        .theme-icon.moon { left: 5px; } .theme-icon.sun { right: 5px; }
+        .btn-nav { padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--accent); color: #0A0A0F; font-size: 0.88rem; font-weight: 600; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+        .nav-hamburger { display: none; background: none; border: 1px solid var(--border); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; align-items: center; justify-content: center; flex-direction: column; gap: 3px; }
+        .nav-hamburger span { display: block; width: 16px; height: 2px; background: var(--text); border-radius: 2px; }
+        .mobile-nav { position: fixed; inset: 0; background: var(--bg); z-index: 200; display: none; padding: 5rem 2rem 2rem; flex-direction: column; gap: 1.5rem; }
+        .mobile-nav.active { display: flex; }
+        .mobile-nav a { font-family: var(--font-display); font-size: 1.5rem; color: var(--text); }
+        .mobile-nav-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 2rem; color: var(--text); cursor: pointer; }
+        @media (max-width: 900px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .btn-nav { display: none; } }
+
+        /* PAGE HEADER */
+        .page-header { padding: calc(var(--section-padding) + 2rem) 0 3rem; text-align: center; }
+        .page-header h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 1.2rem; }
+        .page-header p { font-size: 1.05rem; color: var(--text-muted); max-width: 680px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.2rem; display: flex; justify-content: center; gap: 0.5rem; }
+        .breadcrumb a { color: var(--accent); transition: opacity 0.2s; }
+
+        /* PRICING GRID */
+        /* ---- WHAT I DO (services detail, above pricing) ---- */
+        .offer-section { padding: 0 0 calc(var(--section-padding) * 0.85); }
+        .offer-header, .pricing-intro { max-width: 680px; margin: 0 auto 2.75rem; text-align: center; }
+        .pricing-intro { margin-bottom: 2.25rem; }
+        .offer-label {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: var(--font-display); font-size: 0.72rem; font-weight: 600;
+            letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem;
+        }
+        .offer-label::before { content: ''; width: 18px; height: 1.5px; background: var(--accent); }
+        .offer-title {
+            font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em;
+            font-size: clamp(1.5rem, 4vw, 2.15rem); line-height: 1.15; margin-bottom: 0.75rem;
+        }
+        .offer-subtitle { color: var(--text-muted); font-size: 1rem; line-height: 1.7; }
+        .offer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.1rem; }
+        .offer-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+            padding: 1.6rem 1.5rem; transition: transform 0.25s, border-color 0.25s;
+        }
+        .offer-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .offer-icon {
+            width: 44px; height: 44px; border-radius: 11px; background: var(--accent-dim);
+            display: grid; place-items: center; font-size: 1.25rem; margin-bottom: 1rem;
+        }
+        .offer-card h3 {
+            font-family: var(--font-display); font-weight: 700; font-size: 1.02rem;
+            letter-spacing: -0.01em; margin-bottom: 0.55rem;
+        }
+        .offer-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+        @media (prefers-reduced-motion: reduce) { .offer-card:hover { transform: none; } }
+
+        .pricing-section { padding: 0 0 var(--section-padding); }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .tier-card {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 2rem 1.8rem;
+            display: flex; flex-direction: column;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .tier-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+        .tier-card.highlighted {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, var(--bg-card) 0%, color-mix(in srgb, var(--accent) 6%, var(--bg-card)) 100%);
+            box-shadow: 0 8px 32px color-mix(in srgb, var(--accent) 15%, transparent);
+        }
+        .tier-badge {
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            padding: 0.35rem 0.9rem; background: var(--accent); color: #0A0A0F;
+            font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+            border-radius: 50px;
+        }
+        .tier-name {
+            font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
+            letter-spacing: -0.015em; margin-bottom: 0.5rem;
+        }
+        .tier-best-for {
+            font-size: 0.82rem; color: var(--text-muted); line-height: 1.55;
+            margin-bottom: 1.2rem; min-height: 2.5em;
+        }
+        .tier-price-wrap { margin-bottom: 0.4rem; display: flex; align-items: baseline; gap: 0.4rem; flex-wrap: wrap; }
+        .tier-price-note { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
+        .tier-price {
+            font-family: var(--font-display); font-size: 2rem; font-weight: 800;
+            letter-spacing: -0.02em; color: var(--text);
+        }
+        .tier-billing { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1.3rem; }
+        .tier-description {
+            font-size: 0.88rem; color: var(--text-muted); line-height: 1.65;
+            padding: 0 0 1.2rem; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border);
+            min-height: 3.5em;
+        }
+        .tier-features {
+            list-style: none; padding: 0; margin: 0 0 1.8rem;
+            flex: 1;
+        }
+        .tier-features li {
+            display: flex; gap: 0.6rem; font-size: 0.88rem; margin-bottom: 0.7rem;
+            color: var(--text); line-height: 1.5;
+        }
+        .tier-check {
+            flex-shrink: 0; width: 18px; height: 18px; margin-top: 0.15rem;
+            color: var(--accent);
+        }
+        .tier-cta {
+            width: 100%;
+            padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid var(--border);
+            background: transparent; color: var(--text); font-weight: 600; font-size: 0.92rem;
+            font-family: var(--font-body); cursor: pointer;
+            transition: all 0.25s; text-align: center;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+        }
+        .tier-cta:hover { background: var(--accent); color: #0A0A0F; border-color: var(--accent); transform: translateY(-2px); }
+        .tier-card.highlighted .tier-cta {
+            background: var(--accent); color: #0A0A0F; border-color: var(--accent);
+        }
+        .tier-card.highlighted .tier-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        /* GUARANTEE */
+        .guarantee-bar {
+            max-width: 800px; margin: 3rem auto 0;
+            padding: 1.5rem 2rem;
+            background: var(--bg-card); border: 1px solid var(--accent); border-radius: 14px;
+            display: flex; align-items: center; gap: 1.2rem;
+            position: relative; overflow: hidden;
+        }
+        .guarantee-bar::before {
+            content: ''; position: absolute; inset: 0;
+            background: color-mix(in srgb, var(--accent) 8%, transparent);
+            z-index: 0;
+        }
+        .guarantee-bar > * { position: relative; z-index: 1; }
+        .guarantee-icon {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--accent); color: #0A0A0F;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; font-size: 1.5rem;
+        }
+        .guarantee-text { flex: 1; }
+        .guarantee-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; }
+        .guarantee-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
+
+        /* FAQ */
+        .faq-section { padding: var(--section-padding) 0; }
+        .faq-header { text-align: center; margin-bottom: 3rem; }
+        .faq-label { display: inline-block; font-family: var(--font-display); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.8rem; font-weight: 600; }
+        .faq-title { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.8rem; }
+        .faq-subtitle { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+        .faq-list { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.8rem; }
+        .faq-item {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            overflow: hidden; transition: border-color 0.2s;
+        }
+        .faq-item.open { border-color: var(--accent); }
+        .faq-question {
+            width: 100%; padding: 1.3rem 1.5rem; border: none; background: none; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+            font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; color: var(--text);
+            text-align: left; transition: background 0.2s;
+        }
+        .faq-question:hover { background: color-mix(in srgb, var(--accent) 4%, transparent); }
+        .faq-icon { flex-shrink: 0; width: 20px; height: 20px; color: var(--accent); transition: transform 0.3s; }
+        .faq-item.open .faq-icon { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-answer-inner {
+            padding: 0 1.5rem 1.3rem;
+            font-size: 0.92rem; line-height: 1.75; color: var(--text-muted);
+        }
+        .faq-item.open .faq-answer { max-height: 400px; }
+
+        /* CTA */
+        .cta-section { padding: var(--section-padding) 0; text-align: center; }
+        .cta-content { max-width: 680px; margin: 0 auto; padding: 3rem 2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; }
+        .section-label { display: inline-block; font-family: var(--font-display); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.8rem; font-weight: 600; }
+        .cta-content h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
+        .cta-content p { color: var(--text-muted); margin-bottom: 1.8rem; font-size: 1rem; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.5rem; border-radius: 10px; background: var(--accent); color: #0A0A0F; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+
+        /* FOOTER */
+        footer { padding: 4rem 0 2.5rem; border-top: 1px solid var(--border); }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+        .footer-left { font-size: 0.85rem; color: var(--text-muted); }
+        .footer-socials { display: flex; gap: 0.75rem; }
+        .social-icon { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: all 0.2s; }
+        .social-icon:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+        .social-icon svg { width: 16px; height: 16px; }
+
+        /* Cookie banner */
+        .cookie-banner { position: fixed; bottom: 1.2rem; left: 1.2rem; right: 1.2rem; max-width: 680px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.4rem; z-index: 500; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner-text { flex: 1; font-size: 0.85rem; color: var(--text-muted); min-width: 280px; }
+        .cookie-banner-text strong { color: var(--text); }
+        .cookie-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+        .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; transition: all 0.2s; }
+        .cookie-btn.primary { background: var(--accent); color: #0A0A0F; border-color: var(--accent); }
+        .cookie-btn:hover { transform: translateY(-1px); }
+    
+        .footer-legal { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; opacity: 0.75; transition: color 0.2s, opacity 0.2s; }
+        .footer-legal:hover { color: var(--accent); opacity: 1; }
+    
+        /* ---------- WORK WITH ME ---------- */
+        .track-section { padding: 0 0 var(--section-padding); }
+        .track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: stretch; }
+        @media (max-width: 860px) { .track-grid { grid-template-columns: 1fr; } }
+
+        .track {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+            padding: 2rem 1.9rem; display: flex; flex-direction: column;
+            transition: border-color 0.25s, transform 0.25s;
+        }
+        .track:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .track.primary { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-dim), 0 18px 50px rgba(0,0,0,0.28); }
+        .track-tag {
+            display: inline-flex; align-items: center; gap: 0.45rem; align-self: flex-start;
+            font-family: var(--font-display); font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent);
+            background: var(--accent-dim); padding: 0.4rem 0.8rem; border-radius: 99px; margin-bottom: 1.1rem;
+        }
+        .track h2 { font-family: var(--font-display); font-weight: 800; font-size: 1.45rem; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+        .track > p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.4rem; }
+        .track-meta { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+        .track-meta div { display: flex; flex-direction: column; gap: 0.15rem; }
+        .track-meta dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+        .track-meta dd { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+        .track-list { list-style: none; margin-bottom: 1.6rem; }
+        .track-list li { position: relative; padding-left: 1.6rem; margin-bottom: 0.7rem; color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+        .track-list li::before {
+            content: ''; position: absolute; left: 0; top: 0.55em; width: 7px; height: 7px;
+            border-radius: 50%; background: var(--accent);
+        }
+        .track-actions { margin-top: auto; display: flex; flex-direction: column; gap: 0.7rem; }
+        .track-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+            padding: 0.95rem 1.5rem; border-radius: 11px; font-family: var(--font-display);
+            font-weight: 700; font-size: 0.95rem; cursor: pointer; border: 1px solid transparent;
+            transition: transform 0.18s, opacity 0.18s, border-color 0.18s; width: 100%;
+        }
+        .track-btn:hover { transform: translateY(-2px); }
+        .track-btn.solid { background: var(--accent); color: #06110d; }
+        .track-btn.wa { background: #25D366; color: #06110d; }
+        .track-btn.outline { background: transparent; border-color: var(--border); color: var(--text); }
+        .track-btn.outline:hover { border-color: var(--accent); color: var(--accent); }
+        .track-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.9rem; text-align: center; }
+        .track-after {
+            margin-top: 1.3rem; padding-top: 1.2rem; border-top: 1px solid var(--border);
+            font-size: 0.87rem; color: var(--text-muted); line-height: 1.65;
+        }
+
+        /* ---------- QUALIFIER ---------- */
+        .qual-wrap { margin-top: 1.5rem; display: none; }
+        .qual-wrap.open { display: block; animation: qualIn 0.3s ease; }
+        @keyframes qualIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+        .qual-field { margin-bottom: 1rem; }
+        .qual-field label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; }
+        .qual-field input, .qual-field select, .qual-field textarea {
+            width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+            padding: 0.75rem 0.9rem; border-radius: 10px; font-family: var(--font-body);
+            font-size: 0.92rem; transition: border-color 0.2s;
+        }
+        .qual-field textarea { min-height: 78px; resize: vertical; }
+        .qual-field input:focus, .qual-field select:focus, .qual-field textarea:focus { outline: none; border-color: var(--accent); }
+        .qual-skip { background: none; border: none; color: var(--text-muted); font-size: 0.84rem;
+            text-decoration: underline; cursor: pointer; font-family: var(--font-body); padding: 0.4rem 0; }
+        .qual-skip:hover { color: var(--accent); }
+
+        /* ---------- FIT ---------- */
+        .fit-section { padding: 0 0 var(--section-padding); }
+        .fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+        @media (max-width: 760px) { .fit-grid { grid-template-columns: 1fr; } }
+        .fit-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem 1.7rem; }
+        .fit-card.good { border-left: 3px solid var(--accent); }
+        .fit-card.bad { border-left: 3px solid var(--text-muted); }
+        .fit-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.08rem; margin-bottom: 1.1rem; }
+        .fit-card ul { list-style: none; }
+        .fit-card li { position: relative; padding-left: 1.85rem; margin-bottom: 0.85rem; color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+        .fit-card li::before { position: absolute; left: 0; top: 0; font-weight: 700; }
+        .fit-card.good li::before { content: '\2713'; color: var(--accent); }
+        .fit-card.bad li::before { content: '\2014'; color: var(--text-muted); }
+
+        /* ---------- PRICING EXPLAINER ---------- */
+        .howpricing { padding: 0 0 var(--section-padding); }
+        .howpricing-lede { max-width: 62ch; margin: 0 auto 2.5rem; text-align: center; color: var(--text-muted); font-size: 1rem; line-height: 1.75; }
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 1.1rem; }
+        .step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem 1.4rem; position: relative; }
+        .step-n {
+            font-family: var(--font-display); font-weight: 800; font-size: 0.78rem; color: var(--accent);
+            background: var(--accent-dim); width: 28px; height: 28px; border-radius: 50%;
+            display: grid; place-items: center; margin-bottom: 0.9rem;
+        }
+        .step h4 { font-family: var(--font-display); font-weight: 700; font-size: 0.98rem; margin-bottom: 0.45rem; }
+        .step p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.65; }
+        .minimum-note {
+            margin-top: 1.6rem; text-align: center; font-size: 0.9rem; color: var(--text-muted);
+            padding: 0.9rem 1.2rem; border: 1px dashed var(--border); border-radius: 12px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .track:hover, .track-btn:hover { transform: none; }
+            .qual-wrap.open { animation: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SPLASH -->
+    <div id="initialSplash" style="position:fixed;inset:0;z-index:10000;background:#0A0A0F;display:flex;align-items:center;justify-content:center;transition:opacity 0.4s ease, visibility 0.4s;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#E8E8ED;animation:splashPulse 1.5s ease-in-out infinite;">Damilare<span style="color:#00D4AA;">.</span></div>
+    </div>
+    <style>
+        [data-theme="light"] #initialSplash { background: #F5F3F0 !important; }
+        [data-theme="light"] #initialSplash > div { color: #1A1A2E !important; }
+        #initialSplash.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
+        @keyframes splashPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    </style>
+
+    <!-- NAV -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo" id="navLogo">Damilare<span>.</span></a>
+            <div class="nav-links">
+                <a href="index.html#about">About</a>
+                <a href="services.html">Services</a>
+                <a href="projects.html">Projects</a>
+                <a href="blog.html">Blog</a>
+                <a href="index.html#testimonials">Reviews</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><span class="theme-icon moon">&#127769;</span><span class="theme-icon sun">&#9728;&#65039;</span></button>
+                <a href="book.html" class="btn-nav active" id="navBookBtn">Book a Call</a>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
+        <a href="index.html#about">About</a>
+        <a href="services.html">Services</a>
+        <a href="projects.html">Projects</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- HEADER -->
+    <section class="page-header">
+        <div class="container">
+            <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Work With Me</span></div>
+            <div class="section-label" id="headerBadge" style="display:none;"></div>
+            <h1 id="headerTitle">Loading...</h1>
+            <p id="headerSubtitle"></p>
+        </div>
+    </section>
+
+    <!-- TWO TRACKS -->
+    <section class="track-section">
+        <div class="container">
+            <div class="track-grid">
+
+                <!-- Track 1: call -->
+                <div class="track primary" id="callTrack">
+                    <span class="track-tag" id="callLabel"></span>
+                    <h2 id="callTitle"></h2>
+                    <p id="callDescription"></p>
+                    <dl class="track-meta">
+                        <div><dt>Length</dt><dd id="callDuration"></dd></div>
+                        <div><dt>Cost</dt><dd id="callCost"></dd></div>
+                    </dl>
+                    <ul class="track-list" id="callAgenda"></ul>
+
+                    <div class="track-actions">
+                        <button class="track-btn solid" id="callCta" type="button">
+                            <span id="callCtaText">Pick a time</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </button>
+
+                        <!-- Qualifier: revealed on click, never blocks the calendar -->
+                        <div class="qual-wrap" id="qualWrap">
+                            <div class="qual-field">
+                                <label for="qBottleneck" id="qBottleneckLabel"></label>
+                                <textarea id="qBottleneck"></textarea>
+                            </div>
+                            <div class="qual-field">
+                                <label for="qTools" id="qToolsLabel"></label>
+                                <input type="text" id="qTools">
+                            </div>
+                            <div class="qual-field">
+                                <label for="qTimeline" id="qTimelineLabel"></label>
+                                <select id="qTimeline"></select>
+                            </div>
+                            <div class="qual-field">
+                                <label for="qBudget" id="qBudgetLabel"></label>
+                                <select id="qBudget"></select>
+                            </div>
+                            <a class="track-btn solid" id="qualContinue" href="#" target="_blank" rel="noopener">Continue to calendar</a>
+                            <div style="text-align:center;margin-top:0.5rem;">
+                                <button class="qual-skip" id="qualSkip" type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="track-after" id="callAfterwards"></div>
+                </div>
+
+                <!-- Track 2: message -->
+                <div class="track" id="messageTrack">
+                    <span class="track-tag" id="messageLabel"></span>
+                    <h2 id="messageTitle"></h2>
+                    <p id="messageDescription"></p>
+                    <ul class="track-list" id="preparelist"></ul>
+                    <div class="track-actions">
+                        <a class="track-btn wa" id="waBtn" href="#" target="_blank" rel="noopener" style="display:none;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.74-.86-2-.96-.27-.1-.47-.15-.66.15s-.76.95-.93 1.15-.34.22-.63.07a8.2 8.2 0 01-2.4-1.48 9 9 0 01-1.67-2.07c-.17-.3 0-.46.13-.6l.44-.52c.15-.17.2-.3.3-.5s.05-.37 0-.52-.66-1.6-.9-2.18c-.24-.57-.48-.5-.66-.5h-.57c-.2 0-.52.07-.79.37s-1.03 1-1.03 2.45 1.06 2.85 1.2 3.05a13.6 13.6 0 005.2 4.6c.73.31 1.3.5 1.74.64.73.23 1.4.2 1.93.12.59-.09 1.74-.71 1.99-1.4s.24-1.28.17-1.4-.27-.2-.56-.35zM12.05 21.5h-.01a9.5 9.5 0 01-4.83-1.32l-.35-.2-3.59.94.96-3.5-.23-.36a9.44 9.44 0 01-1.45-5.05A9.5 9.5 0 0118.77 5.3a9.4 9.4 0 012.78 6.72 9.5 9.5 0 01-9.5 9.48zM20.2 3.85A11.4 11.4 0 0012.05.5 11.5 11.5 0 002.1 17.75L.5 23.5l5.9-1.55a11.5 11.5 0 005.65 1.44h.01a11.5 11.5 0 0011.5-11.48 11.4 11.4 0 00-3.36-8.06z"/></svg>
+                            <span id="waBtnText">Message on WhatsApp</span>
+                        </a>
+                        <button class="track-btn outline" id="chatBtn" type="button" style="display:none;">
+                            <span id="chatBtnText">Chat here on the site</span>
+                        </button>
+                        <a class="track-btn outline" id="formBtn" href="contact.html">
+                            <span id="formBtnText">Send a detailed brief</span>
+                        </a>
+                    </div>
+                    <div class="track-note" id="waHours"></div>
+                    <div class="track-after" id="messageNote"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FIT -->
+    <section class="fit-section" id="fitSection" style="display:none;">
+        <div class="container">
+            <div class="offer-header">
+                <div class="offer-label">Fit check</div>
+                <h2 class="offer-title" id="fitTitle"></h2>
+            </div>
+            <div class="fit-grid">
+                <div class="fit-card good">
+                    <h3 id="fitGoodTitle"></h3>
+                    <ul id="fitGoodList"></ul>
+                </div>
+                <div class="fit-card bad">
+                    <h3 id="fitBadTitle"></h3>
+                    <ul id="fitBadList"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW PRICING WORKS -->
+    <section class="howpricing" id="pricingSection" style="display:none;">
+        <div class="container">
+            <div class="offer-header">
+                <div class="offer-label">Pricing</div>
+                <h2 class="offer-title" id="pricingTitle"></h2>
+            </div>
+            <p class="howpricing-lede" id="pricingDescription"></p>
+            <div class="steps" id="pricingSteps"></div>
+            <div class="minimum-note" id="minimumNote" style="display:none;"></div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faqSection" style="display:none;">
+        <div class="container">
+            <div class="faq-header">
+                <div class="faq-label">FAQ</div>
+                <h2 class="faq-title" id="faqTitle"></h2>
+            </div>
+            <div class="faq-list" id="faqList"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left" id="footerLeft"></div>
+                <div class="footer-socials" id="footerSocials"></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie banner -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-banner-text">
+            <strong>We use cookies for analytics.</strong> By continuing, you help me understand which content is useful. You can decline &mdash; it won't affect anything on the site.
+        </div>
+        <div class="cookie-banner-actions">
+            <button class="cookie-btn" id="cookieDecline">Decline</button>
+            <button class="cookie-btn primary" id="cookieAccept">Accept</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="site-data.js"></script>
+    <script src="forms.js"></script>
+
+    <script>
+    const esc = s => String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+    const setText = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v || ''; };
+
+    // Theme has to apply before first paint or the page flashes.
+    try {
+        const t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+
+    // Track which section of the site sent them here, so a WhatsApp message
+    // arrives with context instead of a bare "hi".
+    function referrerContext() {
+        try {
+            const r = document.referrer;
+            if (!r || !r.includes(location.hostname)) return '';
+            const p = new URL(r).pathname.split('/').pop().replace('.html', '');
+            const map = {
+                services: ' your services and pricing',
+                projects: ' a project I saw in your portfolio',
+                'case-study': ' a case study on your site',
+                blog: ' an article on your blog',
+                index: ' the work you do'
+            };
+            return map[p] || '';
+        } catch (e) { return ''; }
+    }
+
+    function buildWhatsAppLink(number, prefill) {
+        const digits = String(number || '').replace(/\D/g, '');
+        if (!digits) return '';
+        const text = (prefill || 'Hi Damilare —') + referrerContext();
+        return 'https://wa.me/' + digits + '?text=' + encodeURIComponent(text);
+    }
+
+    let BOOKING_URL = '#';
+
+    function renderBookingPage(d) {
+        const bp = d.bookingPage || {};
+
+        // Nav / footer chrome, matching the rest of the site
+        document.getElementById('navLogo').innerHTML = esc(d.nav.logo) + '<span>.</span>';
+        BOOKING_URL = d.nav.bookingUrl || '#';
+        document.getElementById('footerLeft').innerHTML =
+            '<strong>' + esc(d.footer.name) + '</strong><br>&copy; ' + esc(d.footer.year) +
+            ' — All rights reserved.<br><a href="privacy.html" class="footer-legal">Privacy Policy</a>';
+        document.getElementById('footerSocials').innerHTML = (d.footer.socials || [])
+            .map(s => '<a href="' + esc(s.url) + '" class="social-icon" target="_blank" rel="noopener" aria-label="' +
+                      esc(s.name) + '">' + s.icon + '</a>').join('');
+
+        if (bp.meta) {
+            if (bp.meta.title) document.title = bp.meta.title;
+            const md = document.querySelector('meta[name="description"]');
+            if (md && bp.meta.description) md.setAttribute('content', bp.meta.description);
+        }
+
+        // Header
+        const h = bp.header || {};
+        const badge = document.getElementById('headerBadge');
+        if (h.badge) { badge.textContent = h.badge; badge.style.display = ''; }
+        setText('headerTitle', h.title);
+        setText('headerSubtitle', h.subtitle);
+
+        // ---- Track 1: the call ----
+        const c = bp.call || {};
+        const callTrack = document.getElementById('callTrack');
+        if (c.enabled === false) { callTrack.style.display = 'none'; }
+        else {
+            callTrack.style.display = '';
+            setText('callLabel', c.label);
+            setText('callTitle', c.title);
+            setText('callDescription', c.description);
+            setText('callDuration', c.duration);
+            setText('callCost', c.cost);
+            setText('callCtaText', c.buttonText);
+            setText('callAfterwards', c.afterwards);
+            document.getElementById('callAgenda').innerHTML =
+                (c.agenda || []).map(a => '<li>' + esc(a) + '</li>').join('');
+        }
+
+        // ---- Qualifier ----
+        const q = bp.qualifier || {};
+        const qualWrap = document.getElementById('qualWrap');
+        const callCta = document.getElementById('callCta');
+
+        if (q.enabled === false) {
+            // No qualifier: the button is just a link to the calendar.
+            callCta.onclick = () => window.open(BOOKING_URL, '_blank', 'noopener');
+        } else {
+            setText('qBottleneckLabel', q.bottleneckLabel);
+            setText('qToolsLabel', q.toolsLabel);
+            setText('qTimelineLabel', q.timelineLabel);
+            setText('qBudgetLabel', q.budgetLabel);
+            document.getElementById('qBottleneck').placeholder = q.bottleneckPlaceholder || '';
+            document.getElementById('qTools').placeholder = q.toolsPlaceholder || '';
+            document.getElementById('qTimeline').innerHTML =
+                (q.timelineOptions || []).map(o => '<option>' + esc(o) + '</option>').join('');
+            document.getElementById('qBudget').innerHTML =
+                (q.budgetOptions || []).map(o => '<option>' + esc(o) + '</option>').join('');
+            setText('qualSkip', q.skipText || 'Skip and go straight to the calendar');
+
+            callCta.onclick = () => {
+                qualWrap.classList.add('open');
+                callCta.style.display = 'none';
+                document.getElementById('qBottleneck').focus();
+            };
+        }
+
+        // Answers ride along as cal.com prefill params, and are logged so a
+        // half-finished qualifier still tells you someone was interested.
+        function calendarUrl() {
+            const base = BOOKING_URL;
+            if (base === '#') return base;
+            try {
+                const u = new URL(base);
+                const notes = [
+                    'Bottleneck: ' + (document.getElementById('qBottleneck')?.value || '—'),
+                    'Tools: ' + (document.getElementById('qTools')?.value || '—'),
+                    'Timeline: ' + (document.getElementById('qTimeline')?.value || '—'),
+                    'Budget: ' + (document.getElementById('qBudget')?.value || '—')
+                ].join(' | ');
+                u.searchParams.set('notes', notes);
+                return u.toString();
+            } catch (e) { return base; }
+        }
+
+        const qualContinue = document.getElementById('qualContinue');
+        if (qualContinue && !qualContinue.dataset.bound) {
+            qualContinue.dataset.bound = '1';
+            qualContinue.addEventListener('click', function () {
+                this.href = calendarUrl();
+                if (typeof window.__logToFirestore === 'function') {
+                    window.__logToFirestore('bookingIntents', {
+                        bottleneck: document.getElementById('qBottleneck')?.value || '',
+                        tools: document.getElementById('qTools')?.value || '',
+                        timeline: document.getElementById('qTimeline')?.value || '',
+                        budget: document.getElementById('qBudget')?.value || ''
+                    });
+                }
+                if (typeof gtag === 'function') gtag('event', 'booking_started');
+            });
+        }
+
+        const qualSkip = document.getElementById('qualSkip');
+        if (qualSkip) qualSkip.onclick = () => window.open(BOOKING_URL, '_blank', 'noopener');
+
+        // ---- Track 2: message ----
+        const m = bp.message || {};
+        const msgTrack = document.getElementById('messageTrack');
+        if (m.enabled === false) { msgTrack.style.display = 'none'; }
+        else {
+            msgTrack.style.display = '';
+            setText('messageLabel', m.label);
+            setText('messageTitle', m.title);
+            setText('messageDescription', m.description);
+            setText('messageNote', m.note);
+            setText('formBtnText', m.formButtonText);
+            document.getElementById('preparelist').innerHTML =
+                (c.prepare || []).map(p => '<li>' + esc(p) + '</li>').join('');
+
+            const wa = buildWhatsAppLink(d.integrations?.whatsappNumber, m.whatsappPrefill);
+            const waBtn = document.getElementById('waBtn');
+            if (wa) {
+                waBtn.href = wa;
+                waBtn.style.display = '';
+                setText('waBtnText', m.whatsappButtonText);
+                setText('waHours', d.integrations?.whatsappHours || '');
+                if (!waBtn.dataset.bound) {
+                    waBtn.dataset.bound = '1';
+                    waBtn.addEventListener('click', () => {
+                        if (typeof gtag === 'function') gtag('event', 'whatsapp_click');
+                    });
+                }
+            } else {
+                // Must reset explicitly: this function runs again when Firestore
+                // responds, and a stale visible button would link nowhere.
+                waBtn.style.display = 'none';
+                waBtn.removeAttribute('href');
+                setText('waHours', '');
+            }
+
+            // Only offered once a chat widget is actually present on the page.
+            const chatBtn = document.getElementById('chatBtn');
+            const chatAvailable = typeof window.__openSiteChat === 'function' || !!window.Tawk_API;
+            if (chatAvailable) {
+                chatBtn.style.display = '';
+                setText('chatBtnText', m.chatButtonText);
+                chatBtn.onclick = () => {
+                    if (typeof window.__openSiteChat === 'function') return window.__openSiteChat();
+                    if (window.Tawk_API && window.Tawk_API.maximize) window.Tawk_API.maximize();
+                };
+            }
+        }
+
+        // ---- Fit ----
+        const f = bp.fit || {};
+        const fitSection = document.getElementById('fitSection');
+        if (f.enabled !== false && (f.goodItems || []).length) {
+            fitSection.style.display = '';
+            setText('fitTitle', f.title);
+            setText('fitGoodTitle', f.goodTitle);
+            setText('fitBadTitle', f.badTitle);
+            document.getElementById('fitGoodList').innerHTML = (f.goodItems || []).map(i => '<li>' + esc(i) + '</li>').join('');
+            document.getElementById('fitBadList').innerHTML = (f.badItems || []).map(i => '<li>' + esc(i) + '</li>').join('');
+        } else { fitSection.style.display = 'none'; }
+
+        // ---- Pricing explainer ----
+        const pr = bp.pricing || {};
+        const priceSection = document.getElementById('pricingSection');
+        if (pr.enabled !== false && (pr.steps || []).length) {
+            priceSection.style.display = '';
+            setText('pricingTitle', pr.title);
+            setText('pricingDescription', pr.description);
+            document.getElementById('pricingSteps').innerHTML = (pr.steps || []).map((s, i) =>
+                '<div class="step"><div class="step-n">' + (i + 1) + '</div><h4>' +
+                esc(s.title) + '</h4><p>' + esc(s.detail) + '</p></div>').join('');
+            const min = document.getElementById('minimumNote');
+            if (pr.showMinimum && pr.minimumText) { min.textContent = pr.minimumText; min.style.display = ''; }
+            else { min.style.display = 'none'; }
+        } else { priceSection.style.display = 'none'; }
+
+        // ---- FAQ ----
+        const fq = bp.faq || {};
+        const faqSection = document.getElementById('faqSection');
+        if (fq.enabled !== false && (fq.items || []).length) {
+            faqSection.style.display = '';
+            setText('faqTitle', fq.title);
+            document.getElementById('faqList').innerHTML = (fq.items || []).map(item => `
+                <div class="faq-item" data-faq-item>
+                    <button class="faq-question" data-faq-toggle>
+                        <span>${esc(item.question)}</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">${esc(item.answer)}</div></div>
+                </div>`).join('');
+            document.querySelectorAll('[data-faq-toggle]').forEach(btn => {
+                btn.addEventListener('click', () => btn.closest('[data-faq-item]').classList.toggle('open'));
+            });
+        } else { faqSection.style.display = 'none'; }
+
+        if (typeof setupAnalytics === 'function') setupAnalytics(d);
+        if (typeof window.__loadTawkTo === 'function') window.__loadTawkTo(d);
+    }
+
+    // Static handlers
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        const n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', n);
+        try { localStorage.setItem('theme', n); } catch (e) {}
+    });
+    window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+    document.getElementById('navHamburger').addEventListener('click', () => document.getElementById('mobileNav').classList.add('active'));
+    document.getElementById('mobileNavClose').addEventListener('click', () => document.getElementById('mobileNav').classList.remove('active'));
+
+    // Boot — identical caching strategy to the rest of the site
+    const FIRESTORE_CACHE_KEY = 'siteContentCache';
+    function dismissSplash() {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            const sp = document.getElementById('initialSplash');
+            if (sp) sp.classList.add('loaded');
+            setTimeout(() => { if (sp) sp.remove(); }, 500);
+        }));
+    }
+    function bootSite() {
+        let rendered = false, init = null;
+        try {
+            const cached = localStorage.getItem(FIRESTORE_CACHE_KEY);
+            if (cached) { init = JSON.parse(cached); rendered = true; }
+        } catch (e) {}
+        if (!init && typeof SITE_DATA !== 'undefined') init = SITE_DATA;
+        if (init) { renderBookingPage(init); dismissSplash(); }
+        else setTimeout(dismissSplash, 1500);
+
+        const old = rendered ? localStorage.getItem(FIRESTORE_CACHE_KEY) : null;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            firebase.firestore().collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get()
+                .then(doc => {
+                    if (!doc.exists) return;
+                    const fresh = doc.data();
+                    const freshJson = JSON.stringify(fresh);
+                    if (freshJson !== old) renderBookingPage(fresh);
+                    try { localStorage.setItem(FIRESTORE_CACHE_KEY, freshJson); } catch (e) {}
+                })
+                .catch(err => console.warn('Firestore failed:', err));
+        } catch (e) { console.warn('Firebase init failed:', e); }
+    }
+    window.renderBookingPage = renderBookingPage;
+    bootSite();
+    </script>
+</body>
+</html>

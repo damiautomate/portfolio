@@ -53,6 +53,10 @@
         }
     }
 
+    // Exposed so other pages (e.g. the booking qualifier) can record intent
+    // without re-implementing the Firebase guard and metadata handling.
+    window.__logToFirestore = logToFirestore;
+
     /**
      * Track a GA4 conversion event if gtag is available.
      */

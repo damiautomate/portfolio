@@ -371,8 +371,131 @@ const SITE_DATA = {
   // ---- INTEGRATIONS (3rd-party service keys) ----
   integrations: {
     web3formsAccessKey: "",  // Get free at web3forms.com — handles form submissions
-    tawktoPropertyId: "",    // Get at tawk.to (dashboard → Admin → Chat Widget → looks like "67f123..."
-    tawktoWidgetId: "1default"  // usually stays as 1default
+    tawktoPropertyId: "",    // Leave empty to disable Tawk.to (replaced by the custom chat)
+    tawktoWidgetId: "1default",  // usually stays as 1default
+    // WhatsApp — full international format, digits only, no + or spaces.
+    // e.g. Nigeria 0803 123 4567 becomes "2348031234567"
+    whatsappNumber: "",
+    whatsappHours: "Usually replies within a few hours (WAT)"
+  },
+
+  // ---- WORK WITH ME / BOOKING PAGE ----
+  // Two equal tracks: book a call, or start a text conversation. Some clients
+  // want to talk; plenty would rather type first. Forcing everyone onto a
+  // calendar loses the second group entirely.
+  bookingPage: {
+    enabled: true,
+    meta: {
+      title: "Work With Me — Damilare Babalola",
+      description: "Book a free 30-minute call, or send a message first. Either way you get a straight answer on whether automation actually fixes your problem."
+    },
+    header: {
+      badge: "Available for new projects",
+      title: "Let's figure out what you actually need",
+      subtitle: "Two ways to start — book a call if you'd rather talk it through, or send a message if you'd rather type. Both reach me directly."
+    },
+
+    // Track 1 — the call
+    call: {
+      enabled: true,
+      label: "Book a call",
+      title: "30 minutes, free, no pitch",
+      description: "We look at how your business currently runs, find where the work is leaking, and decide together whether automation is the right fix. You leave with a diagnosis whether or not you hire me.",
+      duration: "30 minutes",
+      cost: "Free",
+      buttonText: "Pick a time",
+      agenda: [
+        "Where your time actually goes right now — the manual work you'd stop doing tomorrow if you could",
+        "Your current stack, and whether the tools you already pay for can do more",
+        "The single biggest bottleneck, and whether automation genuinely fixes it",
+        "Rough scope and a price range, if it's a fit"
+      ],
+      prepare: [
+        "A list of the tools you currently use",
+        "The one process that wastes the most time",
+        "Roughly how many people touch that process"
+      ],
+      afterwards: "Within 48 hours you get a written proposal — scope, timeline and a fixed price. No obligation, and no follow-up sequence if you pass."
+    },
+
+    // Track 2 — text first
+    message: {
+      enabled: true,
+      label: "Message first",
+      title: "Rather type than talk?",
+      description: "Ask anything — pricing, whether I've done something like your project before, or whether your idea is even possible. I answer properly, not with a sales script.",
+      whatsappButtonText: "Message on WhatsApp",
+      whatsappPrefill: "Hi Damilare — I found you through your site and I'd like to ask about",
+      chatButtonText: "Chat here on the site",
+      formButtonText: "Send a detailed brief",
+      note: "If you'd rather write a longer brief, the contact form gives you room to explain properly."
+    },
+
+    // Qualifier shown before the calendar. Short on purpose — every extra
+    // field costs conversions, these four are the ones that decide fit.
+    qualifier: {
+      enabled: true,
+      title: "Two quick things first",
+      subtitle: "So I can come to the call already useful instead of asking basics.",
+      bottleneckLabel: "What's the biggest thing eating your time right now?",
+      bottleneckPlaceholder: "e.g. chasing leads manually, re-typing orders between systems, onboarding taking days",
+      toolsLabel: "What tools are you using today?",
+      toolsPlaceholder: "e.g. Zoho, spreadsheets, WhatsApp, nothing yet",
+      timelineLabel: "When are you looking to start?",
+      timelineOptions: ["As soon as possible", "Within a month", "This quarter", "Just exploring"],
+      budgetLabel: "Do you have a budget in mind?",
+      budgetOptions: ["Not sure yet", "Under $1,000", "$1,000 – $3,000", "$3,000 – $10,000", "$10,000+"],
+      skipText: "Skip and go straight to the calendar"
+    },
+
+    // Fit filter. Saying who this isn't for reads as confidence and costs
+    // far less time than a call that was never going to close.
+    fit: {
+      enabled: true,
+      title: "Is this a fit?",
+      goodTitle: "Good fit if",
+      goodItems: [
+        "You're running a real business and the manual work is now the bottleneck",
+        "You want a system designed around how you actually operate, not a template",
+        "You'd rather fix the process than buy another tool",
+        "You want one person accountable for the whole build"
+      ],
+      badTitle: "Probably not if",
+      badItems: [
+        "You need a single Zapier connection fixed — that's an hour's work, not a project",
+        "You're looking for ad management, SEO or content marketing",
+        "You want the cheapest possible option rather than the right one",
+        "You need someone to manage the system day to day forever"
+      ]
+    },
+
+    // Pricing framing. Deliberately no tier prices — scope first, quote after.
+    pricing: {
+      enabled: true,
+      title: "How pricing works",
+      description: "I don't publish fixed packages, because no two businesses run the same way and a template price usually means a template solution. We scope the work on the call, then you get one fixed price in writing before anything starts. No hourly billing, no surprises.",
+      steps: [
+        { title: "Scope it together", detail: "On the call we agree exactly what gets built and what success looks like." },
+        { title: "Fixed quote in writing", detail: "One price for the whole build, sent within 48 hours. It doesn't move unless you change the scope." },
+        { title: "Build and launch", detail: "Milestones you can see, so you always know where things stand." },
+        { title: "Ongoing, if you want it", detail: "Most clients keep me on monthly afterwards to extend the system and handle changes. Optional, never assumed." }
+      ],
+      // Turn on to anchor expectations without publishing a rate card.
+      showMinimum: false,
+      minimumText: "Most engagements start from $1,000."
+    },
+
+    faq: {
+      enabled: true,
+      title: "Before you book",
+      items: [
+        { question: "Is the call really free?", answer: "Yes, and there's no pitch at the end. If automation isn't the right fix for your problem I'll tell you that on the call and point you somewhere better." },
+        { question: "What if I don't know what I need yet?", answer: "That's the normal case. Bring the problem, not the solution — working out what to build is the job." },
+        { question: "How soon can you start?", answer: "It depends on current capacity. I'll tell you honestly on the call rather than promising a date I can't hold." },
+        { question: "Do you work with businesses outside Nigeria?", answer: "Yes. Most of my work is remote with clients in other timezones — I'll find a slot that works for yours." },
+        { question: "What happens to my information?", answer: "It's used to prepare for the call and nothing else. No list, no sequence. See the privacy policy for details." }
+      ]
+    }
   },
 
   // ---- SERVICES & PRICING PAGE ----

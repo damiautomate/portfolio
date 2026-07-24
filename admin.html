@@ -665,6 +665,7 @@
             { id: 'blogPosts', label: 'All Posts', icon: ICONS.folder }
         ]},
         { group: 'Conversion Tools', items: [
+            { id: 'bookingPage', label: 'Work With Me / Booking', icon: ICONS.call },
             { id: 'servicesPricing', label: 'Services & Pricing', icon: ICONS.grid },
             { id: 'faqEditor', label: 'FAQ', icon: ICONS.site },
             { id: 'leadMagnet', label: 'Lead Magnet', icon: ICONS.star },
@@ -870,6 +871,166 @@
                 markDirty();
             }
         }
+    }
+
+    // ============================================================
+    // WORK WITH ME / BOOKING PAGE
+    // ============================================================
+    function renderBookingPageEditor(el) {
+        if (!data.bookingPage) data.bookingPage = {};
+        const b = data.bookingPage;
+        b.header = b.header || {}; b.call = b.call || {}; b.message = b.message || {};
+        b.qualifier = b.qualifier || {}; b.fit = b.fit || {}; b.pricing = b.pricing || {}; b.faq = b.faq || {};
+
+        const strList = (arr, path, label, addLabel) => `
+            <div class="section-card">
+                <div class="section-card-title">${label}</div>
+                <div class="list-items">
+                    ${(arr || []).map((v, i) => `
+                        <div class="list-item" style="padding: 0.5rem 0.8rem;">
+                            <div style="display:flex;gap:0.5rem;align-items:center;">
+                                <input type="text" class="field-input" style="flex:1;" data-bind="${path}.${i}" value="${esc(v)}">
+                                <button class="list-item-btn" data-move-up="${path}.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                <button class="list-item-btn" data-move-down="${path}.${i}" ${i === (arr || []).length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                <button class="list-item-btn danger" data-remove="${path}.${i}">${ICONS.del}</button>
+                            </div>
+                        </div>`).join('')}
+                </div>
+                <button class="add-item-btn" data-add="${path}">${ICONS.add} ${addLabel}</button>
+            </div>`;
+
+        el.innerHTML = sectionHeader(
+            'Work With Me / Booking Page',
+            'The page every "Book a Call" button points to. Two tracks: book a call, or message first. Turn the page off and those buttons go straight to your calendar instead.'
+        ) +
+
+        `<div class="section-card">
+            <div class="section-card-title">Page Status</div>
+            ${field('Booking page enabled', 'bookingPage.enabled', b.enabled !== false, { type: 'checkbox' })}
+            <div class="field-hint">When off, every "Book a Call" button links directly to your calendar URL (set under Navigation).</div>
+            ${field('Browser Tab Title', 'bookingPage.meta.title', (b.meta || {}).title || '')}
+            ${field('Meta Description', 'bookingPage.meta.description', (b.meta || {}).description || '', { type: 'textarea', rows: 2 })}
+        </div>
+
+        <div class="section-card">
+            <div class="section-card-title">Header</div>
+            ${field('Availability Badge', 'bookingPage.header.badge', b.header.badge || '', { placeholder: 'e.g. Available for new projects' })}
+            <div class="field-hint">Update this to reflect real capacity, e.g. "2 slots left this month". Leave empty to hide it.</div>
+            ${field('Title', 'bookingPage.header.title', b.header.title || '')}
+            ${field('Subtitle', 'bookingPage.header.subtitle', b.header.subtitle || '', { type: 'textarea', rows: 2 })}
+        </div>
+
+        <div class="section-card">
+            <div class="section-card-title">Track 1 &mdash; The Call</div>
+            ${field('Show this track', 'bookingPage.call.enabled', b.call.enabled !== false, { type: 'checkbox' })}
+            ${field('Tag', 'bookingPage.call.label', b.call.label || '')}
+            ${field('Title', 'bookingPage.call.title', b.call.title || '')}
+            ${field('Description', 'bookingPage.call.description', b.call.description || '', { type: 'textarea', rows: 3 })}
+            ${field('Duration', 'bookingPage.call.duration', b.call.duration || '')}
+            ${field('Cost', 'bookingPage.call.cost', b.call.cost || '')}
+            ${field('Button Text', 'bookingPage.call.buttonText', b.call.buttonText || '')}
+            ${field('What happens afterwards', 'bookingPage.call.afterwards', b.call.afterwards || '', { type: 'textarea', rows: 3 })}
+        </div>` +
+
+        strList(b.call.agenda, 'bookingPage.call.agenda', 'Call Agenda &mdash; what you cover', 'Add Agenda Item') +
+        strList(b.call.prepare, 'bookingPage.call.prepare', 'What to Prepare', 'Add Item') +
+
+        `<div class="section-card">
+            <div class="section-card-title">Track 2 &mdash; Message First</div>
+            <div class="section-card-desc">For visitors who would rather type than talk. The WhatsApp number is set under Integrations.</div>
+            ${field('Show this track', 'bookingPage.message.enabled', b.message.enabled !== false, { type: 'checkbox' })}
+            ${field('Tag', 'bookingPage.message.label', b.message.label || '')}
+            ${field('Title', 'bookingPage.message.title', b.message.title || '')}
+            ${field('Description', 'bookingPage.message.description', b.message.description || '', { type: 'textarea', rows: 3 })}
+            ${field('WhatsApp Button Text', 'bookingPage.message.whatsappButtonText', b.message.whatsappButtonText || '')}
+            ${field('WhatsApp Prefilled Message', 'bookingPage.message.whatsappPrefill', b.message.whatsappPrefill || '', { type: 'textarea', rows: 2 })}
+            <div class="field-hint">Context is appended automatically &mdash; someone arriving from the services page gets "&hellip;ask about your services and pricing".</div>
+            ${field('On-site Chat Button Text', 'bookingPage.message.chatButtonText', b.message.chatButtonText || '')}
+            <div class="field-hint">Only appears once a chat widget is active on the site.</div>
+            ${field('Contact Form Button Text', 'bookingPage.message.formButtonText', b.message.formButtonText || '')}
+            ${field('Note', 'bookingPage.message.note', b.message.note || '', { type: 'textarea', rows: 2 })}
+        </div>
+
+        <div class="section-card">
+            <div class="section-card-title">Qualifier</div>
+            <div class="section-card-desc">Four questions shown after they click "Pick a time". Answers travel to your calendar as booking notes so you arrive prepared. Visitors can always skip.</div>
+            ${field('Enable qualifier', 'bookingPage.qualifier.enabled', b.qualifier.enabled !== false, { type: 'checkbox' })}
+            ${field('Bottleneck Question', 'bookingPage.qualifier.bottleneckLabel', b.qualifier.bottleneckLabel || '')}
+            ${field('Bottleneck Placeholder', 'bookingPage.qualifier.bottleneckPlaceholder', b.qualifier.bottleneckPlaceholder || '')}
+            ${field('Tools Question', 'bookingPage.qualifier.toolsLabel', b.qualifier.toolsLabel || '')}
+            ${field('Tools Placeholder', 'bookingPage.qualifier.toolsPlaceholder', b.qualifier.toolsPlaceholder || '')}
+            ${field('Timeline Question', 'bookingPage.qualifier.timelineLabel', b.qualifier.timelineLabel || '')}
+            ${field('Budget Question', 'bookingPage.qualifier.budgetLabel', b.qualifier.budgetLabel || '')}
+            ${field('Skip Link Text', 'bookingPage.qualifier.skipText', b.qualifier.skipText || '')}
+        </div>` +
+
+        strList(b.qualifier.timelineOptions, 'bookingPage.qualifier.timelineOptions', 'Timeline Options', 'Add Option') +
+        strList(b.qualifier.budgetOptions, 'bookingPage.qualifier.budgetOptions', 'Budget Options', 'Add Option') +
+
+        `<div class="section-card">
+            <div class="section-card-title">Fit Check</div>
+            <div class="section-card-desc">Saying who this isn't for filters out calls that were never going to close.</div>
+            ${field('Show fit check', 'bookingPage.fit.enabled', b.fit.enabled !== false, { type: 'checkbox' })}
+            ${field('Section Title', 'bookingPage.fit.title', b.fit.title || '')}
+            ${field('Good Fit Heading', 'bookingPage.fit.goodTitle', b.fit.goodTitle || '')}
+            ${field('Bad Fit Heading', 'bookingPage.fit.badTitle', b.fit.badTitle || '')}
+        </div>` +
+
+        strList(b.fit.goodItems, 'bookingPage.fit.goodItems', 'Good Fit If&hellip;', 'Add Item') +
+        strList(b.fit.badItems, 'bookingPage.fit.badItems', 'Probably Not If&hellip;', 'Add Item') +
+
+        `<div class="section-card">
+            <div class="section-card-title">How Pricing Works</div>
+            <div class="section-card-desc">Explains bespoke pricing without publishing a rate card.</div>
+            ${field('Show this section', 'bookingPage.pricing.enabled', b.pricing.enabled !== false, { type: 'checkbox' })}
+            ${field('Title', 'bookingPage.pricing.title', b.pricing.title || '')}
+            ${field('Description', 'bookingPage.pricing.description', b.pricing.description || '', { type: 'textarea', rows: 4 })}
+            ${field('Show minimum engagement', 'bookingPage.pricing.showMinimum', !!b.pricing.showMinimum, { type: 'checkbox' })}
+            ${field('Minimum Engagement Text', 'bookingPage.pricing.minimumText', b.pricing.minimumText || '')}
+            <div class="field-hint">Off by default. Turning it on anchors expectations and cuts unqualified enquiries without committing you to fixed package prices.</div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-card-title">Pricing Steps</div>
+            <div class="list-items">
+                ${(b.pricing.steps || []).map((s, i) => `
+                    <div class="list-item">
+                        <div class="list-item-header">
+                            <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc(s.title || '')}</div>
+                            <div class="list-item-actions">
+                                <button class="list-item-btn" data-move-up="bookingPage.pricing.steps.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                <button class="list-item-btn" data-move-down="bookingPage.pricing.steps.${i}" ${i === (b.pricing.steps || []).length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                <button class="list-item-btn danger" data-remove="bookingPage.pricing.steps.${i}">${ICONS.del}</button>
+                            </div>
+                        </div>
+                        ${field('Step Title', `bookingPage.pricing.steps.${i}.title`, s.title || '')}
+                        ${field('Detail', `bookingPage.pricing.steps.${i}.detail`, s.detail || '', { type: 'textarea', rows: 2 })}
+                    </div>`).join('')}
+            </div>
+            <button class="add-item-btn" data-add="bookingPage.pricing.steps">${ICONS.add} Add Step</button>
+        </div>
+
+        <div class="section-card">
+            <div class="section-card-title">Booking FAQ</div>
+            ${field('Show FAQ', 'bookingPage.faq.enabled', b.faq.enabled !== false, { type: 'checkbox' })}
+            ${field('Title', 'bookingPage.faq.title', b.faq.title || '')}
+            <div class="list-items">
+                ${(b.faq.items || []).map((item, i) => `
+                    <div class="list-item">
+                        <div class="list-item-header">
+                            <div class="list-item-title"><span class="list-item-number">${i+1}</span>${esc((item.question || '').substring(0, 60))}</div>
+                            <div class="list-item-actions">
+                                <button class="list-item-btn" data-move-up="bookingPage.faq.items.${i}" ${i === 0 ? 'disabled' : ''}>${ICONS.up}</button>
+                                <button class="list-item-btn" data-move-down="bookingPage.faq.items.${i}" ${i === (b.faq.items || []).length - 1 ? 'disabled' : ''}>${ICONS.down}</button>
+                                <button class="list-item-btn danger" data-remove="bookingPage.faq.items.${i}">${ICONS.del}</button>
+                            </div>
+                        </div>
+                        ${field('Question', `bookingPage.faq.items.${i}.question`, item.question || '')}
+                        ${field('Answer', `bookingPage.faq.items.${i}.answer`, item.answer || '', { type: 'textarea', rows: 3 })}
+                    </div>`).join('')}
+            </div>
+            <button class="add-item-btn" data-add="bookingPage.faq.items">${ICONS.add} Add Question</button>
+        </div>`;
     }
 
     // ============================================================
@@ -1096,6 +1257,7 @@
             blogSettings: 'Blog Settings',
             blogPosts: 'Blog Posts',
             analytics: 'Analytics & Tracking',
+            bookingPage: 'Work With Me / Booking Page',
             servicesPricing: 'Services & Pricing',
             faqEditor: 'FAQ',
             leadMagnet: 'Lead Magnet',
@@ -1136,6 +1298,7 @@
                 else renderBlogPostsListEditor(content);
                 break;
             case 'analytics': renderAnalyticsEditor(content); break;
+            case 'bookingPage': renderBookingPageEditor(content); break;
             case 'servicesPricing': renderServicesPricingEditor(content); break;
             case 'faqEditor': renderFaqEditor(content); break;
             case 'leadMagnet': renderLeadMagnetEditor(content); break;

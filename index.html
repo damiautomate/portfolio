@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">Damilare Babalola — Marketing Automation &amp; CRM Consultant</title>
     <meta name="description" id="pageMeta" content="I build CRM systems, customer journeys and automated workflows that run your business for you. Zoho, GoHighLevel, n8n and Make.com specialist.">
-    <link rel="canonical" href="https://damimarketautomate.pro/">
+    <link rel="canonical" href="https://www.damimarketautomate.pro/">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="author" content="Damilare Babalola">
     <meta name="theme-color" content="#0A0A0F">
@@ -17,8 +17,8 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:title" content="Damilare Babalola — Marketing Automation &amp; CRM Consultant">
     <meta property="og:description" content="I build CRM systems, customer journeys and automated workflows that run your business for you. Zoho, GoHighLevel, n8n and Make.com specialist.">
-    <meta property="og:url" content="https://damimarketautomate.pro/">
-    <meta property="og:image" content="https://damimarketautomate.pro/og-image.png">
+    <meta property="og:url" content="https://www.damimarketautomate.pro/">
+    <meta property="og:image" content="https://www.damimarketautomate.pro/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Damilare Babalola — Marketing Automation & CRM Consultant">
@@ -27,7 +27,7 @@
     <meta name="twitter:creator" content="@Dami_Market">
     <meta name="twitter:title" content="Damilare Babalola — Marketing Automation &amp; CRM Consultant">
     <meta name="twitter:description" content="I build CRM systems, customer journeys and automated workflows that run your business for you. Zoho, GoHighLevel, n8n and Make.com specialist.">
-    <meta name="twitter:image" content="https://damimarketautomate.pro/og-image.png">
+    <meta name="twitter:image" content="https://www.damimarketautomate.pro/og-image.png">
 
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="favicon.svg">
@@ -707,10 +707,16 @@
 
         // Nav
         document.getElementById('navLogo').innerHTML = d.nav.logo + '<span>.</span>';
-        document.getElementById('navBookBtn').href = d.nav.bookingUrl;
-        document.getElementById('navBookBtn').textContent = d.nav.bookingText;
-        document.getElementById('mobileBookBtn').href = d.nav.bookingUrl;
-        document.getElementById('mobileBookBtn').textContent = d.nav.bookingText;
+        const bookHref = (d.bookingPage && d.bookingPage.enabled !== false) ? 'book.html' : d.nav.bookingUrl;
+        const bookExternal = bookHref !== 'book.html';
+        ['navBookBtn', 'mobileBookBtn'].forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.href = bookHref;
+            el.textContent = d.nav.bookingText;
+            if (bookExternal) { el.target = '_blank'; el.rel = 'noopener'; }
+            else { el.removeAttribute('target'); el.removeAttribute('rel'); }
+        });
 
         // Hero
         document.getElementById('heroBadge').textContent = d.hero.badge;

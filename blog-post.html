@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog — Damilare Babalola</title>
     <meta name="description" content="Tutorials and strategy breakdowns on marketing automation, CRM architecture and AI workflows.">
-    <link rel="canonical" href="https://damimarketautomate.pro/blog-post.html">
+    <link rel="canonical" href="https://www.damimarketautomate.pro/blog-post.html">
     <meta name="robots" content="noindex, follow">
     <meta name="author" content="Damilare Babalola">
     <meta name="theme-color" content="#0A0A0F">
@@ -17,8 +17,8 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:title" content="Blog — Damilare Babalola">
     <meta property="og:description" content="Tutorials and strategy breakdowns on marketing automation, CRM architecture and AI workflows.">
-    <meta property="og:url" content="https://damimarketautomate.pro/blog-post.html">
-    <meta property="og:image" content="https://damimarketautomate.pro/og-image.png">
+    <meta property="og:url" content="https://www.damimarketautomate.pro/blog-post.html">
+    <meta property="og:image" content="https://www.damimarketautomate.pro/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Damilare Babalola — Marketing Automation & CRM Consultant">
@@ -27,7 +27,7 @@
     <meta name="twitter:creator" content="@Dami_Market">
     <meta name="twitter:title" content="Blog — Damilare Babalola">
     <meta name="twitter:description" content="Tutorials and strategy breakdowns on marketing automation, CRM architecture and AI workflows.">
-    <meta name="twitter:image" content="https://damimarketautomate.pro/og-image.png">
+    <meta name="twitter:image" content="https://www.damimarketautomate.pro/og-image.png">
 
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="favicon.svg">
@@ -439,7 +439,11 @@
         // Nav & Footer
         document.getElementById('navLogo').innerHTML = data.nav.logo + '<span>.</span>';
         const bookBtn = document.getElementById('navBookBtn');
-        bookBtn.href = data.nav.bookingUrl; bookBtn.textContent = data.nav.bookingText;
+        const _d = data;
+        const _bookHref = (_d.bookingPage && _d.bookingPage.enabled !== false) ? 'book.html' : _d.nav.bookingUrl;
+        bookBtn.href = _bookHref;
+        bookBtn.textContent = _d.nav.bookingText;
+        if (_bookHref === 'book.html') { bookBtn.removeAttribute('target'); bookBtn.removeAttribute('rel'); }
         document.getElementById('footerLeft').innerHTML = `<strong>${esc(data.footer.name)}</strong><br>&copy; ${data.footer.year} — All rights reserved.<br><a href="privacy.html" class="footer-legal">Privacy Policy</a>`;
         document.getElementById('footerSocials').innerHTML = data.footer.socials.map(s =>
             `<a href="${s.url}" target="_blank" class="social-icon" aria-label="${esc(s.platform)}"><svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS[s.icon] || ''}</svg></a>`
