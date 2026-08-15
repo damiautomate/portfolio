@@ -29,8 +29,10 @@
     <meta name="twitter:description" content="I build CRM systems, customer journeys and automated workflows that run your business for you. Zoho, GoHighLevel, n8n and Make.com specialist.">
     <meta name="twitter:image" content="https://www.damimarketautomate.pro/og-image.png">
 
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -449,6 +451,25 @@
             50% { opacity: 1; }
         }
     </style>
+    <link rel="stylesheet" href="design.css">
+    <script>
+    /* Service icons. The admin panel stores an emoji per service; these map the
+       shipped ones to line icons. Anything unrecognised falls through to the
+       original character, so a custom icon set in admin still renders. */
+    const SERVICE_ICONS = {
+      '\u2699': '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+      '\uD83D\uDDFA': '<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',
+      '\uD83D\uDD04': '<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+      '\uD83E\uDD16': '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>'
+    };
+    function serviceIcon(raw){
+      const key = (raw || '').replace(/\uFE0F/g, '').trim();
+      const p = SERVICE_ICONS[key];
+      if (p) return '<svg viewBox="0 0 24 24" aria-hidden="true">' + p + '</svg>';
+      return (raw || '').replace(/[&<>"]/g, c =>
+        ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    }
+    </script>
 </head>
 <body>
 
@@ -758,7 +779,7 @@
         document.getElementById('servicesTitle').textContent = d.services.title;
         document.getElementById('servicesSubtitle').textContent = d.services.subtitle;
         document.getElementById('servicesGrid').innerHTML = d.services.items.map((s, i) =>
-            `<div class="service-card reveal reveal-delay-${i+1}"><div class="service-icon">${s.icon}</div><h3>${s.title}</h3><p>${s.description}</p></div>`
+            `<div class="service-card reveal reveal-delay-${i+1}"><div class="service-icon">${serviceIcon(s.icon)}</div><h3>${s.title}</h3><p>${s.description}</p></div>`
         ).join('');
 
         // Projects
