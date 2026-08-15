@@ -18,7 +18,7 @@ const SITE_DATA = {
 
   // ---- THEME SETTINGS ----
   theme: {
-    accentColor: "#00D4AA",
+    accentColor: "#0066FE",
     defaultTheme: "dark" // "dark" or "light"
   },
 

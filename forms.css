@@ -26,7 +26,7 @@
 .newsletter-input:focus { outline: none; border-color: var(--accent); }
 .newsletter-btn {
     padding: 0.75rem 1.2rem; border-radius: 8px; border: none;
-    background: var(--accent); color: #0A0A0F; font-weight: 600; font-size: 0.9rem;
+    background: var(--accent); color: #FFFFFF; font-weight: 600; font-size: 0.9rem;
     cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
 }
 .newsletter-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
@@ -47,7 +47,7 @@
 }
 .lead-magnet-badge {
     display: inline-block; padding: 0.3rem 0.75rem;
-    background: var(--accent); color: #0A0A0F; font-size: 0.7rem; font-weight: 700;
+    background: var(--accent); color: #FFFFFF; font-size: 0.7rem; font-weight: 700;
     letter-spacing: 0.08em; text-transform: uppercase; border-radius: 20px;
     margin-bottom: 1rem;
 }
@@ -78,7 +78,7 @@
 .lead-magnet-input:focus { outline: none; border-color: var(--accent); }
 .lead-magnet-btn {
     padding: 0.85rem 1rem; border-radius: 8px; border: none;
-    background: var(--accent); color: #0A0A0F; font-weight: 700; font-size: 0.92rem;
+    background: var(--accent); color: #FFFFFF; font-weight: 700; font-size: 0.92rem;
     cursor: pointer; margin-top: 0.4rem; transition: transform 0.15s, box-shadow 0.2s;
 }
 .lead-magnet-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px var(--accent-glow); }
@@ -111,7 +111,7 @@
 .contact-form textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
 .contact-form-submit {
     padding: 0.95rem 1.5rem; border-radius: 10px; border: none;
-    background: var(--accent); color: #0A0A0F; font-weight: 700; font-size: 0.95rem;
+    background: var(--accent); color: #FFFFFF; font-weight: 700; font-size: 0.95rem;
     cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
     display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center;
     margin-top: 0.3rem;

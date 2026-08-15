@@ -30,13 +30,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#00D4AA;--accent-dim:#00D4AA22;
+    --accent:#0066FE; --accent-text: #4D94FF;--accent-dim:#0066FE22;
     --dark-bg:#0A0A0F;--dark-bg-2:#12121A;--dark-card:#16161F;--dark-text:#E8E8ED;--dark-muted:#8888A0;--dark-border:#2A2A3A;
     --light-bg:#F5F3F0;--light-bg-2:#EDEAE6;--light-card:#FFFFFF;--light-text:#1A1A2E;--light-muted:#6B6B80;--light-border:#D8D5D0;
     --font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;
   }
   [data-theme="dark"]{--bg:var(--dark-bg);--bg-2:var(--dark-bg-2);--card:var(--dark-card);--text:var(--dark-text);--muted:var(--dark-muted);--border:var(--dark-border)}
-  [data-theme="light"]{--bg:var(--light-bg);--bg-2:var(--light-bg-2);--card:var(--light-card);--text:var(--light-text);--muted:var(--light-muted);--border:var(--light-border)}
+  [data-theme="light"]{ --accent-text: #0052E0;--bg:var(--light-bg);--bg-2:var(--light-bg-2);--card:var(--light-card);--text:var(--light-text);--muted:var(--light-muted);--border:var(--light-border)}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.75;transition:background .3s,color .3s}

@@ -16,12 +16,12 @@
     <style>
         /* ============================================================
            ADMIN PANEL — FULL VISUAL EDITOR
-           Theme matches your site: accent #00D4AA, dark/light modes
+           Theme matches your site: accent #0066FE, dark/light modes
            ============================================================ */
         :root {
-            --accent: #00D4AA;
-            --accent-dim: #00D4AA22;
-            --accent-glow: #00D4AA40;
+            --accent: #0066FE; --accent-text: #4D94FF;
+            --accent-dim: #0066FE22;
+            --accent-glow: #0066FE55;
             --dark-bg: #0A0A0F;
             --dark-bg-secondary: #12121A;
             --dark-bg-card: #16161F;
@@ -41,7 +41,7 @@
             --sidebar-width: 260px;
         }
         [data-theme="dark"] { --bg: var(--dark-bg); --bg-secondary: var(--dark-bg-secondary); --bg-card: var(--dark-bg-card); --text: var(--dark-text); --text-muted: var(--dark-text-muted); --border: var(--dark-border); }
-        [data-theme="light"] { --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary); --bg-card: var(--light-bg-card); --text: var(--light-text); --text-muted: var(--light-text-muted); --border: var(--light-border); }
+        [data-theme="light"] { --accent-text: #0052E0; --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary); --bg-card: var(--light-bg-card); --text: var(--light-text); --text-muted: var(--light-text-muted); --border: var(--light-border); }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; min-height: 100vh; }
@@ -76,7 +76,7 @@
         .login-error { color: var(--danger); font-size: 0.85rem; margin-bottom: 1rem; text-align: center; min-height: 1.2rem; }
         .login-btn {
             width: 100%; padding: 0.85rem; border-radius: 10px;
-            background: var(--accent); color: #0A0A0F; border: none;
+            background: var(--accent); color: #FFFFFF; border: none;
             font-size: 0.95rem; font-weight: 600; transition: transform 0.15s, box-shadow 0.2s;
         }
         .login-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-glow); }
@@ -140,7 +140,7 @@
         }
         .topbar-btn:hover { border-color: var(--accent); background: var(--accent-dim); }
         .topbar-btn.primary {
-            background: var(--accent); color: #0A0A0F; border-color: var(--accent);
+            background: var(--accent); color: #FFFFFF; border-color: var(--accent);
         }
         .topbar-btn.primary:hover { background: var(--accent); box-shadow: 0 4px 16px var(--accent-glow); }
         .topbar-btn svg { width: 14px; height: 14px; }
@@ -1456,7 +1456,7 @@
                         <input type="color" data-bind="theme.accentColor" value="${data.theme.accentColor}">
                         <input type="text" data-bind="theme.accentColor" value="${data.theme.accentColor}" data-sync="color">
                     </div>
-                    <div class="field-hint">Default is #00D4AA (teal/mint). Pick any color.</div>
+                    <div class="field-hint">Default is #0066FE (DMA brand blue). Pick any color.</div>
                 </div>
             </div>
             <div class="section-card">
@@ -3794,18 +3794,18 @@ p { color: var(--text-muted); margin-bottom: 0.8rem; }
 .stats { display: flex; gap: 2rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .stat-num { font-family: 'Syne'; font-size: 2rem; font-weight: 800; color: var(--accent); }
 .stat-lbl { font-size: 0.85rem; color: var(--text-muted); }
-.section-label { display: inline-block; font-family: 'Syne'; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600; }
+.section-label { display: inline-block; font-family: 'Syne'; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-text); margin-bottom: 0.5rem; font-weight: 600; }
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.2rem; }
 .card { padding: 1.2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; }
-.card .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 5px; background: var(--accent); color: #0A0A0F; font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; }
-.btn { display: inline-block; padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--accent); color: #0A0A0F; font-weight: 600; margin-right: 0.5rem; font-size: 0.85rem; text-decoration: none; }
+.card .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 5px; background: var(--accent); color: #FFFFFF; font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; }
+.btn { display: inline-block; padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--accent); color: #FFFFFF; font-weight: 600; margin-right: 0.5rem; font-size: 0.85rem; text-decoration: none; }
 .btn-sec { background: transparent; border: 1px solid var(--border); color: var(--text); }
 .tools { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
 .tool { padding: 0.3rem 0.7rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.78rem; color: var(--text); background: var(--bg-card); }
 .quote { padding: 1rem; border-left: 3px solid var(--accent); margin-top: 0.8rem; font-style: italic; color: var(--text); }
 .footer { padding-top: 2rem; color: var(--text-muted); font-size: 0.85rem; text-align: center; }
 img { max-width: 200px; border-radius: 10px; display: block; margin: 0.5rem 0; }
-.notice { position: fixed; top: 0; left: 0; right: 0; padding: 0.5rem; background: var(--accent); color: #0A0A0F; text-align: center; font-size: 0.8rem; font-weight: 600; z-index: 999; }
+.notice { position: fixed; top: 0; left: 0; right: 0; padding: 0.5rem; background: var(--accent); color: #FFFFFF; text-align: center; font-size: 0.8rem; font-weight: 600; z-index: 999; }
 </style></head><body>
 <div class="notice">⚡ Preview Mode — This is a simplified preview. Upload site-data.js and refresh your real site for full fidelity.</div>
 <div class="container" style="margin-top: 2.5rem;">

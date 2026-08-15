@@ -43,9 +43,9 @@
            CSS VARIABLES — SAME AS ALL PAGES
            ============================================================ */
         :root {
-            --accent: #00D4AA;
-            --accent-dim: #00D4AA22;
-            --accent-glow: #00D4AA40;
+            --accent: #0066FE; --accent-text: #4D94FF;
+            --accent-dim: #0066FE22;
+            --accent-glow: #0066FE55;
             --dark-bg: #0A0A0F;
             --dark-bg-secondary: #12121A;
             --dark-bg-card: #16161F;
@@ -67,7 +67,7 @@
             --bg-card: var(--dark-bg-card); --text: var(--dark-text);
             --text-muted: var(--dark-text-muted); --border: var(--dark-border);
         }
-        [data-theme="light"] {
+        [data-theme="light"] { --accent-text: #0052E0;
             --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary);
             --bg-card: var(--light-bg-card); --text: var(--light-text);
             --text-muted: var(--light-text-muted); --border: var(--light-border);
@@ -144,14 +144,14 @@
         [data-theme="light"] .theme-toggle::after { transform: translateX(20px); }
         .theme-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 0.65rem; line-height: 1; pointer-events: none; }
         .theme-icon.moon { left: 5px; } .theme-icon.sun { right: 5px; }
-        .btn-nav { padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; font-family: var(--font-body); background: var(--accent); color: #0A0A0F; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-nav { padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; font-family: var(--font-body); background: var(--accent); color: #FFFFFF; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
         .btn-nav:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
         .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
         .nav-hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
         .mobile-nav { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
         .mobile-nav.active { display: flex; }
         .mobile-nav a { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--text); transition: color 0.3s; }
-        .mobile-nav a:hover { color: var(--accent); }
+        .mobile-nav a:hover { color: var(--accent-text); }
         .mobile-nav-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 1.8rem; color: var(--text); cursor: pointer; }
 
         /* ============================================================
@@ -189,7 +189,7 @@
         .case-tag {
             display: inline-block; padding: 0.3rem 0.8rem; border-radius: 6px;
             font-size: 0.72rem; font-weight: 600; background: var(--accent);
-            color: #0A0A0F; text-transform: uppercase; letter-spacing: 0.06em;
+            color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.06em;
             margin-bottom: 1rem; animation: fadeInUp 0.5s 0.05s ease both;
         }
 
@@ -356,7 +356,7 @@
             width: 44px; height: 44px; border-radius: 50%;
             background: var(--accent-dim); display: flex; align-items: center;
             justify-content: center; font-family: var(--font-display);
-            font-weight: 700; font-size: 0.85rem; color: var(--accent);
+            font-weight: 700; font-size: 0.85rem; color: var(--accent-text);
         }
         .testimonial-name { font-weight: 600; font-size: 0.9rem; }
         .testimonial-role { font-size: 0.78rem; color: var(--text-muted); }
@@ -425,7 +425,7 @@
         .section-label {
             display: inline-flex; align-items: center; gap: 0.5rem;
             font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
-            letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+            letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-text);
             margin-bottom: 1rem;
         }
         .section-label::before { content: ''; width: 20px; height: 1.5px; background: var(--accent); }
@@ -441,7 +441,7 @@
             display: inline-flex; align-items: center; gap: 0.5rem;
             padding: 0.85rem 2rem; border-radius: 10px; font-family: var(--font-body);
             font-size: 0.95rem; font-weight: 600; background: var(--accent);
-            color: #0A0A0F; border: none; cursor: pointer;
+            color: #FFFFFF; border: none; cursor: pointer;
             transition: transform 0.2s, box-shadow 0.3s;
         }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
@@ -454,10 +454,10 @@
         .footer-left { font-size: 0.85rem; color: var(--text-muted); }
         .footer-left strong { color: var(--text); font-family: var(--font-display); }
         .footer-legal { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; opacity: 0.75; transition: color 0.2s, opacity 0.2s; }
-        .footer-legal:hover { color: var(--accent); opacity: 1; }
+        .footer-legal:hover { color: var(--accent-text); opacity: 1; }
         .footer-socials { display: flex; gap: 0.6rem; }
         .social-icon { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, background 0.3s, transform 0.2s; color: var(--text-muted); }
-        .social-icon:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); transform: translateY(-2px); }
+        .social-icon:hover { border-color: var(--accent-text); background: var(--accent-dim); color: var(--accent-text); transform: translateY(-2px); }
         .social-icon svg { width: 18px; height: 18px; }
 
         /* ============================================================
@@ -485,7 +485,7 @@
         .cookie-banner-text strong { color: var(--text); }
         .cookie-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
         .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; transition: all 0.2s; }
-        .cookie-btn.primary { background: var(--accent); color: #0A0A0F; border-color: var(--accent); }
+        .cookie-btn.primary { background: var(--accent); color: #FFFFFF; border-color: var(--accent); }
         .cookie-btn:hover { transform: translateY(-1px); }
     </style>
 </head>
@@ -493,7 +493,7 @@
 
     <!-- INITIAL SPLASH — fixes FOUC -->
     <div id="initialSplash" style="position:fixed;inset:0;z-index:10000;background:#0A0A0F;display:flex;align-items:center;justify-content:center;transition:opacity 0.4s ease, visibility 0.4s;">
-        <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#E8E8ED;animation:splashPulse 1.5s ease-in-out infinite;">Damilare<span style="color:#00D4AA;">.</span></div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#E8E8ED;animation:splashPulse 1.5s ease-in-out infinite;">Damilare<span style="color:#0066FE;">.</span></div>
     </div>
     <style>
         [data-theme="light"] #initialSplash { background: #F5F3F0 !important; }
@@ -687,10 +687,16 @@
     function renderCaseStudy(data, caseId) {
         // Setup theme
         try { const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.setAttribute('data-theme', data.theme.defaultTheme); } catch(e) {}
-        if (data.theme.accentColor !== '#00D4AA') {
-            document.documentElement.style.setProperty('--accent', data.theme.accentColor);
-            document.documentElement.style.setProperty('--accent-dim', data.theme.accentColor + '22');
-            document.documentElement.style.setProperty('--accent-glow', data.theme.accentColor + '40');
+        // Brand accent is #0066FE and lives in CSS. Only a genuinely custom accent
+        // chosen in admin may override it -- never the retired teal, which
+        // published Firestore documents still contain and which would otherwise
+        // undo the rebrand at runtime, on the live site only.
+        const __brandAccent = (data.theme.accentColor || '').trim().toUpperCase();
+        if (__brandAccent && __brandAccent !== '#00D4AA' && __brandAccent !== '#0066FE') {
+            document.documentElement.style.setProperty('--accent', __brandAccent);
+            document.documentElement.style.setProperty('--accent-dim', __brandAccent + '22');
+            document.documentElement.style.setProperty('--accent-glow', __brandAccent + '55');
+            document.documentElement.style.setProperty('--accent-text', __brandAccent);
         }
 
         // Nav

@@ -40,7 +40,7 @@
 
     <style>
         :root {
-            --accent: #00D4AA; --accent-dim: #00D4AA22; --accent-glow: #00D4AA40;
+            --accent: #0066FE; --accent-text: #4D94FF; --accent-dim: #0066FE22; --accent-glow: #0066FE55;
             --dark-bg: #0A0A0F; --dark-bg-secondary: #12121A; --dark-bg-card: #16161F;
             --dark-text: #E8E8ED; --dark-text-muted: #8888A0; --dark-border: #2A2A3A;
             --light-bg: #F5F3F0; --light-bg-secondary: #EDEAE6; --light-bg-card: #FFFFFF;
@@ -51,7 +51,7 @@
             --article-width: 720px;
         }
         [data-theme="dark"] { --bg: var(--dark-bg); --bg-secondary: var(--dark-bg-secondary); --bg-card: var(--dark-bg-card); --text: var(--dark-text); --text-muted: var(--dark-text-muted); --border: var(--dark-border); }
-        [data-theme="light"] { --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary); --bg-card: var(--light-bg-card); --text: var(--light-text); --text-muted: var(--light-text-muted); --border: var(--light-border); }
+        [data-theme="light"] { --accent-text: #0052E0; --bg: var(--light-bg); --bg-secondary: var(--light-bg-secondary); --bg-card: var(--light-bg-card); --text: var(--light-text); --text-muted: var(--light-text-muted); --border: var(--light-border); }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; scroll-padding-top: 80px; }
@@ -75,7 +75,7 @@
         .nav-links a:hover, .nav-links a.active { color: var(--text); }
         .nav-actions { display: flex; gap: 0.75rem; align-items: center; }
         .theme-toggle { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
-        .btn-nav { padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--accent); color: #0A0A0F; font-size: 0.88rem; font-weight: 600; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-nav { padding: 0.6rem 1.2rem; border-radius: 8px; background: var(--accent); color: #FFFFFF; font-size: 0.88rem; font-weight: 600; transition: transform 0.2s, box-shadow 0.2s; }
         .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
         .nav-hamburger { display: none; background: none; border: 1px solid var(--border); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; align-items: center; justify-content: center; flex-direction: column; gap: 3px; }
         .nav-hamburger span { display: block; width: 16px; height: 2px; background: var(--text); border-radius: 2px; }
@@ -189,7 +189,7 @@
         .cta-content { max-width: 640px; margin: 0 auto; padding: 3rem 2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; }
         .cta-content h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
         .cta-content p { color: var(--text-muted); margin-bottom: 1.8rem; }
-        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.5rem; border-radius: 10px; background: var(--accent); color: #0A0A0F; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.5rem; border-radius: 10px; background: var(--accent); color: #FFFFFF; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
 
         /* FOOTER */
@@ -198,7 +198,7 @@
         .footer-left { font-size: 0.85rem; color: var(--text-muted); }
         .footer-socials { display: flex; gap: 0.75rem; }
         .social-icon { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: all 0.2s; }
-        .social-icon:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+        .social-icon:hover { color: var(--accent-text); border-color: var(--accent-text); transform: translateY(-2px); }
         .social-icon svg { width: 16px; height: 16px; }
 
         /* COOKIE BANNER */
@@ -208,18 +208,18 @@
         .cookie-banner-text strong { color: var(--text); }
         .cookie-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
         .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; transition: all 0.2s; }
-        .cookie-btn.primary { background: var(--accent); color: #0A0A0F; border-color: var(--accent); }
+        .cookie-btn.primary { background: var(--accent); color: #FFFFFF; border-color: var(--accent); }
         .cookie-btn:hover { transform: translateY(-1px); }
     
         .footer-legal { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; opacity: 0.75; transition: color 0.2s, opacity 0.2s; }
-        .footer-legal:hover { color: var(--accent); opacity: 1; }
+        .footer-legal:hover { color: var(--accent-text); opacity: 1; }
     </style>
 </head>
 <body>
 
     <!-- INITIAL SPLASH -->
     <div id="initialSplash" style="position:fixed;inset:0;z-index:10000;background:#0A0A0F;display:flex;align-items:center;justify-content:center;transition:opacity 0.4s ease, visibility 0.4s;">
-        <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#E8E8ED;animation:splashPulse 1.5s ease-in-out infinite;">Damilare<span style="color:#00D4AA;">.</span></div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#E8E8ED;animation:splashPulse 1.5s ease-in-out infinite;">Damilare<span style="color:#0066FE;">.</span></div>
     </div>
     <style>
         [data-theme="light"] #initialSplash { background: #F5F3F0 !important; }
@@ -430,10 +430,16 @@
     function renderPost(data, postId) {
         // Theme
         try { const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.setAttribute('data-theme', data.theme.defaultTheme); } catch(e) {}
-        if (data.theme.accentColor !== '#00D4AA') {
-            document.documentElement.style.setProperty('--accent', data.theme.accentColor);
-            document.documentElement.style.setProperty('--accent-dim', data.theme.accentColor + '22');
-            document.documentElement.style.setProperty('--accent-glow', data.theme.accentColor + '40');
+        // Brand accent is #0066FE and lives in CSS. Only a genuinely custom accent
+        // chosen in admin may override it -- never the retired teal, which
+        // published Firestore documents still contain and which would otherwise
+        // undo the rebrand at runtime, on the live site only.
+        const __brandAccent = (data.theme.accentColor || '').trim().toUpperCase();
+        if (__brandAccent && __brandAccent !== '#00D4AA' && __brandAccent !== '#0066FE') {
+            document.documentElement.style.setProperty('--accent', __brandAccent);
+            document.documentElement.style.setProperty('--accent-dim', __brandAccent + '22');
+            document.documentElement.style.setProperty('--accent-glow', __brandAccent + '55');
+            document.documentElement.style.setProperty('--accent-text', __brandAccent);
         }
 
         // Nav & Footer
