@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Direction 3 — The Proof Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --w:#FFFFFF; --k:#0B0C0E; --k-2:#3E434D; --k-3:#767C88;
+  --rule:#0B0C0E; --hair:#E2E4E8;
+  --blue:#0066FE; --blue-d:#0143DF;
+  --disp:'Bricolage Grotesque',system-ui,sans-serif;
+  --body:'Public Sans',system-ui,sans-serif;
+  --pad:clamp(1.15rem,4vw,3.5rem);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--w);color:var(--k);font-family:var(--body);line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1400px;margin:0 auto;padding:0 var(--pad)}
+.disp{font-family:var(--disp);font-weight:800;letter-spacing:-.045em;line-height:.92;
+  text-transform:uppercase}
+.lbl{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--k-3)}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--w);
+  border-bottom:2px solid var(--rule)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0}
+.brand{display:flex;align-items:center;gap:.6rem}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand b{font-family:var(--disp);font-size:1.25rem;font-weight:800;letter-spacing:-.04em}
+.nav-links{display:none;gap:2rem;font-size:.82rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.08em}
+@media(min-width:940px){.nav-links{display:flex}}
+.nav-links a{position:relative}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:2px;
+  background:var(--blue);transition:width .28s}
+.nav-links a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--body);font-size:.82rem;
+  font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.75rem 1.35rem;
+  background:var(--blue);color:#fff;border:2px solid var(--blue);
+  transition:background .2s,color .2s,transform .2s}
+.btn:hover{background:var(--k);border-color:var(--k);transform:translate(-2px,-2px);
+  box-shadow:4px 4px 0 var(--blue)}
+.btn.inv{background:var(--w);color:var(--k);border-color:var(--k)}
+.btn.inv:hover{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:4px 4px 0 var(--k)}
+.btn.onk{background:var(--blue);border-color:var(--blue)}
+.btn.onk:hover{background:var(--w);color:var(--k);border-color:var(--w);box-shadow:4px 4px 0 var(--blue)}
+
+/* hero */
+header{padding:clamp(7rem,14vh,9.5rem) 0 0;border-bottom:2px solid var(--rule)}
+.kicker{display:flex;align-items:center;gap:.7rem;margin-bottom:1.6rem}
+.kicker .pip{width:8px;height:8px;background:var(--blue);border-radius:50%;
+  animation:bl 2s ease-in-out infinite}
+@keyframes bl{50%{opacity:.25}}
+h1{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:-.05em;
+  line-height:.88;font-size:clamp(2.9rem,10.5vw,9rem);margin-bottom:1.8rem}
+h1 .out{color:var(--blue);display:inline-block;min-width:4ch}
+.hero-2{display:grid;gap:1.8rem;padding-bottom:2.6rem}
+@media(min-width:900px){.hero-2{grid-template-columns:1.1fr .9fr;align-items:end;gap:3rem}}
+.hero-2 p{font-size:clamp(1rem,1.5vw,1.18rem);color:var(--k-2);max-width:50ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.7rem}
+
+/* proof bar */
+.bar{border-bottom:2px solid var(--rule);background:var(--k);color:var(--w);overflow:hidden}
+.bar-tr{display:flex;gap:2.8rem;width:max-content;padding:.75rem 0;
+  animation:mv 30s linear infinite;font-family:var(--disp);font-weight:700;font-size:.95rem;
+  letter-spacing:.02em;text-transform:uppercase;align-items:center}
+.bar:hover .bar-tr{animation-play-state:paused}
+@keyframes mv{to{transform:translateX(-50%)}}
+.bar-tr span{display:flex;align-items:center;gap:2.8rem;white-space:nowrap}
+.bar-tr span::after{content:'';width:7px;height:7px;background:var(--blue);
+  transform:rotate(45deg)}
+
+/* numbers block */
+.nums{display:grid;grid-template-columns:repeat(2,1fr);border-bottom:2px solid var(--rule)}
+@media(min-width:900px){.nums{grid-template-columns:repeat(4,1fr)}}
+.n{padding:2.2rem var(--pad);border-right:1px solid var(--hair);position:relative;
+  transition:background .3s}
+.n:hover{background:#F4F7FF}
+@media(min-width:900px){.n:last-child{border-right:0}}
+.n b{display:block;font-family:var(--disp);font-weight:800;letter-spacing:-.05em;
+  font-size:clamp(2.6rem,5.5vw,4.2rem);line-height:.9;color:var(--k)}
+.n:hover b{color:var(--blue)}
+.n .lbl{margin-top:.7rem;display:block}
+
+/* sections */
+section{padding:clamp(3.5rem,8vw,7rem) 0;border-bottom:2px solid var(--rule)}
+.sec-top{display:grid;gap:1.2rem;margin-bottom:clamp(2.2rem,4.5vw,3.4rem)}
+@media(min-width:900px){.sec-top{grid-template-columns:1fr 1fr;align-items:end}}
+h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:-.045em;
+  line-height:.94;font-size:clamp(2rem,5.2vw,3.9rem)}
+h2 em{font-style:normal;color:var(--blue)}
+.sec-top p{color:var(--k-2);max-width:46ch}
+
+/* services — stacked slabs */
+.slab{border-top:2px solid var(--rule);display:grid;grid-template-columns:1fr;
+  padding:1.9rem 0;gap:.9rem;position:relative;transition:padding-left .35s,color .35s}
+@media(min-width:880px){.slab{grid-template-columns:4.5rem 1.1fr 1.3fr;gap:2.2rem;align-items:start}}
+.slab::before{content:'';position:absolute;left:0;top:0;height:2px;width:0;background:var(--blue);
+  transition:width .5s cubic-bezier(.16,1,.3,1)}
+.slab:hover::before{width:100%}
+.slab:hover{padding-left:.9rem}
+.slab .sn{font-family:var(--disp);font-weight:800;font-size:1.15rem;color:var(--blue);
+  letter-spacing:-.03em}
+.slab h3{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:-.03em;
+  font-size:clamp(1.25rem,2.3vw,1.85rem);line-height:1}
+.slab p{color:var(--k-2);font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.9rem}
+.chips i{font-style:normal;font-size:.66rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;border:1.5px solid var(--k);padding:.2rem .5rem}
+
+/* work index */
+.idx{border-top:2px solid var(--rule)}
+.ix{display:grid;grid-template-columns:1fr auto;gap:.9rem;padding:1.9rem 0;
+  border-bottom:1px solid var(--hair);align-items:center;position:relative;
+  transition:padding-left .35s,background .35s}
+@media(min-width:900px){.ix{grid-template-columns:4.5rem 1.5fr 1fr 2.5rem;gap:2.2rem}}
+.ix:hover{padding-left:.9rem;background:#F4F7FF}
+.ix .in{display:none;font-family:var(--disp);font-weight:800;font-size:1.6rem;color:var(--hair);
+  letter-spacing:-.04em}
+@media(min-width:900px){.ix .in{display:block}}
+.ix:hover .in{color:var(--blue)}
+.ix h3{font-family:var(--disp);font-weight:700;font-size:clamp(1.05rem,1.7vw,1.35rem);
+  text-transform:uppercase;letter-spacing:-.03em;line-height:1.05}
+.ix .cat{margin-top:.4rem}
+.ix .big{font-family:var(--disp);font-weight:800;font-size:clamp(1.6rem,3vw,2.4rem);
+  letter-spacing:-.05em;color:var(--blue);line-height:.95;white-space:nowrap}
+.ix .big small{display:block;font-family:var(--body);font-size:.7rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--k-3);margin-top:.35rem}
+.ix .go{font-size:1.4rem;color:var(--hair);transition:transform .3s,color .3s;text-align:right}
+.ix:hover .go{transform:translateX(5px);color:var(--blue)}
+
+/* quote slab */
+.qs{background:var(--k);color:var(--w);border-bottom:2px solid var(--rule)}
+.qs blockquote{max-width:26ch}
+.qs blockquote p{font-family:var(--disp);font-weight:700;text-transform:uppercase;
+  letter-spacing:-.04em;line-height:.98;font-size:clamp(1.7rem,4.6vw,3.6rem)}
+.qs blockquote p em{font-style:normal;color:var(--blue)}
+.qs .who{display:flex;align-items:center;gap:.9rem;margin-top:2.4rem}
+.qs .av{width:44px;height:44px;background:var(--blue);display:grid;place-items:center;
+  font-family:var(--disp);font-weight:800;font-size:.9rem}
+.qs .who b{display:block;font-size:.95rem;font-weight:700}
+.qs .who span{font-size:.82rem;color:#8B92A0}
+
+/* process */
+.steps{display:grid;gap:0;counter-reset:s}
+@media(min-width:880px){.steps{grid-template-columns:repeat(4,1fr)}}
+.stp{border-top:2px solid var(--rule);padding:1.7rem 1.4rem 1.7rem 0;counter-increment:s}
+@media(min-width:880px){.stp+.stp{padding-left:1.4rem}}
+.stp::before{content:counter(s,decimal-leading-zero);font-family:var(--disp);font-weight:800;
+  font-size:2rem;color:var(--blue);display:block;line-height:1;margin-bottom:.7rem;
+  letter-spacing:-.05em}
+.stp h4{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:1.05rem;
+  letter-spacing:-.02em;margin-bottom:.45rem}
+.stp p{font-size:.88rem;color:var(--k-2)}
+
+/* cta */
+.cta{background:var(--blue);color:#fff;text-align:center;border-bottom:0}
+.cta h2{color:#fff;max-width:16ch;margin:0 auto 1.2rem}
+.cta p{max-width:44ch;margin:0 auto 2.2rem;color:#DCE9FF}
+.assure{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;margin-top:2.3rem;
+  font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#BFD8FF}
+footer{padding:2.6rem 0;font-size:.8rem;color:var(--k-3);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:space-between}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}
+  .bar-tr,.kicker .pip{animation:none}}
+.badge{position:fixed;bottom:0;left:0;right:0;z-index:999;background:var(--k);color:#fff;
+  text-align:center;padding:9px;font:700 12px/1 var(--body);letter-spacing:.16em;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav-in">
+  <a class="brand" href="#"><img src="dma-mark.png" alt="DMA"><b>DMA</b></a>
+  <div class="nav-links"><a href="#svc">Services</a><a href="#work">Work</a>
+    <a href="#how">Process</a><a href="#contact">Contact</a></div>
+  <a class="btn" href="#contact">Book a call</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="kicker"><span class="pip"></span><span class="lbl">Marketing automation &amp; CRM · Available Q3</span></div>
+  <h1>We gave one client back<br><span class="out" id="out">20</span> hours a week.</h1>
+  <div class="hero-2">
+    <p>Every business is quietly paying people to do work software should be doing.
+      I find that work, build the system that replaces it, document it, and hand it over.
+      Fixed scope. Fixed price. Yours to keep.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#contact">Book a free scoping call</a>
+      <a class="btn inv" href="#work">See the receipts</a>
+    </div>
+  </div>
+</div></header>
+
+<div class="bar"><div class="bar-tr" id="bar"></div></div>
+
+<div class="nums">
+  <div class="n"><b>50+</b><span class="lbl">Systems built</span></div>
+  <div class="n"><b>30+</b><span class="lbl">Businesses served</span></div>
+  <div class="n"><b>20+</b><span class="lbl">Hrs removed weekly</span></div>
+  <div class="n"><b>2–6</b><span class="lbl">Weeks to handover</span></div>
+</div>
+
+<section id="svc"><div class="wrap">
+  <div class="sec-top rv">
+    <h2>You don't need<br>more <em>tools</em>.</h2>
+    <p>You need the ones you already pay for to talk to each other — every time, without
+      anyone remembering to press a button. That's the whole job.</p>
+  </div>
+  <div id="slabs"></div>
+</div></section>
+
+<section id="work"><div class="wrap">
+  <div class="sec-top rv"><h2>The <em>receipts</em>.</h2>
+    <p>Five engagements, five numbers. Every one of them is a system still running today.</p></div>
+  <div class="idx" id="idx"></div>
+</div></section>
+
+<section class="qs"><div class="wrap">
+  <blockquote class="rv">
+    <p>We're closing deals <em>3× faster</em> now.</p>
+    <div class="who"><div class="av">JA</div>
+      <div><b>John Adeyemi</b><span>CEO, TechVentures Ltd</span></div></div>
+  </blockquote>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="sec-top rv"><h2>No retainer<br><em>traps</em>.</h2>
+    <p>Four steps, and you own the result at the end of them.</p></div>
+  <div class="steps rv">
+    <div class="stp"><h4>Scope</h4><p>A free call. We map where the hours actually go and what fixing it is worth.</p></div>
+    <div class="stp"><h4>Quote</h4><p>One fixed price for a defined build. You approve before anything starts.</p></div>
+    <div class="stp"><h4>Build</h4><p>Two to six weeks, with progress you see weekly — not only at the end.</p></div>
+    <div class="stp"><h4>Handover</h4><p>Docs and training. The system is yours, not rented from me.</p></div>
+  </div>
+</div></section>
+
+<section class="cta" id="contact"><div class="wrap">
+  <div class="rv">
+    <h2>What's an hour<br>of your week worth?</h2>
+    <p>Thirty minutes, no pitch deck. If I'm not the right fit for the job,
+      I'll say so on the call.</p>
+    <a class="btn onk" href="#" style="background:#fff;color:var(--blue);border-color:#fff">Book a free scoping call</a>
+    <div class="assure"><span>30 min</span><span>No cost</span><span>No obligation</span><span>Fixed quote after</span></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap foot">
+  <span>© 2026 Dami Market Automate — Automate. Integrate. Elevate.</span>
+  <span>damimarketautomate.pro</span>
+</div></footer>
+
+<div class="badge">Direction 3 · The Proof Sheet</div>
+
+<script>
+const OUTS=['20','15','40','70','35'];let oi=0;
+const outEl=document.getElementById('out');
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  setInterval(()=>{oi=(oi+1)%OUTS.length;outEl.style.opacity=0;
+    setTimeout(()=>{outEl.textContent=OUTS[oi];outEl.style.opacity=1},220)},2600);
+  outEl.style.transition='opacity .22s ease';
+}
+const TOOLS=['GoHighLevel','Zoho One','Zoho CRM','n8n','Zapier','Make.com','Zoho Analytics','AI Automation','Zoho SalesIQ'];
+document.getElementById('bar').innerHTML=[...TOOLS,...TOOLS].map(t=>`<span>${t}</span>`).join('');
+
+const S=[['CRM Setup &amp; Management','Full implementation in GoHighLevel, Zoho or your platform of choice. Pipelines, automations and dashboards built around how your team actually sells.',['GoHighLevel','Zoho CRM','Pipelines']],
+['Customer Journey Design','Every touchpoint from first click to loyal customer — mapped, then built. Journeys that nurture leads, cut churn and make one-time buyers repeat.',['Lifecycle','Onboarding','Retention']],
+['Business Process Automation','The bottleneck found, the manual step deleted. Intake, invoicing, follow-ups, reporting: work that runs itself once it is built right.',['n8n','Zapier','Make.com']],
+['AI-Powered Automation','Scoring, routing and enrichment that reads context. The useful end of AI — fewer hours spent deciding which enquiries deserve attention.',['Scoring','Routing']]];
+document.getElementById('slabs').innerHTML=S.map(([t,d,c],i)=>`
+ <div class="slab rv"><div class="sn">0${i+1}</div>
+  <div><h3>${t}</h3><div class="chips">${c.map(x=>`<i>${x}</i>`).join('')}</div></div>
+  <p>${d}</p></div>`).join('');
+
+const W=[['CRM','GoHighLevel CRM for an e-commerce brand','40%','faster lead response'],
+['Automation','End-to-end sales automation with Zoho','70%','fewer follow-ups'],
+['AI Workflow','AI-powered lead scoring with n8n','15hrs','saved weekly'],
+['Journey','Customer journey redesign, SaaS startup','35%','retention lift'],
+['Process','Process overhaul for a consulting firm','20hrs','admin removed']];
+document.getElementById('idx').innerHTML=W.map(([c,t,b,l],i)=>`
+ <a class="ix rv" href="#"><div class="in">0${i+1}</div>
+  <div><h3>${t}</h3><div class="cat lbl">${c}</div></div>
+  <div class="big">${b}<small>${l}</small></div><div class="go">→</div></a>`).join('');
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%4*65)+'ms';io.observe(el)});
+</script>
+</body>
+</html>
