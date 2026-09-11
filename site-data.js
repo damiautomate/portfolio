@@ -12,7 +12,7 @@ const SITE_DATA = {
     description: "I help businesses build systems that work for them. CRM setup, customer journey design, business process automation, and AI-powered workflows.",
     faviconUrl: "",
     ogImage: "",
-    ga4MeasurementId: "",         // e.g. "G-XXXXXXXXXX" — paste from GA4 dashboard
+    ga4MeasurementId: "G-HHK9X44DPC",   // same GA4 property as the venue landing page — unifies site + landing + calculator funnel
     cookieBannerEnabled: true     // show cookie consent banner before loading GA4
   },
 
