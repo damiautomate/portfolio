@@ -170,6 +170,7 @@
   .bar-fill{height:100%; border-radius:99px;}
 
   /* scenarios table */
+  .scentable-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
   .scentable{width:100%; border-collapse:collapse; margin-top:10px; font-size:.92rem;}
   .scentable th, .scentable td{padding:12px 10px; text-align:right; border-bottom:1px solid var(--hairline);}
   .scentable th:first-child, .scentable td:first-child{text-align:left; color:var(--text-dim);}
@@ -225,6 +226,9 @@
     .snapshot{grid-template-columns:1fr 1fr;} .cols2{grid-template-columns:1fr;} .road{grid-template-columns:1fr;}
     .sout{grid-template-columns:1fr;} .opp-band .num{font-size:2rem;} .scorecard .big{font-size:2.4rem;}
     .qcard{padding:24px 18px;} .btn{padding:13px 20px;}
+    .scentable{font-size:.82rem;} .scentable th, .scentable td{padding:9px 6px;}
+    .wrap{padding:0 16px;} .scorecard{min-width:0; width:100%;}
+    .bar{height:auto; min-height:56px; padding:9px 16px;} .mark{font-size:1.05rem;} .bar a.back{font-size:.76rem; text-align:right;}
   }
 </style>
 </head>
@@ -670,7 +674,7 @@ function renderResults(){
     </div>
 
     <h2 class="section-title">What could change if you fixed the biggest leaks?</h2>
-    <table class="scentable">
+    <div class="scentable-wrap"><table class="scentable">
       <thead><tr><th>Per month</th>${scenCols}</tr></thead>
       <tbody>
         <tr><td>Booking rate</td>${r.scen.map(s=>`<td${s.name!=='Current'?' class="hl"':''}>${(s.rate*100).toFixed(1)}%</td>`).join('')}</tr>
@@ -678,7 +682,7 @@ function renderResults(){
         <tr><td>Booking revenue</td>${revRow}</tr>
         <tr><td>Additional revenue</td>${addRow}</tr>
       </tbody>
-    </table>
+    </table></div>
     <p class="disclaimer">Improvement scenarios use conservative, transparent conversion upratings based on the weak points you reported. Potential — not guaranteed.</p>
 
     <h2 class="section-title">Play with your numbers</h2>
