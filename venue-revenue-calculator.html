@@ -221,6 +221,32 @@
 
   footer{border-top:1px solid var(--hairline); padding:24px 0; color:var(--text-faint); font-size:.82rem; text-align:center;}
 
+  /* Letter grade badge */
+  .gradebadge{font-family:var(--display); font-weight:700; font-size:2.4rem; line-height:1; margin-bottom:6px;}
+
+  /* Print / download report */
+  .print-head{display:none;}
+  @media print{
+    @page{ margin:14mm; }
+    header, footer, .progress, #intro, .nav, .no-print{ display:none !important; }
+    html, body{ background:#fff !important; color:#111 !important; }
+    main{ padding:0; } .wrap{ max-width:none; padding:0; }
+    #results, #results.show{ display:block !important; }
+    .print-head{ display:block; border-bottom:2px solid #111; padding-bottom:10px; margin-bottom:18px; }
+    .print-head .b{ font-family:var(--display); font-weight:700; font-size:1.15rem; }
+    .print-head .b span{ color:#3d63f5; }
+    .print-head .t{ font-size:.8rem; color:#555; margin-top:3px; }
+    h1,h2,h3,h4,.res-hero h1,.section-title,.scorecard .big,.gradebadge{ color:#111 !important; }
+    .qsub,.disclaimer,.methodology,p,.label,.k{ color:#444 !important; }
+    .scorecard,.metric,.leak,.panel,.road .card,.opp-band,.cta,details.math,.sliders{ background:#fff !important; border:1px solid #ccc !important; box-shadow:none !important; }
+    .opp-band,.cta{ background:#f4f6ff !important; }
+    .ring::before{ background:#fff !important; }
+    a{ color:#3d63f5 !important; }
+    .scentable th,.scentable td{ border-color:#ddd !important; }
+    .bar-track{ background:#eee !important; }
+    details.math{ page-break-inside:avoid; }
+  }
+
   @media (max-width:720px){
     .intro-hero h1{font-size:1.9rem;} .res-hero h1{font-size:1.6rem;}
     .snapshot{grid-template-columns:1fr 1fr;} .cols2{grid-template-columns:1fr;} .road{grid-template-columns:1fr;}
@@ -601,12 +627,14 @@ function scoreBand(s){
   if(s>=40) return {t:'Significant Revenue Leakage', c:'var(--yellow)'};
   return {t:'High Revenue Leakage Risk', c:'var(--red)'};
 }
+function gradeLetter(s){ return s>=85?'A':s>=70?'B':s>=55?'C':s>=40?'D':'F'; }
 const SEVCOL = {red:'var(--red)',amber:'var(--amber)',yellow:'var(--yellow)',purple:'var(--purple)',cyan:'var(--cyan)'};
 
 function renderResults(){
   const r = compute();
   window.__R = r;
   const band = scoreBand(r.score);
+  const grade = gradeLetter(r.score);
   const topLeak = r.ranked[0];
   const topName = ({missed:'Missed-Call Recovery',speed:'Faster Response',followup:'Structured Follow-Up',quote:'Quote Follow-Up',old:'Old-Lead Reactivation',empty:'Empty-Date Recovery'})[topLeak.key];
 
@@ -632,6 +660,10 @@ function renderResults(){
   const annualLo = r.oppLo*12, annualHi = r.oppHi*12;
 
   document.getElementById('results').innerHTML = `
+    <div class="print-head">
+      <div class="b">Dami<span>MarketAutomate</span> — Venue Booking Leak Report</div>
+      <div class="t">Prepared ${new Date().toLocaleDateString()} · Based on the numbers you provided</div>
+    </div>
     <div class="res-hero">
       <div class="eyebrow">Your Revenue Leak Analysis</div>
       <h1>Here's where your bookings may be leaking</h1>
@@ -640,8 +672,9 @@ function renderResults(){
 
     <div class="scorewrap">
       <div class="scorecard">
+        <div class="gradebadge" style="color:${band.c}">Grade ${grade}</div>
         <div class="ring" style="--pct:${r.score}; --ringcol:${band.c}"><span class="num">${r.score}</span></div>
-        <div class="label">Revenue Capture Score / 100</div>
+        <div class="label">Booking Health Score / 100</div>
         <div class="tag" style="color:${band.c}">${band.t}</div>
       </div>
       <div class="scorecard" style="display:flex;flex-direction:column;justify-content:center">
@@ -651,6 +684,7 @@ function renderResults(){
       </div>
     </div>
     <p class="disclaimer" style="text-align:center">This is an estimate based on your inputs and clearly-stated assumptions — not a guaranteed loss or a revenue forecast.</p>
+    <div class="no-print" style="text-align:center;margin:16px 0 0"><button class="btn btn-ghost" onclick="APP.download()">⬇ Download / print my report (PDF)</button></div>
 
     <h2 class="section-title">Your current booking snapshot</h2>
     <div class="snapshot">
@@ -685,8 +719,8 @@ function renderResults(){
     </table></div>
     <p class="disclaimer">Improvement scenarios use conservative, transparent conversion upratings based on the weak points you reported. Potential — not guaranteed.</p>
 
-    <h2 class="section-title">Play with your numbers</h2>
-    <div class="sliders">
+    <h2 class="section-title no-print">Play with your numbers</h2>
+    <div class="sliders no-print">
       <div class="srow"><label>Monthly enquiries <b id="s-enq">${r.E}</b></label><input type="range" min="0" max="${Math.max(400,r.E*2)}" value="${r.E}" oninput="APP.slide('enq',this.value)"></div>
       <div class="srow"><label>Average booking value <b id="s-val">${money(r.V)}</b></label><input type="range" min="0" max="${Math.max(20000,r.V*2)}" step="100" value="${r.V}" oninput="APP.slide('val',this.value)"></div>
       <div class="srow"><label>Current booking rate <b id="s-cur">${Math.round(r.c*100)}%</b></label><input type="range" min="1" max="40" value="${Math.round(r.c*100)}" oninput="APP.slide('cur',this.value)"></div>
@@ -734,13 +768,13 @@ function renderResults(){
         <div class="v">${topName} — estimated ${moneyK(topLeak.lo)}–${moneyK(topLeak.hi)}${topLeak.annual?'/yr':'/mo'}</div>
       </div>
       <p>You've seen where your biggest leaks are and what needs to change. We can turn those recommendations into an actual system — AI, CRM and automation that captures enquiries, responds faster, follows up consistently, and recovers the opportunities your team doesn't have time to chase.</p>
-      <div class="cta-row">
+      <div class="cta-row no-print">
         <a class="btn btn-primary btn-lg" href="https://cal.com/dami-digital-market" target="_blank" rel="noopener" onclick="APP.cta('book')">Book my free Venue Revenue Strategy →</a>
         <a class="btn btn-ghost btn-lg" href="/dma-booked-closed.html" onclick="APP.cta('learn')">See how the system works</a>
       </div>
     </div>
 
-    <div class="capture">
+    <div class="capture no-print">
       <h3 style="font-size:1.2rem">Want a copy of your full Revenue Leak Report?</h3>
       <p class="qsub" style="margin:6px 0 0">We'll email it so you can share it with your team. No spam — just your results.</p>
       <div class="row" id="capRow">
@@ -826,6 +860,7 @@ const APP = {
   },
 
   cta(kind){ track('cta_click', {location:'calculator_results', kind}); },
+  download(){ const r=window.__R||{}; track('report_download', {score:r.score}); window.print(); },
   async capture(){
     const name=(document.getElementById('capName').value||'').trim();
     const venue=(document.getElementById('capVenue').value||'').trim();
@@ -833,7 +868,7 @@ const APP = {
     if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ document.getElementById('capEmail').style.borderColor='var(--amber)'; return; }
     const r=window.__R||{};
     const payload={ name, venue, email, resource:'Venue Revenue Leak Report',
-      score:r.score, oppMonthlyLow:Math.round(r.oppLo||0), oppMonthlyHigh:Math.round(r.oppHi||0),
+      score:r.score, grade:gradeLetter(r.score||0), oppMonthlyLow:Math.round(r.oppLo||0), oppMonthlyHigh:Math.round(r.oppHi||0),
       enquiries:r.E, bookingValue:r.V, bookingRate:Math.round((r.c||0)*100),
       topLeak:(r.ranked&&r.ranked[0]&&r.ranked[0].key)||'', venueTypes:state.venueTypes.join(', ') };
     try{ if(typeof window.__logToFirestore==='function') await window.__logToFirestore('calculatorLeads', payload); }catch(e){}
