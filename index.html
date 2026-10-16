@@ -688,6 +688,65 @@
     // ============================================================
     // RENDER SITE FROM DATA
     // ============================================================
+    // ============================================================
+    // REAL PROOF — pinned here on purpose (Oct 2026).
+    // Stats, homepage projects and testimonials are NOT read from
+    // admin/Firestore any more, so old placeholder data there can't
+    // overwrite them. Edit these three lists to change the homepage.
+    // ============================================================
+    const HOME_STATS = [
+        { number: 11, suffix: '', label: 'Client Projects' },
+        { number: 6, suffix: '', label: 'Countries Served' },
+        { number: 5, suffix: '.0 ★', label: 'Fiverr Rating' }
+    ];
+    const HOME_PROJECTS = {
+        sectionLabel: 'Selected Work',
+        title: 'Real projects, real results',
+        subtitle: 'Recent builds for paying clients. Open any one for the full case study and real screenshots.',
+        viewAllUrl: 'projects.html',
+        viewAllText: 'See all 11 projects',
+        items: [
+            { id: 'healthy-little-cooks', tag: 'CRM + Outreach', image: 'assets/projects/hlc/01-dashboard.webp',
+              title: 'School Outreach CRM — Healthy Little Cooks',
+              description: 'Folk CRM and A/B cold-email sequences for 2,277 school and PTA contacts. 7–8 meetings booked from the first campaign.' },
+            { id: 'njs-royale', tag: 'Zoho CRM', image: 'assets/projects/njs/09-tour-booking-page.webp',
+              title: 'Event Venue CRM — NJS Royale',
+              description: 'Zoho CRM + Bookings: self-booked venue tours, three deposit plans, 9+ workflows and 30+ automated emails.' },
+            { id: 'collisioncam', tag: 'Zoho Analytics', image: 'assets/projects/collisioncam/01-macro-kpis.webp',
+              title: 'Lead Analytics Dashboards — CollisionCam',
+              description: '849 leads tracked by month, county and partner across macro, attorney and clinic dashboards in Zoho Analytics.' },
+            { id: 'techfix', tag: 'AI Automation', image: 'assets/projects/techfix/04-whatsapp-bot.webp',
+              title: 'AI Chat Intake — TechFix',
+              description: 'n8n AI agents on WhatsApp, Instagram and Messenger that open repair jobs in GoHighLevel and update customers at every stage.' },
+            { id: 'octopus-intelligence', tag: 'CRM Migration', image: 'assets/projects/octopus/02-folk-contact-segments.webp',
+              title: 'Zoho One → Folk + Brevo — Octopus Intelligence',
+              description: 'Active contacts migrated, sending domain authenticated, and a two-way Make sync. The build became a monthly retainer.' },
+            { id: 'cudium', tag: 'Zoho CRM', image: 'assets/projects/cudium/03-blueprint-stages.webp',
+              title: 'Fintech Sales CRM — Cudium',
+              description: 'Leads board, a KYC-to-first-transaction deal pipeline, Blueprint-guided stages and automatic next actions.' }
+        ]
+    };
+    const HOME_TESTIMONIALS = [
+        { stars: 5,
+          quote: 'What Damilare built for us exceeded every expectation. We went from juggling spreadsheets and phone notes to having a system that practically runs itself. Every tour booking flows straight into our CRM, payments are tracked automatically, and our clients get professional emails at every step without us lifting a finger.',
+          name: 'Olaoluwa M. Oreniwa', role: 'CEO, NJS Royale Event Centre · Nigeria', initials: 'OO' },
+        { stars: 5,
+          quote: "We had a fantastic experience working with Damilare. Looking forward to continuing to work together for our ongoing projects. I didn't know how much I didn't realize was wrong with my system until working with him. It was a great overall experience.",
+          name: 'Kim', role: 'Healthy Little Cooks · United States · via Fiverr', initials: 'K' },
+        { stars: 5,
+          quote: 'Built up an excellent business relationship with Dami. His expertise has been incredibly important to our development of our CRM and mailshot strategy.',
+          name: 'Octopus Intelligence', role: 'United Kingdom · via Fiverr', initials: 'OI' },
+        { stars: 5,
+          quote: 'Very talented and will use again!',
+          name: 'Josh Barnes', role: 'CollisionCam · United States · via Fiverr', initials: 'JB' },
+        { stars: 5,
+          quote: 'Excellent work and responsive to my whole brief.',
+          name: 'Treehouse Life', role: 'United Kingdom · ongoing collaboration · via Fiverr', initials: 'TL' },
+        { stars: 5,
+          quote: 'Recommended!',
+          name: 'Folk CRM audit client', role: 'Argentina · via Fiverr', initials: 'AR' }
+    ];
+
     function renderSite(data) {
         const d = data;
 
@@ -735,7 +794,7 @@
         document.getElementById('heroCtas').innerHTML = ctasHtml;
 
         let trustHtml = '';
-        d.hero.stats.forEach(s => {
+        HOME_STATS.forEach(s => {
             trustHtml += `<div class="trust-item"><span class="trust-number" data-target="${s.number}" data-suffix="${s.suffix}">0${s.suffix}</span><span class="trust-label">${s.label}</span></div>`;
         });
         document.getElementById('heroTrust').innerHTML = trustHtml;
@@ -761,20 +820,19 @@
             `<div class="service-card reveal reveal-delay-${i+1}"><div class="service-icon">${s.icon}</div><h3>${s.title}</h3><p>${s.description}</p></div>`
         ).join('');
 
-        // Projects
-        document.getElementById('projectsLabel').textContent = d.projects.sectionLabel;
-        document.getElementById('projectsTitle').textContent = d.projects.title;
-        document.getElementById('projectsSubtitle').textContent = d.projects.subtitle;
-        document.getElementById('projectsGrid').innerHTML = d.projects.items.map((p, i) => {
-            const imgHtml = p.image
-                ? `<img src="${p.image}" alt="${p.title}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;">`
-                : `<div class="project-image-placeholder">${placeholderSvg}<span>Project Screenshot</span></div>`;
-            return `<div class="project-card reveal reveal-delay-${(i%2)+1}">
-                <div class="project-image"><span class="project-tag">${p.tag}</span>${imgHtml}</div>
+        // Projects (pinned real projects — see HOME_PROJECTS above)
+        const hp = HOME_PROJECTS;
+        document.getElementById('projectsLabel').textContent = hp.sectionLabel;
+        document.getElementById('projectsTitle').textContent = hp.title;
+        document.getElementById('projectsSubtitle').textContent = hp.subtitle;
+        document.getElementById('projectsGrid').innerHTML = hp.items.map((p, i) => {
+            const url = hp.viewAllUrl + '#' + p.id;
+            return `<a href="${url}" class="project-card reveal reveal-delay-${(i%2)+1}" style="display:block;">
+                <div class="project-image"><span class="project-tag">${p.tag}</span><img src="${p.image}" alt="${p.title}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:top left;"></div>
                 <div class="project-content"><h3>${p.title}</h3><p>${p.description}</p>
-                <a href="${p.caseStudyUrl}" class="project-link">View Case Study ${arrowSvg}</a></div></div>`;
+                <span class="project-link">View case study &amp; screens ${arrowSvg}</span></div></a>`;
         }).join('');
-        document.getElementById('projectsCta').innerHTML = `<a href="${d.projects.viewAllUrl}" class="btn-secondary">${d.projects.viewAllText} ${arrowSvg}</a>`;
+        document.getElementById('projectsCta').innerHTML = `<a href="${hp.viewAllUrl}" class="btn-secondary">${hp.viewAllText} ${arrowSvg}</a>`;
 
         // Latest from Blog (optional — only show if enabled and has published posts)
         renderLatestBlog(d);
@@ -783,7 +841,7 @@
         document.getElementById('testimonialsLabel').textContent = d.testimonials.sectionLabel;
         document.getElementById('testimonialsTitle').textContent = d.testimonials.title;
         document.getElementById('testimonialsSubtitle').textContent = d.testimonials.subtitle;
-        document.getElementById('testimonialsTrack').innerHTML = d.testimonials.items.map(t =>
+        document.getElementById('testimonialsTrack').innerHTML = HOME_TESTIMONIALS.map(t =>
             `<div class="testimonial-slide"><div class="testimonial-card"><div>
                 <div class="testimonial-stars">${'★'.repeat(t.stars)}</div>
                 <p class="testimonial-text">"${t.quote}"</p></div>
@@ -950,6 +1008,8 @@
         function startAuto() { autoInterval = setInterval(() => { if (!isPaused) next(); }, 7000); }
         function resetAuto() { clearInterval(autoInterval); startAuto(); }
         if (slides.length > 1) startAuto();
+        const sliderControls = document.querySelector('.slider-controls');
+        if (sliderControls) sliderControls.style.display = slides.length > 1 ? '' : 'none';
         const sliderW = document.querySelector('.testimonials-slider-wrapper');
         if (sliderW) { sliderW.addEventListener('mouseenter', () => isPaused = true); sliderW.addEventListener('mouseleave', () => isPaused = false); }
         // Touch

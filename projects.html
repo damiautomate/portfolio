@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects — Damilare Babalola</title>
-    <meta name="description" content="CRM setups, automation workflows, customer journey designs and AI-powered systems built for real businesses across six industries.">
+    <meta name="description" content="Real CRM, automation and revenue-operations builds for clients in the US, UK, UAE, India and Nigeria — Folk, Zoho, Brevo, Make, n8n and GoHighLevel. Case studies with real screenshots.">
     <link rel="canonical" href="https://www.damimarketautomate.pro/projects.html">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="author" content="Damilare Babalola">
@@ -16,7 +16,7 @@
     <meta property="og:site_name" content="Damilare Babalola">
     <meta property="og:locale" content="en_US">
     <meta property="og:title" content="Projects — Damilare Babalola">
-    <meta property="og:description" content="CRM setups, automation workflows, customer journey designs and AI-powered systems built for real businesses across six industries.">
+    <meta property="og:description" content="Real CRM, automation and revenue-operations builds for clients in the US, UK, UAE, India and Nigeria — with the screenshots to prove it.">
     <meta property="og:url" content="https://www.damimarketautomate.pro/projects.html">
     <meta property="og:image" content="https://www.damimarketautomate.pro/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -26,7 +26,7 @@
     <meta name="twitter:site" content="@Dami_Market">
     <meta name="twitter:creator" content="@Dami_Market">
     <meta name="twitter:title" content="Projects — Damilare Babalola">
-    <meta name="twitter:description" content="CRM setups, automation workflows, customer journey designs and AI-powered systems built for real businesses across six industries.">
+    <meta name="twitter:description" content="Real CRM, automation and revenue-operations builds for clients in the US, UK, UAE, India and Nigeria — with the screenshots to prove it.">
     <meta name="twitter:image" content="https://www.damimarketautomate.pro/og-image.png">
 
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -35,12 +35,16 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="forms.css">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Apply the saved theme before first paint so there is no flash -->
+    <script>
+        try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+    </script>
 
     <style>
         /* ============================================================
-           CSS VARIABLES — SAME AS HOMEPAGE
+           TOKENS — same values as the rest of damimarketautomate.pro
            ============================================================ */
         :root {
             --accent: #0066FE; --accent-text: #4D94FF;
@@ -60,10 +64,9 @@
             --light-border: #D8D5D0;
             --font-display: 'Syne', sans-serif;
             --font-body: 'DM Sans', sans-serif;
-            --section-padding: clamp(3rem, 7vw, 5rem);
             --container-width: 1200px;
+            --ok: #22C55E;
         }
-
         [data-theme="dark"] {
             --bg: var(--dark-bg);
             --bg-secondary: var(--dark-bg-secondary);
@@ -71,21 +74,22 @@
             --text: var(--dark-text);
             --text-muted: var(--dark-text-muted);
             --border: var(--dark-border);
+            --shot-bg: #0F0F16;
         }
-        [data-theme="light"] { --accent-text: #0052E0;
+        [data-theme="light"] {
+            --accent-text: #0052E0;
             --bg: var(--light-bg);
             --bg-secondary: var(--light-bg-secondary);
             --bg-card: var(--light-bg-card);
             --text: var(--light-text);
             --text-muted: var(--light-text-muted);
             --border: var(--light-border);
+            --shot-bg: #E9E6E1;
+            --ok: #15803D;
         }
 
-        /* ============================================================
-           RESET & BASE
-           ============================================================ */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        html { scroll-behavior: smooth; scroll-padding-top: 90px; }
         body {
             font-family: var(--font-body);
             background: var(--bg);
@@ -97,986 +101,368 @@
         a { color: inherit; text-decoration: none; }
         img { max-width: 100%; display: block; }
         ul { list-style: none; }
+        button { font-family: inherit; }
+        :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; border-radius: 6px; }
 
-        .container {
-            width: 100%;
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 clamp(1.25rem, 4vw, 2.5rem);
-        }
+        .container { width: 100%; max-width: var(--container-width); margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
 
-        /* ============================================================
-           ANIMATIONS
-           ============================================================ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.visible { opacity: 1; transform: none; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .reveal { opacity: 1; transform: none; transition: none; }
+            *, *::before, *::after { animation: none !important; }
         }
 
         /* ============================================================
-           NAVIGATION — IDENTICAL TO HOMEPAGE
+           NAVIGATION — identical to the homepage
            ============================================================ */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
-        }
-        .navbar.scrolled {
-            background: var(--bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 1px 0 var(--border);
-        }
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1rem 0; transition: background 0.3s ease, box-shadow 0.3s ease; }
+        .navbar.scrolled { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 1px 0 var(--border); }
         [data-theme="dark"] .navbar.scrolled { background: rgba(10,10,15,0.85); }
         [data-theme="light"] .navbar.scrolled { background: rgba(245,243,240,0.85); }
-
-        .navbar .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .nav-logo {
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 1.3rem;
-            letter-spacing: -0.02em;
-        }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; }
         .nav-logo span { color: var(--accent); }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-        .nav-links a {
-            font-size: 0.88rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            transition: color 0.3s;
-            letter-spacing: 0.02em;
-        }
-        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .theme-toggle {
-            width: 44px;
-            height: 24px;
-            border-radius: 12px;
-            background: var(--border);
-            border: none;
-            cursor: pointer;
-            position: relative;
-            transition: background 0.3s;
-        }
-        .theme-toggle::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--accent);
-            transition: transform 0.3s ease;
-        }
+        .nav-links { display: flex; align-items: center; gap: 2rem; }
+        .nav-links a { font-size: 0.88rem; font-weight: 500; color: var(--text-muted); transition: color 0.3s; letter-spacing: 0.02em; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-text); }
+        .nav-actions { display: flex; align-items: center; gap: 1rem; }
+        .theme-toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--border); border: none; cursor: pointer; position: relative; }
+        .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); transition: transform 0.3s ease; }
         [data-theme="light"] .theme-toggle::after { transform: translateX(20px); }
-        .theme-icon {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.65rem;
-            line-height: 1;
-            pointer-events: none;
-        }
-        .theme-icon.moon { left: 5px; }
-        .theme-icon.sun { right: 5px; }
-
-        .btn-nav {
-            padding: 0.55rem 1.25rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            font-family: var(--font-body);
-            background: var(--accent);
-            color: #FFFFFF;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-nav:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-
-        .nav-hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-        }
-        .nav-hamburger span {
-            width: 22px;
-            height: 2px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: 0.3s;
-        }
-
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: var(--bg);
-            z-index: 999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-        }
+        .theme-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 0.65rem; line-height: 1; pointer-events: none; }
+        .theme-icon.moon { left: 5px; } .theme-icon.sun { right: 5px; }
+        .btn-nav { padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; background: var(--accent); color: #FFFFFF; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-nav:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+        .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+        .nav-hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+        .mobile-nav { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
         .mobile-nav.active { display: flex; }
-        .mobile-nav a {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text);
-            transition: color 0.3s;
-        }
+        .mobile-nav a { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--text); }
         .mobile-nav a:hover { color: var(--accent-text); }
-        .mobile-nav-close {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            color: var(--text);
-            cursor: pointer;
-        }
+        .mobile-nav-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 1.8rem; color: var(--text); cursor: pointer; }
 
         /* ============================================================
            PAGE HEADER
            ============================================================ */
-        .page-header {
-            padding-top: calc(80px + 3rem);
-            padding-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
+        .page-header { padding-top: calc(80px + 3.5rem); padding-bottom: 2.5rem; position: relative; overflow: hidden; }
         .page-header::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0.2;
+            content: ''; position: absolute; inset: 0;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 60px 60px; opacity: 0.2;
             mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 70%);
             -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 70%);
         }
-        .page-header-content {
-            position: relative;
-            z-index: 1;
-            max-width: 650px;
-        }
-        .page-header .breadcrumb {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-            animation: fadeInUp 0.6s ease both;
-        }
-        .page-header .breadcrumb a {
-            color: var(--accent);
-            transition: opacity 0.3s;
-        }
-        .page-header .breadcrumb a:hover { opacity: 0.7; }
-
+        .page-header .container { position: relative; z-index: 1; }
+        .breadcrumb { display: inline-flex; gap: 0.4rem; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; animation: fadeInUp 0.6s ease both; }
+        .breadcrumb a { color: var(--accent-text); }
         .page-header h1 {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 3.5vw, 2.8rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: 0.8rem;
-            animation: fadeInUp 0.6s 0.1s ease both;
+            font-family: var(--font-display); font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800;
+            letter-spacing: -0.035em; line-height: 1.08; max-width: 17ch; margin-bottom: 1.1rem;
+            animation: fadeInUp 0.6s 0.08s ease both;
         }
-        .page-header p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.75;
-            max-width: 520px;
-            animation: fadeInUp 0.6s 0.2s ease both;
-        }
+        .page-header h1 em { font-style: normal; color: var(--accent-text); }
+        .page-header .lede { font-size: clamp(1rem, 1.6vw, 1.1rem); color: var(--text-muted); max-width: 62ch; animation: fadeInUp 0.6s 0.16s ease both; }
 
-        /* Project count */
-        .project-count {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            margin-top: 1rem;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            animation: fadeInUp 0.6s 0.3s ease both;
+        .proof-row {
+            display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px;
+            margin-top: 2.5rem; border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+            background: var(--border); animation: fadeInUp 0.6s 0.24s ease both;
         }
-        .project-count strong {
-            color: var(--accent);
-            font-weight: 700;
-        }
+        .proof { background: var(--bg-card); padding: 1.1rem 1.25rem; }
+        .proof strong { display: block; font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+        .proof span { font-size: 0.8rem; color: var(--text-muted); }
 
         /* ============================================================
-           FILTER BAR
+           FILTERS
            ============================================================ */
-        .filter-section {
-            padding: 1.5rem 0 0;
-            position: sticky;
-            top: 60px;
-            z-index: 50;
-            background: var(--bg);
-            transition: background 0.4s ease;
-        }
-        .filter-bar {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
-        }
+        .filter-section { position: sticky; top: 72px; z-index: 50; padding: 0.9rem 0; background: var(--bg); border-bottom: 1px solid transparent; transition: border-color 0.3s; }
+        .filter-section.stuck { border-bottom-color: var(--border); }
+        .filter-bar { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+        .filter-bar::-webkit-scrollbar { display: none; }
         .filter-btn {
-            padding: 0.5rem 1.15rem;
-            border-radius: 50px;
-            font-family: var(--font-body);
-            font-size: 0.82rem;
-            font-weight: 600;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
+            flex-shrink: 0; padding: 0.5rem 1.05rem; border-radius: 999px; border: 1px solid var(--border);
+            background: transparent; color: var(--text-muted); font-size: 0.84rem; font-weight: 500; cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
         }
-        .filter-btn:hover {
-            border-color: var(--accent);
-            color: var(--text);
-        }
-        .filter-btn.active {
-            background: var(--accent);
-            color: #FFFFFF;
-            border-color: var(--accent);
-        }
-
-        .filter-results {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-left: auto;
-            align-self: center;
-            white-space: nowrap;
-        }
+        .filter-btn:hover { color: var(--text); border-color: var(--text-muted); }
+        .filter-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+        .filter-btn .n { opacity: 0.65; margin-left: 0.3rem; font-variant-numeric: tabular-nums; }
 
         /* ============================================================
-           PROJECTS GRID
+           PROJECT CARDS
            ============================================================ */
-        .projects-section {
-            padding: 2.5rem 0 var(--section-padding);
+        .projects-section { padding: 1.75rem 0 4rem; }
+        .projects-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+        .card {
+            display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 18px; overflow: hidden; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
         }
+        .card:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,0.18); }
+        .card[hidden] { display: none; }
+        .card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1.15fr 1fr; }
 
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
+        .card-media {
+            position: relative; aspect-ratio: 16 / 9; background: var(--shot-bg);
+            border-bottom: 1px solid var(--border); overflow: hidden; cursor: pointer;
         }
+        .card.featured .card-media { aspect-ratio: auto; min-height: 360px; border-bottom: none; border-right: 1px solid var(--border); }
+        .card-media img { width: 100%; height: 100%; object-fit: cover; object-position: top left; transition: transform 0.6s ease; }
+        .card:hover .card-media img { transform: scale(1.03); }
+        .card.featured .card-media img { object-fit: contain; object-position: center; padding: 1rem; }
+        .media-label, .shots-badge {
+            position: absolute; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
+            padding: 0.3rem 0.6rem; border-radius: 6px; background: rgba(10,10,15,0.8); color: #E8E8ED; backdrop-filter: blur(6px);
+        }
+        .media-label { left: 0.75rem; bottom: 0.75rem; }
+        .shots-badge { right: 0.75rem; top: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem; }
+        .shots-badge svg { width: 13px; height: 13px; }
 
-        /* Card animation for filtering */
-        .project-card {
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            overflow: hidden;
-            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s, opacity 0.4s ease;
+        .card-body { display: flex; flex-direction: column; gap: 0.85rem; padding: 1.5rem 1.6rem 1.6rem; flex: 1; }
+        .card.featured .card-body { padding: 2rem 2.1rem; justify-content: center; }
+        .card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; font-size: 0.76rem; color: var(--text-muted); letter-spacing: 0.02em; }
+        .card-meta .client { font-weight: 700; color: var(--accent-text); text-transform: uppercase; letter-spacing: 0.08em; }
+        .card-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); opacity: 0.6; }
+        .card h2 { font-family: var(--font-display); font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+        .card.featured h2 { font-size: clamp(1.35rem, 2.4vw, 1.75rem); }
+        .card-summary { font-size: 0.93rem; color: var(--text-muted); }
+        .outcome {
+            display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.55;
+            padding: 0.75rem 0.9rem; border-radius: 10px; background: var(--accent-dim);
+            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
         }
-        .project-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        .outcome svg { flex-shrink: 0; width: 16px; height: 16px; margin-top: 3px; color: var(--accent-text); }
+        .tools { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .tool { font-size: 0.73rem; font-weight: 500; padding: 0.22rem 0.6rem; border-radius: 6px; border: 1px solid var(--border); color: var(--text-muted); background: var(--bg-secondary); }
+        .quote {
+            margin: 0; padding: 0.15rem 0 0.15rem 0.95rem; border-left: 3px solid var(--accent);
+            font-size: 0.9rem; font-style: italic; color: var(--text); line-height: 1.55;
         }
+        .quote cite { display: block; margin-top: 0.35rem; font-style: normal; font-size: 0.76rem; color: var(--text-muted); }
+        .quote.big { font-size: 0.98rem; padding: 0.9rem 1.1rem; background: var(--bg-secondary); border-radius: 0 10px 10px 0; }
+        .quote .stars, .review .stars, .review-big .stars { font-style: normal; color: #F5A623; letter-spacing: 2px; margin-right: 0.35rem; font-size: 0.85em; }
+        .review-big { text-align: center; padding: 1rem; }
+        .review-big .stars { font-size: 1.4rem; display: block; margin: 0 0 0.5rem; }
+        .review-big p { font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+        .review-big small { color: var(--text-muted); font-size: 0.8rem; }
+        .d-pet .node { text-align: left; }
 
-        .project-card.hiding {
-            opacity: 0;
-            transform: scale(0.95);
-            pointer-events: none;
-            position: absolute;
-            visibility: hidden;
+        .reviews { padding: 3.5rem 0 4rem; border-top: 1px solid var(--border); background: var(--bg-secondary); }
+        .reviews h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+        .reviews-sub { color: var(--text-muted); margin: 0.5rem 0 1.8rem; }
+        .reviews-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+        .review { margin: 0; display: flex; flex-direction: column; gap: 0.7rem; padding: 1.3rem 1.35rem; border-radius: 14px; border: 1px solid var(--border); background: var(--bg-card); }
+        .review blockquote { margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--text); flex: 1; }
+        .review figcaption { display: flex; flex-direction: column; gap: 0.1rem; font-size: 0.8rem; color: var(--text-muted); }
+        .review figcaption strong { color: var(--text); font-size: 0.88rem; }
+        .review-link { margin-top: 0.45rem; color: var(--accent-text); font-weight: 600; font-size: 0.8rem; }
+        @media (max-width: 960px) { .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 600px) { .reviews-grid { grid-template-columns: 1fr; } }
+        .card-cta {
+            margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 0.45rem;
+            padding: 0.25rem 0; background: none; border: none; color: var(--accent-text); font-size: 0.88rem; font-weight: 600; cursor: pointer;
         }
-        .project-card.showing {
-            animation: cardFadeIn 0.4s ease forwards;
-        }
-        @keyframes cardFadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .card-cta svg { transition: transform 0.2s; }
+        .card-cta:hover svg { transform: translateX(3px); }
 
-        .project-image {
-            width: 100%;
-            height: 200px;
-            background: var(--bg-secondary);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-        .project-card:hover .project-image img {
-            transform: scale(1.03);
-        }
-
-        .project-image-placeholder {
-            color: var(--text-muted);
-            font-size: 0.78rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.4rem;
-        }
-        .project-image-placeholder svg { opacity: 0.3; }
-
-        .project-tag {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            padding: 0.3rem 0.7rem;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            background: var(--accent);
-            color: #FFFFFF;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            z-index: 2;
-        }
-
-        .project-content {
-            padding: 1.3rem;
-        }
-        .project-industry {
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.4rem;
-        }
-        .project-content h3 {
-            font-family: var(--font-display);
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-        .project-content p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 0.8rem;
-        }
-
-        /* Tools used badges */
-        .project-tools {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.35rem;
-            margin-bottom: 0.8rem;
-        }
-        .project-tool-tag {
-            padding: 0.2rem 0.55rem;
-            border-radius: 5px;
-            font-size: 0.68rem;
-            font-weight: 500;
-            border: 1px solid var(--border);
-            background: var(--bg-secondary);
-            color: var(--text-muted);
-        }
-
-        /* Key metric */
-        .project-metric {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.35rem 0.7rem;
-            border-radius: 6px;
-            background: var(--accent-dim);
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 0.8rem;
-        }
-        .project-metric svg {
-            width: 12px;
-            height: 12px;
-        }
-
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--accent-text);
-            transition: gap 0.3s;
-        }
-        .project-link:hover { gap: 0.7rem; }
-
-        /* Empty state */
-        .empty-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-muted);
-        }
-        .empty-state p {
-            font-size: 0.95rem;
-        }
+        /* Full write-up lives in the card (readable by search engines) and is shown in the dialog */
+        .case-full { display: none; }
 
         /* ============================================================
-           CTA SECTION
+           DIAGRAM "SCREENS" — used where no shareable screenshot exists
            ============================================================ */
-        .cta-section {
-            text-align: center;
-            padding: var(--section-padding) 0;
-            position: relative;
+        .diagram { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 0.9rem; padding: 1.4rem; font-size: 0.78rem; }
+        .diagram .d-title { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+        .node { border: 1px solid var(--border); background: var(--bg-card); border-radius: 10px; padding: 0.55rem 0.7rem; line-height: 1.35; }
+        .node b { display: block; font-size: 0.82rem; color: var(--text); }
+        .node small { color: var(--text-muted); font-size: 0.7rem; }
+        .node.hl { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+        .node.muted { opacity: 0.6; border-style: dashed; }
+        .flow { display: grid; align-items: center; gap: 0.45rem; }
+        .arrow { color: var(--accent-text); text-align: center; font-weight: 700; font-size: 0.9rem; }
+
+        .d-octo .flow { grid-template-columns: 1fr auto 1.1fr auto 1fr auto 1.1fr; }
+        .d-octo .loop { text-align: center; font-size: 0.7rem; color: var(--text-muted); border: 1px dashed var(--border); border-radius: 999px; padding: 0.3rem 0.8rem; align-self: center; }
+        .d-octo .loop b { color: var(--accent-text); }
+
+        .d-audit .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+        .d-audit .check { display: flex; gap: 0.5rem; align-items: center; }
+        .d-audit .check i { font-style: normal; color: var(--ok); font-weight: 800; }
+        .bars { display: grid; gap: 0.4rem; }
+        .bar { display: grid; grid-template-columns: 70px 1fr 20px; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.72rem; }
+        .bar .track { height: 8px; border-radius: 4px; background: var(--bg-secondary); overflow: hidden; }
+        .bar .fill { height: 100%; border-radius: 4px; background: var(--accent); }
+        .bar.crit .fill { background: #EF4444; } .bar.high .fill { background: #F59E0B; }
+        .bar b { color: var(--text); text-align: right; }
+
+        .d-demo .flow { grid-template-columns: repeat(4, 1fr); }
+        .d-demo .counts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+        .d-demo .counts .node { text-align: center; }
+        .d-demo .counts b { font-family: var(--font-display); font-size: 1.15rem; }
+
+        .d-pipes .lane { display: grid; grid-template-columns: 92px repeat(5, 1fr); gap: 0.35rem; align-items: stretch; }
+        .d-pipes .lane-name { font-size: 0.7rem; font-weight: 700; color: var(--text); display: flex; align-items: center; }
+        .d-pipes .stage { font-size: 0.66rem; text-align: center; padding: 0.45rem 0.25rem; border-radius: 7px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center; line-height: 1.25; }
+        .d-pipes .stage.won { border-color: var(--ok); color: var(--ok); font-weight: 600; }
+        .d-pipes .sources { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+        /* ============================================================
+           HOW I WORK + CTA + FOOTER
+           ============================================================ */
+        .process { padding: 3.5rem 0; border-top: 1px solid var(--border); }
+        .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 0.6rem; display: block; }
+        .process h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.8rem; max-width: 22ch; line-height: 1.2; }
+        .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; counter-reset: step; }
+        .step { border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; background: var(--bg-card); }
+        .step::before { counter-increment: step; content: '0' counter(step); font-family: var(--font-display); font-weight: 800; color: var(--accent-text); font-size: 0.9rem; }
+        .step h3 { font-family: var(--font-display); font-size: 1.05rem; margin: 0.35rem 0 0.3rem; }
+        .step p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.55; }
+
+        .cta-section { padding: 4.5rem 0; text-align: center; border-top: 1px solid var(--border); background: radial-gradient(ellipse at 50% 120%, var(--accent-dim), transparent 60%); }
+        .cta-section h2 { font-family: var(--font-display); font-size: clamp(1.7rem, 3.5vw, 2.4rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 0.8rem; }
+        .cta-section p { color: var(--text-muted); max-width: 52ch; margin: 0 auto 1.8rem; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 1.8rem; border-radius: 10px; background: var(--accent); color: #FFFFFF; font-weight: 600; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+
+        footer { border-top: 1px solid var(--border); padding: 3rem 0; }
+        .footer-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+        .footer-left { font-size: 0.85rem; color: var(--text-muted); }
+        .footer-left strong { color: var(--text); font-family: var(--font-display); }
+        .footer-legal { color: var(--text-muted); font-size: 0.8rem; opacity: 0.75; }
+        .footer-legal:hover { color: var(--accent-text); opacity: 1; }
+        .footer-socials { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .social-icon { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: border-color 0.3s, background 0.3s, color 0.3s, transform 0.2s; }
+        .social-icon:hover { border-color: var(--accent-text); background: var(--accent-dim); color: var(--accent-text); transform: translateY(-2px); }
+        .social-icon svg { width: 18px; height: 18px; fill: currentColor; }
+
+        /* ============================================================
+           CASE-STUDY DIALOG
+           ============================================================ */
+        dialog.case {
+            width: min(940px, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); margin: auto; padding: 0;
+            border: 1px solid var(--border); border-radius: 18px; background: var(--bg-card); color: var(--text);
             overflow: hidden;
         }
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        .cta-content {
-            position: relative;
-            z-index: 1;
-        }
+        dialog.case::backdrop { background: rgba(5,5,10,0.72); backdrop-filter: blur(4px); }
+        dialog.case[open] { animation: fadeInUp 0.3s ease both; display: flex; flex-direction: column; }
+        .case-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 1.4rem 1.6rem 1rem; border-bottom: 1px solid var(--border); }
+        .case-head h2 { font-family: var(--font-display); font-size: clamp(1.2rem, 2.5vw, 1.55rem); letter-spacing: -0.02em; line-height: 1.25; margin-top: 0.3rem; }
+        .case-close { flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); font-size: 1.3rem; cursor: pointer; }
+        .case-close:hover { border-color: var(--accent-text); }
+        .case-scroll { overflow-y: auto; padding: 1.4rem 1.6rem 1.8rem; }
+        .case-scroll h3 { font-family: var(--font-display); font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-text); margin: 1.6rem 0 0.6rem; display: flex; align-items: baseline; gap: 0.5rem; }
+        .case-scroll h3:first-child { margin-top: 0; }
+        .case-scroll h3 .count { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 0; text-transform: none; color: var(--text-muted); font-weight: 500; }
+        .case-scroll p { color: var(--text-muted); font-size: 0.95rem; }
+        .case-scroll ul { display: grid; gap: 0.5rem; }
+        .case-scroll li { position: relative; padding-left: 1.2rem; font-size: 0.93rem; color: var(--text-muted); line-height: 1.6; }
+        .case-scroll li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 2px; background: var(--accent); }
+        .case-scroll li strong, .case-scroll p strong { color: var(--text); font-weight: 600; }
+        .case-scroll .tools { margin-top: 0.3rem; }
+        .jump-shots { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.6rem; padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--accent-text); font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+        .jump-shots:hover { border-color: var(--accent-text); }
+        .jump-shots svg { width: 14px; height: 14px; }
+        .privacy-note { font-size: 0.78rem !important; margin-top: 0.7rem; opacity: 0.85; }
 
-        .section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: var(--font-display);
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--accent-text);
-            margin-bottom: 1rem;
+        /* Screenshot gallery inside the case study */
+        .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
+        .gallery figure { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--shot-bg); display: flex; flex-direction: column; }
+        .gallery .shot { display: block; width: 100%; aspect-ratio: 16 / 10; padding: 0; border: none; background: var(--shot-bg); cursor: zoom-in; overflow: hidden; position: relative; }
+        .gallery .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; transition: transform 0.4s ease; }
+        .gallery .shot:hover img { transform: scale(1.04); }
+        .gallery .shot::after {
+            content: ''; position: absolute; right: 0.5rem; bottom: 0.5rem; width: 28px; height: 28px; border-radius: 8px;
+            background: rgba(10,10,15,0.75) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E8E8ED' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 14px no-repeat;
+            opacity: 0; transition: opacity 0.2s;
         }
-        .section-label::before {
-            content: '';
-            width: 20px;
-            height: 1.5px;
-            background: var(--accent);
-        }
-        .section-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: 0.8rem;
-        }
-        .section-subtitle {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            max-width: 480px;
-            margin: 0 auto 2rem;
-            line-height: 1.7;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.85rem 2rem;
-            border-radius: 10px;
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            font-weight: 600;
-            background: var(--accent);
-            color: #FFFFFF;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.3s;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--accent-glow);
-        }
+        .gallery .shot:hover::after, .gallery .shot:focus-visible::after { opacity: 1; }
+        .gallery figcaption { font-size: 0.78rem; color: var(--text-muted); padding: 0.55rem 0.75rem; border-top: 1px solid var(--border); line-height: 1.45; flex: 1; background: var(--bg-card); }
 
         /* ============================================================
-           FOOTER — IDENTICAL TO HOMEPAGE
+           LIGHTBOX (full-size screenshot viewer)
            ============================================================ */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 3rem 0;
+        dialog.lightbox {
+            width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; margin: 0; padding: 0; border: none;
+            background: #07070B; color: #E8E8ED; overflow: hidden;
         }
-        .footer-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-        .footer-left {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-        .footer-left strong {
-            color: var(--text);
-            font-family: var(--font-display);
-        }
-        .footer-socials {
-            display: flex;
-            gap: 0.6rem;
-        }
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: border-color 0.3s, background 0.3s, transform 0.2s;
-            color: var(--text-muted);
-        }
-        .social-icon:hover {
-            border-color: var(--accent-text);
-            background: var(--accent-dim);
-            color: var(--accent-text);
-            transform: translateY(-2px);
-        }
-        .social-icon svg {
-            width: 18px;
-            height: 18px;
-        }
+        dialog.lightbox[open] { display: grid; grid-template-rows: auto 1fr auto; animation: fadeIn 0.2s ease both; }
+        dialog.lightbox::backdrop { background: transparent; }
+        .lb-top { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1.1rem; font-size: 0.82rem; color: #A8A8BC; gap: 1rem; }
+        .lb-stage { position: relative; display: flex; align-items: center; justify-content: center; min-height: 0; padding: 0 4rem; }
+        .lb-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); background: #fff; }
+        .lb-caption { text-align: center; padding: 0.9rem 1.2rem 1.3rem; font-size: 0.92rem; color: #E8E8ED; }
+        .lb-btn { width: 44px; height: 44px; border-radius: 12px; border: 1px solid #3A3A4E; background: rgba(22,22,31,0.9); color: #E8E8ED; font-size: 1.3rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+        .lb-btn:hover { border-color: #4D94FF; }
+        .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); }
+        .lb-prev { left: 0.8rem; } .lb-next { right: 0.8rem; }
 
-        /* ============================================================
-           STATS BAR
-           ============================================================ */
-        .stats-bar {
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .stats-grid {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-        }
-        .stat-item {
-            text-align: center;
-        }
-        .stat-number {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 2.5vw, 2.4rem);
-            font-weight: 800;
-            color: var(--accent-text);
-            line-height: 1;
-            margin-bottom: 0.3rem;
-        }
-        .stat-label {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            letter-spacing: 0.03em;
-        }
-        .stat-divider {
-            width: 1px;
-            background: var(--border);
-            align-self: stretch;
-        }
-
-        /* ============================================================
-           HOW I WORK - PROCESS SECTION
-           ============================================================ */
-        .process-section {
-            padding: 2.5rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .process-label {
-            font-family: var(--font-display);
-            font-size: 0.72rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--accent);
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        .process-steps {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
-        }
-        .process-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.6rem;
-            flex: 0 0 auto;
-        }
-        .process-step-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: border-color 0.3s, background 0.3s;
-        }
-        .process-step:hover .process-step-icon {
-            border-color: var(--accent);
-            background: var(--accent-dim);
-        }
-        .process-step-text {
-            text-align: center;
-        }
-        .process-step-title {
-            font-family: var(--font-display);
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-        .process-step-desc {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            max-width: 120px;
-        }
-        .process-arrow {
-            color: var(--border);
-            margin: 0 1.2rem;
-            flex-shrink: 0;
-            margin-bottom: 2rem;
-        }
-
-        /* ============================================================
-           HOVER OVERLAY ON PROJECT CARDS
-           ============================================================ */
-        .project-image-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.6rem;
-            opacity: 0;
-            transition: opacity 0.35s ease;
-            z-index: 3;
-            cursor: pointer;
-        }
-        .project-card:hover .project-image-overlay {
-            opacity: 1;
-        }
-        .overlay-metric {
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--accent);
-        }
-        .overlay-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.45rem 1rem;
-            border-radius: 8px;
-            background: var(--accent);
-            color: #FFFFFF;
-            font-size: 0.78rem;
-            font-weight: 600;
-            transition: transform 0.2s;
-        }
-        .overlay-cta:hover { transform: scale(1.05); }
-
-        /* ============================================================
-           QUICK-VIEW MODAL
-           ============================================================ */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .modal-backdrop.active {
-            display: flex;
-            opacity: 1;
-        }
-        .modal {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            max-width: 680px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-        .modal-backdrop.active .modal {
-            transform: translateY(0);
-        }
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--bg-secondary);
-            color: var(--text);
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            transition: border-color 0.3s;
-        }
-        .modal-close:hover { border-color: var(--accent); }
-
-        .modal-image {
-            width: 100%;
-            height: 240px;
-            background: var(--bg-secondary);
-            overflow: hidden;
-            border-radius: 16px 16px 0 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .modal-body {
-            padding: 2rem;
-        }
-        .modal-tag {
-            display: inline-block;
-            padding: 0.25rem 0.65rem;
-            border-radius: 5px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            background: var(--accent);
-            color: #FFFFFF;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.8rem;
-        }
-        .modal-industry {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.3rem;
-        }
-        .modal-body h2 {
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 0.8rem;
-            letter-spacing: -0.02em;
-        }
-        .modal-body p {
-            font-size: 0.92rem;
-            color: var(--text-muted);
-            line-height: 1.8;
-            margin-bottom: 1.2rem;
-        }
-        .modal-tools {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            margin-bottom: 1.2rem;
-        }
-        .modal-tool-tag {
-            padding: 0.3rem 0.7rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border: 1px solid var(--border);
-            background: var(--bg-secondary);
-            color: var(--text-muted);
-        }
-        .modal-metric {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            background: var(--accent-dim);
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-        }
-        .modal-metric svg {
-            width: 16px;
-            height: 16px;
-        }
-        .modal-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.8rem;
-            border-radius: 10px;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            font-weight: 600;
-            background: var(--accent);
-            color: #FFFFFF;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.3s;
-        }
-        .modal-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--accent-glow);
-        }
+        /* Cookie banner (GA4 consent) — same as the rest of the site */
+        .cookie-banner { position: fixed; bottom: 1.2rem; left: 1.2rem; right: 1.2rem; max-width: 680px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.4rem; z-index: 500; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner-text { flex: 1; font-size: 0.85rem; color: var(--text-muted); min-width: 240px; }
+        .cookie-banner-text strong { color: var(--text); }
+        .cookie-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+        .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; }
+        .cookie-btn.primary { background: var(--accent); color: #FFFFFF; border-color: var(--accent); }
 
         /* ============================================================
            RESPONSIVE
            ============================================================ */
-        @media (max-width: 900px) {
+        @media (max-width: 960px) {
             .nav-links { display: none; }
             .nav-hamburger { display: flex; }
-            .btn-nav { display: none; }
+            .card.featured { grid-template-columns: 1fr; }
+            .card.featured .card-media { min-height: 0; aspect-ratio: 16 / 9; border-right: none; border-bottom: 1px solid var(--border); }
+            .card.featured .card-body { padding: 1.5rem 1.6rem 1.6rem; }
+            .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 760px) {
             .projects-grid { grid-template-columns: 1fr; }
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .footer-socials {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            .filter-results { display: none; }
-            .stats-grid { gap: 1.5rem; }
-            .process-steps { flex-wrap: wrap; gap: 1rem; }
-            .process-arrow { display: none; }
-            .modal { max-height: 85vh; }
-            .modal-body { padding: 1.5rem; }
+            .proof-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .btn-nav { display: none; }
+            .filter-section { top: 58px; }
+            .diagram { padding: 0.9rem; gap: 0.6rem; font-size: 0.7rem; }
+            .d-octo .flow { grid-template-columns: 1fr auto 1fr; }
+            .d-octo .flow .hide-sm { display: none; }
+            .d-pipes .lane { grid-template-columns: 70px repeat(5, 1fr); }
+            .d-pipes .stage { font-size: 0.58rem; padding: 0.35rem 0.15rem; }
+            .d-demo .counts b { font-size: 1rem; }
+            .gallery { grid-template-columns: 1fr; }
+            .lb-stage { padding: 0 0.6rem; position: static; }
+            .lb-top { justify-content: space-between; min-height: 64px; }
+            .lb-prev, .lb-next { top: 0.9rem; transform: none; }
+            .lb-prev { left: calc(50% - 52px); } .lb-next { right: calc(50% - 52px); }
         }
-
-        @media (max-width: 600px) {
-            .page-header h1 { font-size: 1.8rem; }
-            .filter-bar { gap: 0.4rem; }
-            .filter-btn {
-                padding: 0.4rem 0.9rem;
-                font-size: 0.78rem;
-            }
-            .stats-grid { flex-wrap: wrap; gap: 1rem; }
-            .stat-divider { display: none; }
-            .modal-image { height: 180px; }
+        @media (max-width: 480px) {
+            .steps { grid-template-columns: 1fr; }
+            .card-body { padding: 1.25rem; }
+            .case-head, .case-scroll { padding-left: 1.1rem; padding-right: 1.1rem; }
         }
-
-        /* Cookie banner (GA4 consent) */
-        .cookie-banner { position: fixed; bottom: 1.2rem; left: 1.2rem; right: 1.2rem; max-width: 680px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.4rem; z-index: 500; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; gap: 1rem; align-items: center; flex-wrap: wrap; }
-        .cookie-banner.visible { display: flex; }
-        .cookie-banner-text { flex: 1; font-size: 0.85rem; color: var(--text-muted); min-width: 280px; }
-        .cookie-banner-text strong { color: var(--text); }
-        .cookie-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
-        .cookie-btn { padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text); cursor: pointer; transition: all 0.2s; }
-        .cookie-btn.primary { background: var(--accent); color: #FFFFFF; border-color: var(--accent); }
-        .cookie-btn:hover { transform: translateY(-1px); }
-    
-        .footer-legal { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; opacity: 0.75; transition: color 0.2s, opacity 0.2s; }
-        .footer-legal:hover { color: var(--accent-text); opacity: 1; }
     </style>
 </head>
 <body>
 
-    <!-- INITIAL SPLASH — hides page until content renders (fixes FOUC) -->
-    <div id="initialSplash" style="position:fixed;inset:0;z-index:10000;background:#0A0A0F;display:flex;align-items:center;justify-content:center;transition:opacity 0.4s ease, visibility 0.4s;">
-        <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#E8E8ED;animation:splashPulse 1.5s ease-in-out infinite;">Damilare<span style="color:#0066FE;">.</span></div>
-    </div>
-    <style>
-        [data-theme="light"] #initialSplash { background: #F5F3F0 !important; }
-        [data-theme="light"] #initialSplash > div { color: #1A1A2E !important; }
-        #initialSplash.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
-        @keyframes splashPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-    </style>
-
     <!-- NAV -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar" id="navbar" aria-label="Main">
         <div class="container">
-            <a href="index.html" class="nav-logo" id="navLogo">Damilare<span>.</span></a>
+            <a href="index.html" class="nav-logo">Damilare<span>.</span></a>
             <div class="nav-links">
                 <a href="index.html#about">About</a>
                 <a href="services.html">Services</a>
-                <a href="projects.html" class="active">Projects</a>
+                <a href="projects.html" class="active" aria-current="page">Projects</a>
                 <a href="blog.html">Blog</a>
                 <a href="index.html#testimonials">Reviews</a>
                 <a href="contact.html">Contact</a>
             </div>
             <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme">
                     <span class="theme-icon moon">🌙</span>
                     <span class="theme-icon sun">☀️</span>
                 </button>
-                <a href="#" target="_blank" class="btn-nav" id="navBookBtn">Book a Call</a>
+                <a href="book.html" class="btn-nav">Book a Call</a>
                 <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
                     <span></span><span></span><span></span>
                 </button>
@@ -1085,573 +471,933 @@
     </nav>
 
     <div class="mobile-nav" id="mobileNav">
-        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
-        <a href="index.html#about" onclick="closeMobileNav()">About</a>
-        <a href="services.html" onclick="closeMobileNav()">Services</a>
-        <a href="projects.html" onclick="closeMobileNav()">Projects</a>
-        <a href="blog.html" onclick="closeMobileNav()">Blog</a>
-        <a href="index.html#testimonials" onclick="closeMobileNav()">Reviews</a>
-        <a href="contact.html" onclick="closeMobileNav()">Contact</a>
-        <a href="#" target="_blank" onclick="closeMobileNav()" id="mobileBookBtn">Book a Call</a>
+        <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">&times;</button>
+        <a href="index.html#about">About</a>
+        <a href="services.html">Services</a>
+        <a href="projects.html">Projects</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#testimonials">Reviews</a>
+        <a href="contact.html">Contact</a>
+        <a href="book.html">Book a Call</a>
     </div>
 
-    <!-- PAGE HEADER -->
-    <section class="page-header">
+    <main>
+    <!-- HEADER -->
+    <header class="page-header">
         <div class="container">
-            <div class="page-header-content">
-                <div class="breadcrumb">
-                    <a href="index.html">Home</a>
-                    <span>/</span>
-                    <span>Projects</span>
-                </div>
-                <h1 id="pageHeaderTitle">Loading...</h1>
-                <p id="pageHeaderSubtitle"></p>
-                <div class="project-count">
-                    Showing <strong id="visibleCount">0</strong> projects
-                </div>
+            <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Projects</span></div>
+            <h1>Systems I've built for <em>real businesses</em></h1>
+            <p class="lede">CRM builds, migrations, dashboards, outreach engines and automations in Folk, Zoho, Brevo, Make, n8n and GoHighLevel, each one shipped for a paying client. Open any project for the full story: the problem, what I built, what changed, and real screenshots of the work.</p>
+
+            <div class="proof-row" role="list">
+                <div class="proof" role="listitem"><strong>11</strong><span>Client projects</span></div>
+                <div class="proof" role="listitem"><strong>6</strong><span>Countries — US, UK, UAE, India, Nigeria, Argentina</span></div>
+                <div class="proof" role="listitem"><strong>5.0 ★</strong><span>Every Fiverr review is 5 stars</span></div>
+                <div class="proof" role="listitem"><strong>70+</strong><span>Real screenshots from the builds</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FILTERS -->
+    <section class="filter-section" id="filters" aria-label="Filter projects">
+        <div class="container">
+            <div class="filter-bar" role="toolbar">
+                <button class="filter-btn" data-filter="all" aria-pressed="true">All<span class="n"></span></button>
+                <button class="filter-btn" data-filter="crm" aria-pressed="false">CRM Setup &amp; Migration<span class="n"></span></button>
+                <button class="filter-btn" data-filter="automation" aria-pressed="false">Automation &amp; AI<span class="n"></span></button>
+                <button class="filter-btn" data-filter="outreach" aria-pressed="false">Email &amp; Outreach<span class="n"></span></button>
+                <button class="filter-btn" data-filter="analytics" aria-pressed="false">Dashboards &amp; Analytics<span class="n"></span></button>
+                <button class="filter-btn" data-filter="finance" aria-pressed="false">Zoho Finance &amp; Ops<span class="n"></span></button>
             </div>
         </div>
     </section>
 
-    <!-- STATS BAR -->
-    <section class="stats-bar">
+    <!-- PROJECTS -->
+    <section class="projects-section">
         <div class="container">
-            <div class="stats-grid" id="statsBar"></div>
+            <div class="projects-grid" id="projectsGrid">
+
+                <!-- ===================== HEALTHY LITTLE COOKS ===================== -->
+                <article class="card featured reveal" data-category="crm outreach analytics" id="healthy-little-cooks">
+                    <div class="card-media">
+                        <img src="assets/projects/hlc/01-dashboard.webp" alt="Folk CRM dashboard built for Healthy Little Cooks showing 2,277 leads split by partner type and sub-industry" width="1200" height="691" loading="eager">
+                        <span class="media-label">Live Folk dashboard</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">Healthy Little Cooks</span><span class="dot"></span><span>Kids' wellness education</span><span class="dot"></span><span>USA · 2026</span></div>
+                        <h2>School outreach CRM that booked 7–8 meetings from its first campaign</h2>
+                        <p class="card-summary">A Folk CRM and cold-email system to take the "Passport to Wellness" program to schools, principals and PTA/PTO groups, plus the training that lets a small team run it without me.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>7–8 meetings booked</strong> from the first sequence wave. The winning email pulled a <strong>14% reply rate</strong>, about 2.5× the other version.</span></div>
+                        <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "I didn't know how much I didn't realize was wrong with my system until working with him."<cite>Kim, Healthy Little Cooks · 5-star Fiverr review</cite></blockquote>
+                        <div class="tools"><span class="tool">Folk CRM</span><span class="tool">Email sequences</span><span class="tool">Google Workspace</span><span class="tool">Dashboards</span><span class="tool">SOPs &amp; training</span></div>
+                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>Healthy Little Cooks had a strong reputation and a good program, but outreach to schools lived in spreadsheets and inboxes. Nobody could see who had been contacted, who replied, or who was ready for a call, and follow-ups depended on someone remembering.</p>
+                        <h3>What I built</h3>
+                        <ul>
+                            <li><strong>A Folk workspace for 2,277 contacts</strong> with a 9-stage pipeline (Lead → To Contact → Contacted → Engaged → Call Scheduled → Follow-Up → Closed Won/Lost), a tag system (PTA/PTO, Title 1, Judy Center, Head Start, district and more) and saved views for each segment.</li>
+                            <li><strong>Four A/B email sequences</strong> for schools and PTO/PTA groups, 4 emails each, spaced 4–5 days apart. They send from a separate, warmed-up cold domain so the main domain stays safe. Stop-on-reply is on, and recipient filters keep existing clients and district offices out.</li>
+                            <li><strong>A live dashboard</strong> showing leads, pipeline stages, relationship type, sub-industry and partner types at a glance.</li>
+                            <li><strong>A booking tracker and reconciliation SOP</strong>: a twice-weekly routine to log meetings, move contacts and take them out of sequences.</li>
+                            <li><strong>A 35-page team guide with 30 annotated screenshots</strong> covering daily replies, the pipeline, adding contacts, running sequences and reading the numbers.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li><strong>7–8 meetings booked</strong> from the first wave of sequences.</li>
+                            <li>School mail filters were auto-opening and auto-clicking every link, so opens and clicks were unreliable. I read the A/B test from <strong>replies</strong> instead. The "Family Engagement Programs" email won with a <strong>14% reply rate</strong>, about 2.5× the other version.</li>
+                            <li>The team now runs outreach, replies and booking reconciliation inside one system, with a guide to answer their questions.</li>
+                        </ul>
+                        <h3>In the client's words</h3>
+                        <blockquote class="quote big"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "We had a fantastic experience working with Damilare. Looking forward to continuing to work together for our ongoing projects. I didn't know how much I didn't realize was wrong with my system until working with him. It was a great overall experience."<cite>Kim, Healthy Little Cooks · 5-star Fiverr review</cite></blockquote>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Folk CRM</span><span class="tool">Folk sequences</span><span class="tool">Google Workspace</span><span class="tool">Excel tracker</span><span class="tool">SOP &amp; training docs</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/hlc/01-dashboard.webp" alt="Folk dashboard with lead, partner type, relationship and sub-industry charts" loading="lazy"></button><figcaption>Partner dashboard: 2,277 leads by type and segment</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/hlc/02-sequence-family-engagement.webp" alt="Folk email sequence with four steps and first-email stats" loading="lazy"></button><figcaption>Winning sequence: 14% reply rate on email one, plus three timed follow-ups</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/hlc/04-pipeline-board.webp" alt="Folk pipeline board with Lead, To Contact, Contacted and Engaged columns" loading="lazy"></button><figcaption>Pipeline board: every school and PTA moves stage by stage</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/hlc/05-pipeline-stages.webp" alt="Folk table showing the nine pipeline status options" loading="lazy"></button><figcaption>The 9 pipeline stages, from Lead to Closed Won</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/hlc/06-segment-tags.webp" alt="Folk schools view with tag options such as PTA/PTO, Judy Center, Title 1 and Head Start" loading="lazy"></button><figcaption>Segment tags that drive who gets which sequence</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/hlc/07-team-guide-cover.webp" alt="Cover page of the team guide How the System Works and Your Part in It" loading="lazy"></button><figcaption>The 35-page team guide I wrote for the client</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/hlc/08-team-guide-bulk-move.webp" alt="Annotated guide page explaining how to bulk-move a batch of contacts" loading="lazy"></button><figcaption>Inside the guide: annotated, step-by-step procedures</figcaption></figure>
+                        </div>
+                        <p class="privacy-note">Contact names and emails are blurred to protect the client's contacts.</p>
+                    </div>
+                </article>
+
+
+                <!-- ===================== NJS ROYALE ===================== -->
+                <article class="card reveal" data-category="crm automation booking" id="njs-royale">
+                    <div class="card-media">
+                        <img src="assets/projects/njs/01-pipelines.webp" alt="Zoho CRM pipeline settings showing the Event Booking pipeline from Tour Scheduled to Event Completed" width="1150" height="605" loading="lazy">
+                        <span class="media-label">Zoho CRM · Event Booking pipeline</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">NJS Royale Event Centre</span><span class="dot"></span><span>Event venue</span><span class="dot"></span><span>Nigeria · 2025</span></div>
+                        <h2>Event venue CRM: from enquiry to venue tour to paid booking</h2>
+                        <p class="card-summary">Zoho CRM and Zoho Bookings set up so every tour request, booking and deposit across three halls moves through one pipeline, with automatic stage changes and payment reminders.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>9+ workflow automations</strong> and <strong>30+ email templates</strong> covering every step from tour booking to final payment.</span></div>
+                        <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "We went from juggling spreadsheets and phone notes to having a system that practically runs itself."<cite>Olaoluwa M. Oreniwa, CEO, NJS Royale</cite></blockquote>
+                        <div class="tools"><span class="tool">Zoho CRM</span><span class="tool">Zoho Bookings</span><span class="tool">Workflow rules</span><span class="tool">Email templates</span></div>
+                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>NJS Royale Event Centre was growing fast, but bookings ran on phone calls, spreadsheets and memory. Tours were scheduled by back-and-forth messages, payments were tracked by hand with no reminders, and nobody could see who had toured, who was ready to book or which deposits were outstanding. Follow-ups were missed and bookings slipped away.</p>
+                        <h3>What I built</h3>
+                        <ul>
+                            <li><strong>Discovery first:</strong> mapped the full journey for the venue's three halls (Grande Royale, Signature and Ivycrest), including the rule that balances are due 14 days before the event.</li>
+                            <li><strong>An 8-stage Event Booking pipeline:</strong> Tour Scheduled → Tour Completed → Interested in Booking → Payment Pending → Booking Confirmed → Event Completed → Closed / Lost, with 30+ custom fields.</li>
+                            <li><strong>A branded tour-booking page</strong> in Zoho Bookings, with 30-minute slots, a shareable link and QR code. Every booking lands in the CRM automatically, and cancellations sync back.</li>
+                            <li><strong>Three payment plans</strong>: one-time, two-deposit and three-deposit. Layout rules show only the fields for the chosen plan, and field dependencies limit each plan to the payment stages that make sense.</li>
+                            <li><strong>9+ workflow rules</strong> for lead-to-deal conversion, payment-stage updates, deposit tracking, due-date calculations, staff reminders and a fully-paid confirmation flow.</li>
+                            <li><strong>30+ email templates</strong> for tour follow-ups, payment notices, deposit receipts, overdue reminders, booking confirmations and post-event thank-yous, all tested end to end.</li>
+                            <li><strong>Recorded video walkthroughs</strong> so the team could run the system themselves.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>Every tour request is captured the moment it's booked. No more lost follow-ups.</li>
+                            <li>Staff can see exactly where each client is, and deposits are tracked down to the last payment with automatic reminders.</li>
+                            <li>Clients get professional, timely emails at every milestone, without anyone typing them.</li>
+                        </ul>
+                        <h3>In the client's words</h3>
+                        <blockquote class="quote big"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "What Damilare built for us exceeded every expectation. We went from juggling spreadsheets and phone notes to having a system that practically runs itself. Every tour booking flows straight into our CRM, payments are tracked automatically, and our clients get professional emails at every step without us lifting a finger."<cite>Olaoluwa M. Oreniwa, CEO, NJS Royale Event Centre</cite></blockquote>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Zoho CRM</span><span class="tool">Zoho Bookings</span><span class="tool">Workflow rules</span><span class="tool">Layout rules</span><span class="tool">Email templates</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/01-pipelines.webp" alt="Zoho CRM pipelines with the Event Booking stages" loading="lazy"></button><figcaption>Event Booking pipeline stages</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/09-tour-booking-page.webp" alt="NJS Royale tour booking page on Zoho Bookings" loading="lazy"></button><figcaption>Self-service venue tour booking page</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/10-tour-booking-form.webp" alt="Tour booking details form" loading="lazy"></button><figcaption>Booking form that creates the record in the CRM</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/11-share-booking-link.webp" alt="Share booking link dialog with QR code" loading="lazy"></button><figcaption>Shareable booking link and QR code for the venue</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/02-workflow-rules.webp" alt="Zoho CRM workflow rules list" loading="lazy"></button><figcaption>Workflow rules: booking sync, stage updates, payment reminders</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/03-leads-to-deal-workflow.webp" alt="Zoho CRM leads to deal workflow" loading="lazy"></button><figcaption>Lead → deal workflow</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/04-payment-stage-workflow.webp" alt="Zoho CRM payment stage update workflow with conditions" loading="lazy"></button><figcaption>Payment-stage workflow with conditions per plan</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/05-payment-plan-layout-rule.webp" alt="Zoho layout rule showing fields per payment plan" loading="lazy"></button><figcaption>Layout rule: one-time, two- and three-deposit plans</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/06-payment-stage-dependency.webp" alt="Zoho field dependency mapping payment plan to payment stages" loading="lazy"></button><figcaption>Field dependency: each plan only allows its own stages</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/07-email-templates.webp" alt="List of Zoho CRM payment email templates" loading="lazy"></button><figcaption>Payment email library: confirmations, due and overdue reminders</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/njs/08-payment-confirmed-template.webp" alt="Payment confirmed email template preview" loading="lazy"></button><figcaption>"Payment Confirmed" email, sent automatically</figcaption></figure>
+                        </div>
+                    </div>
+                </article>
+
+
+                <!-- ===================== TECHFIX ===================== -->
+                <article class="card reveal" data-category="automation" id="techfix">
+                    <div class="card-media">
+                        <img src="assets/projects/techfix/04-whatsapp-bot.webp" alt="n8n workflow: WhatsApp AI support ticket intake connected to GoHighLevel" width="1324" height="605" loading="lazy">
+                        <span class="media-label">n8n · WhatsApp AI agent</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">TechFix</span><span class="dot"></span><span>Device repair</span><span class="dot"></span><span>2026</span></div>
+                        <h2>AI chat intake on WhatsApp, Instagram &amp; Messenger, feeding a GoHighLevel repair pipeline</h2>
+                        <p class="card-summary">AI agents answer customers on the channel they use, collect the repair details and open the job in GoHighLevel. From there, a 7-stage pipeline keeps the customer updated automatically.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Every chat becomes a <strong>tracked repair job</strong>, and customers get an update at <strong>every stage</strong> without staff typing a word.</span></div>
+                        <div class="tools"><span class="tool">n8n</span><span class="tool">OpenAI</span><span class="tool">WhatsApp API</span><span class="tool">Meta API</span><span class="tool">GoHighLevel</span></div>
+                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>Repair enquiries arrived through WhatsApp, Instagram, Facebook Messenger and a website form. Staff checked each app by hand, replies were slow, and details were re-typed into the CRM when they were captured at all. Customers also kept asking "is my device ready yet?"</p>
+                        <h3>What I built</h3>
+                        <ul>
+                            <li><strong>Four n8n workflows</strong>: WhatsApp, Instagram and Messenger chatbots plus a repair intake form, connected through Meta's developer apps and webhooks.</li>
+                            <li><strong>An AI agent</strong> (OpenAI with conversation memory and a structured output parser) that works out what the customer wants (new repair, status check, update or general question) and asks for any missing details.</li>
+                            <li><strong>Duplicate-safe GoHighLevel logic:</strong> it finds the contact or creates it, checks for an open opportunity, and only creates a new one when needed.</li>
+                            <li><strong>A Device Repair pipeline in GoHighLevel</strong> with 7 stage workflows: lead created, intake complete, diagnosing, quote approval, repair approved, repairing, and ready for pickup. Each one messages the customer and creates the right task for staff.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>Customers get an instant reply on the channel they used, at any hour, and hear from the shop automatically as their repair moves along.</li>
+                            <li>The team works from one GoHighLevel pipeline instead of four inboxes.</li>
+                        </ul>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">n8n</span><span class="tool">OpenAI</span><span class="tool">WhatsApp Cloud API</span><span class="tool">Instagram &amp; Messenger API</span><span class="tool">GoHighLevel</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/01-n8n-workflows.webp" alt="List of four n8n workflows" loading="lazy"></button><figcaption>The four n8n workflows behind the intake</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/04-whatsapp-bot.webp" alt="WhatsApp AI support ticket intake workflow in n8n" loading="lazy"></button><figcaption>WhatsApp AI support-ticket intake → GoHighLevel</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/02-instagram-bot.webp" alt="Instagram chatbot workflow in n8n" loading="lazy"></button><figcaption>Instagram DM chatbot with AI agent and routing</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/03-messenger-bot.webp" alt="Messenger chatbot workflow in n8n" loading="lazy"></button><figcaption>Facebook Messenger chatbot</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/05-repair-intake-form.webp" alt="Repair intake form workflow in n8n" loading="lazy"></button><figcaption>Website repair form → contact + opportunity</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/12-facebook-chat.webp" alt="Tech Fix Facebook page with the chatbot answering a customer" loading="lazy"></button><figcaption>The bot live on the TechFix Facebook page</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/06-meta-apps.webp" alt="Meta developer apps for WhatsApp, Messenger and Instagram" loading="lazy"></button><figcaption>Meta developer apps for each channel</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/07-ghl-repair-pipeline.webp" alt="GoHighLevel Device Repair Pipeline board" loading="lazy"></button><figcaption>GoHighLevel Device Repair pipeline</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/08-ghl-stage-workflows.webp" alt="GoHighLevel workflow list for each repair stage" loading="lazy"></button><figcaption>7 stage workflows, from new lead to ready for pickup</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/09-quote-approval-workflow.webp" alt="GoHighLevel quote approval workflow" loading="lazy"></button><figcaption>Quote / cost approval workflow</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/10-repair-approved-workflow.webp" alt="GoHighLevel repair approved workflow" loading="lazy"></button><figcaption>Repair approved: webhook, customer email, staff task</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/11-automatic-customer-updates.webp" alt="GoHighLevel conversations showing automatic customer updates" loading="lazy"></button><figcaption>Automatic customer updates in the GHL inbox</figcaption></figure>
+                        </div>
+                        <p class="privacy-note">Customer contact details are blurred.</p>
+                    </div>
+                </article>
+
+
+                <!-- ===================== COLLISIONCAM ===================== -->
+                <article class="card featured reveal" data-category="analytics crm" id="collisioncam">
+                    <div class="card-media">
+                        <img src="assets/projects/collisioncam/01-macro-kpis.webp" alt="CollisionCam macro dashboard in Zoho Analytics showing 849 leads year to date" width="1290" height="645" loading="lazy">
+                        <span class="media-label">Zoho Analytics · Macro dashboard</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">CollisionCam</span><span class="dot"></span><span>Crash-lead referral network</span><span class="dot"></span><span>USA · 2026</span></div>
+                        <h2>Zoho Analytics command centre for a crash-lead referral network</h2>
+                        <p class="card-summary">Dashboards on top of Zoho CRM that show where every crash lead came from, which county it's in, which attorney or clinic it went to, and how each partner is performing.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>849 leads tracked</strong> year to date across macro, county, attorney and PT/clinic dashboards, refined over <strong>3 rounds of client feedback</strong>.</span></div>
+                        <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "Very talented and will use again!"<cite>Josh Barnes, CollisionCam · 5-star Fiverr review</cite></blockquote>
+                        <div class="tools"><span class="tool">Zoho Analytics</span><span class="tool">Zoho CRM</span><span class="tool">KPI dashboards</span><span class="tool">Data modelling</span></div>
+                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>CollisionCam captures crash leads and sends them on to partner attorneys and physical-therapy / medical clinics. Every lead lived in Zoho CRM, but the team couldn't see the big picture: how many leads came in this month, which counties they came from, which partner received them, and how many were signed or treated.</p>
+                        <h3>What I built</h3>
+                        <ul>
+                            <li><strong>A clean data model in Zoho CRM:</strong> standard picklists for lead source, county, destination type (attorney or PT) and destination partner, a lead-status path (New → Sent → Actively Chasing → Signed / Treating → Closed Lost) and a "people in car" number.</li>
+                            <li><strong>Two kinds of metric, kept apart:</strong> lead counts, and people counts (the sum of people in the vehicle), so partner numbers are never mixed up.</li>
+                            <li><strong>A macro dashboard:</strong> year-to-date, 30-day, 7-day and 24-hour totals, leads per month, won and lost, a pipeline funnel with conversion rate, and the split of leads across affiliate partners.</li>
+                            <li><strong>A location dashboard:</strong> leads by county and city, attorney-vs-PT comparison tables by city, state and county, and filters that update every chart at once.</li>
+                            <li><strong>Attorney and PT / clinic performance dashboards:</strong> leads sent, signed or treating, and people involved, by county and month, filterable by partner.</li>
+                            <li><strong>Three rounds of revisions</strong> working through the client's feedback line by line, from month ordering to partner-only views.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>The team can see performance by month, county and partner in one place, instead of exporting CRM data by hand.</li>
+                            <li>Partners can be shown exactly how many leads, and how many people, were sent to them and how many signed or started treatment.</li>
+                        </ul>
+                        <h3>In the client's words</h3>
+                        <blockquote class="quote big"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "Very talented and will use again!"<cite>Josh Barnes, CollisionCam · rated 5/5 for communication, quality and value</cite></blockquote>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Zoho Analytics</span><span class="tool">Zoho CRM</span><span class="tool">KPI tiles</span><span class="tool">Funnels &amp; treemaps</span><span class="tool">Dashboard filters</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/collisioncam/01-macro-kpis.webp" alt="Zoho Analytics macro dashboard with year-to-date, 30-day, 7-day and 24-hour lead counts" loading="lazy"></button><figcaption>Macro dashboard: 849 leads year to date, with 30-day, 7-day and 24-hour views</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/collisioncam/02-pipeline-funnel.webp" alt="Funnel chart of leads by pipeline stage with conversion rate" loading="lazy"></button><figcaption>Pipeline funnel from new lead to signed, with conversion rate</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/collisioncam/03-won-lost.webp" alt="Bar charts of leads closed lost by reason and leads won by month" loading="lazy"></button><figcaption>Closed-lost reasons and leads won by month</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/collisioncam/04-affiliate-split.webp" alt="Pie chart of leads sent to each affiliate partner" loading="lazy"></button><figcaption>Leads sent to each attorney and clinic partner</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/collisioncam/05-county-leads.webp" alt="Leads by county chart and table" loading="lazy"></button><figcaption>County view: leads by county, with filters for date, county and state</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/collisioncam/06-attorney-vs-pt-tables.webp" alt="City, state and county comparison tables of leads sent to attorney vs PT" loading="lazy"></button><figcaption>Attorney vs PT comparison by city, state and county</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/collisioncam/07-city-treemap.webp" alt="Treemap of total leads by city" loading="lazy"></button><figcaption>Every city at a glance</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/collisioncam/08-attorney-performance.webp" alt="Attorney performance dashboard with leads sent, signed and people involved" loading="lazy"></button><figcaption>Attorney performance: leads sent, signed and people involved</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/collisioncam/09-pt-fcm-performance.webp" alt="PT and FCM clinic performance dashboard" loading="lazy"></button><figcaption>PT / FCM clinic performance by county and month</figcaption></figure>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ===================== CUDIUM ===================== -->
+                <article class="card reveal" data-category="crm automation" id="cudium">
+                    <div class="card-media">
+                        <img src="assets/projects/cudium/03-blueprint-stages.webp" alt="Zoho CRM deal for Cudium with a stage path from Qualified to Active Client and automatic tasks" width="1280" height="573" loading="lazy">
+                        <span class="media-label">Zoho CRM · Blueprint stage path</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">Cudium</span><span class="dot"></span><span>Cross-border payments</span><span class="dot"></span><span>Nigeria · 2026</span></div>
+                        <h2>Zoho CRM for a B2B cross-border payments fintech</h2>
+                        <p class="card-summary">A clean Zoho CRM for a relationship-led sales team: a lead board, a deal pipeline that follows the real KYC-to-first-transaction journey, guided stage changes and automatic next steps.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Every prospect follows the same path, from <strong>qualified → KYC → approved → first transaction → active client</strong>, with the next action set automatically.</span></div>
+                        <div class="tools"><span class="tool">Zoho CRM</span><span class="tool">Blueprint</span><span class="tool">Workflow rules</span><span class="tool">Pipelines</span></div>
+                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>Cudium helps African SMEs and importers pay internationally. Their sales are relationship-driven (inbound, outbound and through agents), and they had just adopted Zoho with no structure in place. They wanted clarity and usability first, with only the automation that genuinely helps.</p>
+                        <h3>What I built</h3>
+                        <ul>
+                            <li><strong>A leads board</strong> that shows contact progress at a glance: Not Contacted → Attempted to Contact → Contacted (interested / not interested).</li>
+                            <li><strong>Custom lead fields that match how Cudium sells:</strong> countries money is sent to, monthly transaction volume, business type, current payment methods and lead intent.</li>
+                            <li><strong>A deal pipeline built on the real customer journey:</strong> Qualified (low intent) → Qualified (high intent) → KYC in Progress → Approved → First Transaction Done → Active Client, with win probabilities at each stage.</li>
+                            <li><strong>Blueprint-guided stage changes:</strong> staff move deals with buttons such as "KYC Approved", and the first transaction amount must be verified before a client is marked active.</li>
+                            <li><strong>Automatic next actions:</strong> new leads get "Review new lead" and "Confirm high intent" tasks, and high-intent leads get a call task straight away.</li>
+                            <li><strong>Call logging</strong> with a purpose and an outcome on every call, plus lead conversion into account, contact and deal.</li>
+                            <li><strong>Recorded walkthrough videos</strong> so the team could use the system on day one.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>The team works from one CRM where every prospect's stage, next step and history are visible.</li>
+                            <li>Deals can't skip steps: KYC and the first transaction are confirmed before a client counts as active.</li>
+                        </ul>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Zoho CRM</span><span class="tool">Blueprint</span><span class="tool">Workflow rules</span><span class="tool">Custom fields</span><span class="tool">Kanban views</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/03-blueprint-stages.webp" alt="Zoho CRM deal with stage path from Qualified to Active Client and automatic next-action tasks" loading="lazy"></button><figcaption>Deal stage path with automatic next-action tasks</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/01-deals-pipeline.webp" alt="Zoho CRM deals board with stages and probabilities" loading="lazy"></button><figcaption>Deal pipeline: Qualified (low / high intent) → KYC in progress → Approved</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/02-active-client.webp" alt="Zoho CRM deals board showing First Transaction Done and Active Client stages" loading="lazy"></button><figcaption>…through First Transaction Done to Active Client</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/04-kyc-transition.webp" alt="Zoho CRM Blueprint transition button for KYC Approved" loading="lazy"></button><figcaption>Blueprint transition: KYC Approved</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/05-verify-transaction.webp" alt="Zoho CRM dialog asking to verify the transaction amount before moving to Active Client" loading="lazy"></button><figcaption>Required check: verify the transaction amount before Active Client</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/06-leads-board.webp" alt="Zoho CRM leads board with contact status columns" loading="lazy"></button><figcaption>Leads board: Not Contacted → Attempted → Contacted (interested / not)</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/07-lead-form.webp" alt="Zoho CRM lead form with custom fields for countries, monthly volume and business type" loading="lazy"></button><figcaption>Custom lead fields: countries sent to, monthly volume, business type</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/08-next-action-tasks.webp" alt="Zoho CRM lead with automatic Review New Lead and Confirm High Intent tasks" loading="lazy"></button><figcaption>New leads get review and qualification tasks automatically</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/09-call-outcomes.webp" alt="Zoho CRM log a call dialog with purpose and outcome options" loading="lazy"></button><figcaption>Call logging with purpose and outcome</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/cudium/10-converted-deals.webp" alt="Zoho CRM deals board after lead conversion" loading="lazy"></button><figcaption>Converted leads flowing into the deal pipeline</figcaption></figure>
+                        </div>
+                        <p class="privacy-note">Screens are from the client walkthrough videos, recorded with sample records.</p>
+                    </div>
+                </article>
+
+                <!-- ===================== TREEHOUSE LIFE ===================== -->
+                <article class="card reveal" data-category="automation crm" id="treehouse-life">
+                    <div class="card-media">
+                        <img src="assets/projects/treehouse/01-framer-to-folk-scenario.webp" alt="Make scenario: Framer form webhook, two data-cleaning steps, Folk lookup and a router that updates or creates a person" width="1366" height="641" loading="lazy">
+                        <span class="media-label">Make · Framer → Folk</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">Treehouse Life International</span><span class="dot"></span><span>Website lead capture</span><span class="dot"></span><span>UK · 2026</span></div>
+                        <h2>Website forms to CRM, plus two old CRMs merged into one</h2>
+                        <p class="card-summary">A Make scenario that sends every Framer form into Folk tagged with where it came from, and a clean-up that brought GoHighLevel and Pipedrive data together in Folk.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>2,800+ records</strong> from two old CRMs consolidated. Every new web lead lands in Folk with its source.</span></div>
+                        <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "Excellent work and responsive to my whole brief."<cite>Treehouse Life (UK) · 5-star Fiverr review · ongoing collaboration</cite></blockquote>
+                        <div class="tools"><span class="tool">Make</span><span class="tool">Folk CRM</span><span class="tool">Framer</span><span class="tool">Webhooks</span></div>
+                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>Leads came in through several Framer website forms with no record of which form they used, and older contacts were split between GoHighLevel and Pipedrive. There was no single list to work from.</p>
+                        <h3>What I built</h3>
+                        <ul>
+                            <li><strong>A Make scenario from Framer to Folk.</strong> A webhook receives each form, then two cleaning steps normalise the data and work out the lead source (wish-list, contact, consultation or newsletter) and the page it came from.</li>
+                            <li><strong>Duplicate-safe logic:</strong> Make looks the person up in Folk first, then updates the existing record or creates a new one.</li>
+                            <li><strong>CRM consolidation:</strong> imported 1,825 GoHighLevel contacts and 1,036 Pipedrive records (people and organisations) into organised Folk groups: Framer contacts, suppliers, leads, clients and partners.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>One CRM instead of three places to look.</li>
+                            <li>Every new website enquiry arrives in Folk automatically, with its source attached for follow-up and reporting.</li>
+                        </ul>
+                        <h3>In the client's words</h3>
+                        <blockquote class="quote big"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "Excellent work and responsive to my whole brief."<cite>Treehouse Life (UK) · 5-star Fiverr review · ongoing collaboration</cite></blockquote>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Make</span><span class="tool">Folk CRM</span><span class="tool">Framer</span><span class="tool">Webhooks</span><span class="tool">GoHighLevel &amp; Pipedrive exports</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/treehouse/01-framer-to-folk-scenario.webp" alt="Make scenario from Framer to Folk" loading="lazy"></button><figcaption>Framer → Folk scenario with update-or-create router</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/treehouse/02-lead-source-mapping.webp" alt="Make variables mapping form IDs to lead sources" loading="lazy"></button><figcaption>Lead-source mapping from each form</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/treehouse/03-make-scenarios.webp" alt="Make scenarios list for Treehouse Life International" loading="lazy"></button><figcaption>Scenarios in the client's Make workspace</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/treehouse/04-framer-contacts.webp" alt="Folk Framer Contacts group with test submissions" loading="lazy"></button><figcaption>Test submissions landing in Folk</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/treehouse/05-ghl-import.webp" alt="Folk import complete: 1,825 records" loading="lazy"></button><figcaption>1,825 GoHighLevel contacts imported</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/treehouse/06-pipedrive-import.webp" alt="Folk import complete: 1,036 records" loading="lazy"></button><figcaption>1,036 Pipedrive records imported</figcaption></figure>
+                        </div>
+                        <p class="privacy-note">Contact data in the background is blurred.</p>
+                    </div>
+                </article>
+
+
+                <!-- ===================== OCTOPUS INTELLIGENCE ===================== -->
+                <article class="card featured reveal" data-category="crm outreach automation" id="octopus-intelligence">
+                    <div class="card-media">
+                        <div class="diagram d-octo" role="img" aria-label="System diagram: Zoho One archived, active contacts moved to Folk CRM, synced by Make to Brevo email, with a bounce and unsubscribe loop back to Folk">
+                            <span class="d-title">System architecture</span>
+                            <div class="flow">
+                                <div class="node muted hide-sm"><b>Zoho One</b><small>~2M old records archived</small></div>
+                                <div class="arrow hide-sm">→</div>
+                                <div class="node hl"><b>Folk CRM</b><small>~20k active contacts · 6 segments · pipeline</small></div>
+                                <div class="arrow">⇄</div>
+                                <div class="node"><b>Make</b><small>Group → list sync</small></div>
+                                <div class="arrow hide-sm">⇄</div>
+                                <div class="node hl hide-sm"><b>Brevo</b><small>Authenticated subdomain</small></div>
+                            </div>
+                            <div class="loop">Hygiene loop: <b>Brevo unsubscribes &amp; bounces → suppressed in Folk</b></div>
+                            <div class="flow" style="grid-template-columns:1fr 1fr 1fr;">
+                                <div class="node"><b>2,718</b><small>Weekly eshot list</small></div>
+                                <div class="node"><b>1,276</b><small>Monthly eshot list</small></div>
+                                <div class="node"><b>MENA</b><small>nurture automation</small></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">Octopus Intelligence</span><span class="dot"></span><span>Competitive intelligence</span><span class="dot"></span><span>UK &amp; UAE · 2026</span></div>
+                        <h2>Zoho One → Folk + Brevo + Make: a full CRM and email migration</h2>
+                        <p class="card-summary">Moved a UK/Dubai intelligence agency off Zoho One onto a lighter stack: Folk for relationships, Brevo for email, and Make keeping the two in sync. Now tagging a contact in Folk is all it takes to start the right emails.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Email lists <strong>reconciled 100%</strong> against the CRM and the sending domain fully authenticated. The one-off build became a <strong>monthly retainer</strong>.</span></div>
+                        <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "His expertise has been incredibly important to our development of our CRM and mailshot strategy."<cite>Octopus Intelligence (UK) · 5-star Fiverr review</cite></blockquote>
+                        <div class="tools"><span class="tool">Folk CRM</span><span class="tool">Brevo</span><span class="tool">Make</span><span class="tool">Python</span><span class="tool">DNS / deliverability</span></div>
+                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>The founder had years of data in Zoho One: around 2 million records, most of them stale or bouncing. He wanted a clean break. That meant a CRM he would actually use, weekly and monthly eshots and nurture automations that just run, and a place to log sales calls and see who needs chasing. All done for him, without the technical detail.</p>
+                        <h3>What I built</h3>
+                        <ul>
+                            <li><strong>A careful migration.</strong> Only active, opted-in records (~20k) moved to Folk, cleaned, de-duplicated and tested on samples first. The old ~2M records were archived as an export and never mailed.</li>
+                            <li><strong>Folk set up for how he sells:</strong> six segments (leads, customers, former clients, inbound, spoken-to, information sources), a MENA / UK–US region split, a deal pipeline, and a "Needs chasing" follow-up view with reminders, notes and attached proposals.</li>
+                            <li><strong>Brevo on a dedicated sending subdomain</strong> with SPF, DKIM and DMARC all passing, plus a warm-up plan for the first sends.</li>
+                            <li><strong>Make sync in both directions:</strong> adding a contact to a Folk group adds them to the matching Brevo list. Unsubscribes and bounces in Brevo are written back to Folk so those contacts are never mailed again.</li>
+                            <li><strong>Automations and templates:</strong> the MENA nurture sequence that hands contacts to the weekly eshot at the end, plus weekly and monthly broadcast templates.</li>
+                            <li><strong>Python scripts</strong> to audit Folk contacts, screen new lead files before import, and check the sync and sending health.</li>
+                            <li><strong>A client setup guide</strong> so the founder could open the right Folk, Brevo and Make plans himself in 15 minutes.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>Weekly (2,718) and monthly (1,276) email lists <strong>reconciled 100%</strong> against the live CRM.</li>
+                            <li>The stack now runs at roughly <strong>$90–100/month</strong> instead of Zoho One. The true costs were shown up front, including the Folk and Brevo plan limits most setups miss.</li>
+                            <li>The client chose to keep me on a <strong>monthly retainer</strong> to monitor, improve and grow the system.</li>
+                        </ul>
+                        <h3>In the client's words</h3>
+                        <blockquote class="quote big"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "Built up an excellent business relationship with Dami. His expertise has been incredibly important to our development of our CRM and mailshot strategy."<cite>Octopus Intelligence (UK) · 5-star Fiverr review</cite></blockquote>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Folk CRM</span><span class="tool">Brevo</span><span class="tool">Make</span><span class="tool">Python</span><span class="tool">Zoho One (export)</span><span class="tool">SPF · DKIM · DMARC</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/01-folk-deals-pipeline.webp" alt="Folk deals pipeline with Meeting agreed, Meeting held, Proposal sent and SOW stages" loading="lazy"></button><figcaption>Folk deal pipeline: meeting agreed → proposal → SOW</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/02-folk-contact-segments.webp" alt="Folk contacts with Leads, Customers, Information source, MENA, UK/US and Needs chasing views" loading="lazy"></button><figcaption>Contact segments, region split and newsletter lists</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/03-brevo-domain-authenticated.webp" alt="Brevo confirming the domain is authenticated and branded" loading="lazy"></button><figcaption>Sending subdomain authenticated and branded in Brevo</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/04-brevo-sender.webp" alt="Brevo add sender screen" loading="lazy"></button><figcaption>Branded sender on the new subdomain</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/05-brevo-webhook-events.webp" alt="Brevo outbound webhook with unsubscribed, hard and soft bounce events enabled" loading="lazy"></button><figcaption>Hygiene loop: unsubscribe and bounce events sent back to Folk</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/06-setup-guide-cover.webp" alt="Cover of the account setup guide" loading="lazy"></button><figcaption>Client setup guide I wrote for the three accounts</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/07-setup-guide-folk.webp" alt="Setup guide page for Folk" loading="lazy"></button><figcaption>Step-by-step plan selection, so there are no surprise costs</figcaption></figure>
+                        </div>
+                        <p class="privacy-note">Prospect, deal and contact names are blurred to protect the client's pipeline.</p>
+                    </div>
+                </article>
+
+
+                <!-- ===================== PETSCRIPT ===================== -->
+                <article class="card reveal" data-category="analytics automation" id="petscript">
+                    <div class="card-media">
+                        <img src="assets/projects/petscript/01-customer-activity.webp" alt="Zoho Analytics chart of customers split into active, at risk and lapsed" width="1366" height="641" loading="lazy">
+                        <span class="media-label">Zoho Analytics · Customer activity</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">PetScript</span><span class="dot"></span><span>Veterinary supply</span><span class="dot"></span><span>2026</span></div>
+                        <h2>Customer intelligence: who's buying, who's slowing down, and who's lapsed</h2>
+                        <p class="card-summary">Years of Zoho Invoice history synced into Zoho Analytics and turned into dashboards that show revenue trends, best customers, top products and which clinics have stopped ordering.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Every customer labelled <strong>active, at risk or lapsed</strong> from their last order date, ready for win-back campaigns.</span></div>
+                        <div class="tools"><span class="tool">Zoho Invoice</span><span class="tool">Zoho Analytics</span><span class="tool">SQL</span><span class="tool">Dashboards</span></div>
+                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>A veterinary supplier had years of orders in Zoho Invoice but no easy way to answer the questions that drive repeat sales: who buys the most, which products lead revenue, how this year compares with last, and which clinics have quietly stopped ordering.</p>
+                        <h3>What I built</h3>
+                        <ul>
+                            <li><strong>A data sync</strong> from Zoho Invoice into Zoho Analytics: customers, invoices, line items and products.</li>
+                            <li><strong>Dashboard reports:</strong> revenue by month across years, top products by revenue, top customers by lifetime value with average order and order count, and customer activity.</li>
+                            <li><strong>SQL query tables</strong> that work out each customer's last purchase and days since their last order, and label them <strong>active</strong> (ordered within 90 days), <strong>at risk</strong> (90–180 days) or <strong>lapsed</strong>.</li>
+                            <li><strong>A dashboard plan</strong> covering overview, customer, product and order KPIs, including repeat purchase rate, churn, cross-sell pairs and reorder timing.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>The business can see at a glance who its best customers are, what sells, and exactly which clinics to win back.</li>
+                        </ul>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Zoho Invoice</span><span class="tool">Zoho Analytics</span><span class="tool">SQL query tables</span><span class="tool">Pivot reports</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/petscript/01-customer-activity.webp" alt="Pie chart of customers by status: active, at risk and lapsed" loading="lazy"></button><figcaption>Customer activity: active, at-risk and lapsed customers</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/petscript/02-revenue-yoy.webp" alt="Monthly revenue compared across five years" loading="lazy"></button><figcaption>Revenue by month, compared year on year</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/petscript/03-top-products.webp" alt="Bar chart of top products by revenue" loading="lazy"></button><figcaption>Top products by revenue</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/petscript/04-top-customers-ltv.webp" alt="Pivot table of top customers by lifetime value" loading="lazy"></button><figcaption>Top customers by lifetime value, average order and order count</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/petscript/05-lapsed-customer-query.webp" alt="SQL query that labels each customer active, at risk or lapsed by days since last order" loading="lazy"></button><figcaption>SQL query: days since last order → active / at risk / lapsed</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/petscript/06-dashboard-plan.webp" alt="Planned dashboard sections for overview, customers, products and orders" loading="lazy"></button><figcaption>The dashboard plan: overview, customers, products, orders</figcaption></figure>
+                        </div>
+                        <p class="privacy-note">Customer names are blurred.</p>
+                    </div>
+                </article>
+
+                <!-- ===================== PAYASSURED ===================== -->
+                <article class="card reveal" data-category="finance" id="payassured">
+                    <div class="card-media">
+                        <div class="diagram d-audit" role="img" aria-label="Review summary: 610 journals balanced, 899 bank lines matched, 14 findings: 2 critical, 6 high, 5 medium, 1 low">
+                            <span class="d-title">Zoho Books review — summary</span>
+                            <div class="stat-row">
+                                <div class="node check"><i>✓</i><span><b>610</b><small>manual journals balanced</small></span></div>
+                                <div class="node check"><i>✓</i><span><b>899</b><small>bank lines matched</small></span></div>
+                            </div>
+                            <div class="node">
+                                <b style="margin-bottom:0.45rem;">14 findings, ranked</b>
+                                <div class="bars">
+                                    <div class="bar crit"><span>Critical</span><div class="track"><div class="fill" style="width:33%"></div></div><b>2</b></div>
+                                    <div class="bar high"><span>High</span><div class="track"><div class="fill" style="width:100%"></div></div><b>6</b></div>
+                                    <div class="bar"><span>Medium</span><div class="track"><div class="fill" style="width:83%"></div></div><b>5</b></div>
+                                    <div class="bar"><span>Low</span><div class="track"><div class="fill" style="width:17%"></div></div><b>1</b></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">Payassured</span><span class="dot"></span><span>Fintech / lending</span><span class="dot"></span><span>India · 2026</span></div>
+                        <h2>Tally → Zoho Books migration review and fix plan</h2>
+                        <p class="card-summary">An independent review of a freshly migrated Zoho Books organisation: what was right, what was wrong, and the exact order to fix it so the books can be signed off.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>14 issues found and ranked</strong>, with a step-by-step remediation plan to reach sign-off.</span></div>
+                        <div class="tools"><span class="tool">Zoho Books</span><span class="tool">Bank reconciliation</span><span class="tool">GST / TDS</span></div>
+                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>The finance team had moved from Tally to Zoho Books and matched their bank statement, but weren't sure the books were actually right. They needed someone to check everything and tell them what to fix before relying on the reports.</p>
+                        <h3>What I did</h3>
+                        <ul>
+                            <li><strong>Reviewed the general ledger, sales and purchase sub-ledgers, bank and tax accounts</strong> and the reconciliation status, using exports from the live organisation.</li>
+                            <li><strong>Confirmed what was solid:</strong> all 610 manual journals balance, and all 899 bank-statement lines were imported and matched.</li>
+                            <li><strong>Found 14 issues</strong> (2 critical, 6 high, 5 medium, 1 low): accounts under the wrong statement headings, missing opening balances on two bank accounts, sales and purchase invoices stuck in draft, and a period-end reconciliation that was never formally completed.</li>
+                            <li><strong>Wrote a findings and remediation report</strong> with the fix order (structure → sub-ledgers → tax → lock the reconciliation).</li>
+                            <li><strong>Made a plain-English call cheat sheet</strong> for GST/TDS on invoices and recording payments, then walked the team through it on a call.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>The client went from "it looks done, but is it?" to a clear, prioritised list of fixes and an order to do them in.</li>
+                        </ul>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Zoho Books</span><span class="tool">Bank reconciliation</span><span class="tool">GST / TDS</span><span class="tool">Financial reporting</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/01-call-cheat-sheet.webp" alt="Zoho Books call cheat sheet explaining GST and TDS" loading="lazy"></button><figcaption>Call cheat sheet: GST and TDS explained with one worked example</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/02-call-cheat-sheet-steps.webp" alt="Cheat sheet page with steps to record a payment against an invoice" loading="lazy"></button><figcaption>Click-by-click steps for recording payments</figcaption></figure>
+                        </div>
+                        <p class="privacy-note">The full review report is confidential to the client, so it isn't shown here.</p>
+                    </div>
+                </article>
+
+
+                <!-- ===================== OPTIMIZE MY DATA ===================== -->
+                <article class="card reveal" data-category="finance" id="optimize-my-data">
+                    <div class="card-media">
+                        <div class="diagram d-demo" role="img" aria-label="Demo company Falcon Auto Spares: 47 parts, 10 vendors, 15 customers, 2 warehouses; purchase order to quote to sales order to invoice">
+                            <span class="d-title">Demo company · Falcon Auto Spares (Dubai)</span>
+                            <div class="counts">
+                                <div class="node"><b>47</b><small>parts</small></div>
+                                <div class="node"><b>10</b><small>vendors</small></div>
+                                <div class="node"><b>15</b><small>B2B customers</small></div>
+                                <div class="node"><b>2</b><small>warehouses</small></div>
+                            </div>
+                            <div class="flow">
+                                <div class="node"><b>Purchase order</b><small>stock into bins</small></div>
+                                <div class="node"><b>Quote</b><small>AED + 5% VAT</small></div>
+                                <div class="node"><b>Sales order</b><small>linked trail</small></div>
+                                <div class="node hl"><b>Invoice</b><small>+ recurring fleet billing</small></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">Optimize My Data</span><span class="dot"></span><span>Zoho partner</span><span class="dot"></span><span>Middle East market · 2026</span></div>
+                        <h2>A ready-to-demo Zoho Inventory &amp; Books company</h2>
+                        <p class="card-summary">A believable, fully populated demo business that a Zoho partner can open in any sales call to show inventory, VAT and quote-to-cash working end to end.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>A reusable demo with a <strong>live quote → order → invoice trail</strong> and a 5-minute demo script.</span></div>
+                        <div class="tools"><span class="tool">Zoho Inventory</span><span class="tool">Zoho Books</span><span class="tool">Zoho One</span></div>
+                        <button class="card-cta" type="button">Read case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>Optimize My Data, an authorised Zoho One partner, sells to automotive, manufacturing and engineering firms. An empty trial account doesn't sell anything. They needed a realistic company prospects could see running.</p>
+                        <h3>What I built</h3>
+                        <ul>
+                            <li><strong>Falcon Auto Spares Trading LLC</strong>, a Dubai parts distributor supplying garages and fleets, with company branding, AED currency, 5% VAT and branded estimate, sales order and invoice templates.</li>
+                            <li><strong>Two warehouses</strong> (Dubai and Abu Dhabi) with aisle/rack/shelf bin locations.</li>
+                            <li><strong>Master data:</strong> 47 genuine and aftermarket parts, 10 vendors and 15 B2B customers.</li>
+                            <li><strong>A real transaction history:</strong> purchase orders, quotes, sales orders and invoices linked together, with recorded payments and monthly recurring invoices for fleet customers.</li>
+                            <li><strong>Populated dashboards</strong> and a <strong>5-minute demo script</strong> for the sales team.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>The partner can demo on demand, with no setup on the day, and adapt the same structure to any prospect's parts and warehouses.</li>
+                        </ul>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Zoho Inventory</span><span class="tool">Zoho Books</span><span class="tool">Zoho One</span><span class="tool">VAT setup</span></div>
+                    </div>
+                </article>
+
+
+                <!-- ===================== FOLK SYSTEM AUDIT ===================== -->
+                <article class="card reveal" data-category="crm" id="folk-audit">
+                    <div class="card-media">
+                        <div class="diagram d-review" role="img" aria-label="Five-star review: Recommended!">
+                            <span class="d-title">Client review</span>
+                            <div class="review-big"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><p>"Recommended!"</p><small>Fiverr client · Argentina</small></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">Folk CRM audit</span><span class="dot"></span><span>Consulting</span><span class="dot"></span><span>Argentina · 2026</span></div>
+                        <h2>Folk CRM system audit and consultation</h2>
+                        <p class="card-summary">A focused audit of an existing Folk CRM setup in a live consultation: what's working, what's slowing the team down, and what to fix first.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>A clear, prioritised fix list in one session, and a <strong>5-star review</strong>.</span></div>
+                        <div class="tools"><span class="tool">Folk CRM</span><span class="tool">System audit</span><span class="tool">Consulting</span></div>
+                        <button class="card-cta" type="button">Read case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    <div class="case-full">
+                        <h3>The engagement</h3>
+                        <p>The client already used Folk CRM but felt it wasn't working as it should. We ran a 30-minute audit and consultation on their setup: groups, fields, pipeline and day-to-day workflow.</p>
+                        <h3>What they got</h3>
+                        <ul>
+                            <li>A walk through their current setup, showing where it was creating extra work.</li>
+                            <li>Practical recommendations they could apply straight away, in order of impact.</li>
+                        </ul>
+                        <h3>In the client's words</h3>
+                        <blockquote class="quote big"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "Recommended!"<cite>Fiverr client, Argentina · 5-star review</cite></blockquote>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <span class="section-label">Client reviews</span>
+            <h2>5.0 ★ from every client who left a review</h2>
+            <p class="reviews-sub">Five Fiverr reviews and one direct testimonial, all from the projects above.</p>
+            <div class="reviews-grid">
+                <figure class="review reveal">
+                    <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+                    <blockquote>"We had a fantastic experience working with Damilare. I didn't know how much I didn't realize was wrong with my system until working with him. It was a great overall experience."</blockquote>
+                    <figcaption><strong>Kim</strong><span>Healthy Little Cooks · United States</span><a href="#healthy-little-cooks" class="review-link" data-open="healthy-little-cooks">See the project →</a></figcaption>
+                </figure>
+                <figure class="review reveal">
+                    <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+                    <blockquote>"Built up an excellent business relationship with Dami. His expertise has been incredibly important to our development of our CRM and mailshot strategy."</blockquote>
+                    <figcaption><strong>Octopus Intelligence</strong><span>United Kingdom</span><a href="#octopus-intelligence" class="review-link" data-open="octopus-intelligence">See the project →</a></figcaption>
+                </figure>
+                <figure class="review reveal">
+                    <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+                    <blockquote>"What Damilare built for us exceeded every expectation. We went from juggling spreadsheets and phone notes to having a system that practically runs itself."</blockquote>
+                    <figcaption><strong>Olaoluwa M. Oreniwa</strong><span>CEO, NJS Royale Event Centre · Nigeria</span><a href="#njs-royale" class="review-link" data-open="njs-royale">See the project →</a></figcaption>
+                </figure>
+                <figure class="review reveal">
+                    <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+                    <blockquote>"Very talented and will use again!"</blockquote>
+                    <figcaption><strong>Josh Barnes</strong><span>CollisionCam · United States</span><a href="#collisioncam" class="review-link" data-open="collisioncam">See the project →</a></figcaption>
+                </figure>
+                <figure class="review reveal">
+                    <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+                    <blockquote>"Excellent work and responsive to my whole brief."</blockquote>
+                    <figcaption><strong>Treehouse Life</strong><span>United Kingdom · ongoing collaboration</span><a href="#treehouse-life" class="review-link" data-open="treehouse-life">See the project →</a></figcaption>
+                </figure>
+                <figure class="review reveal">
+                    <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+                    <blockquote>"Recommended!"</blockquote>
+                    <figcaption><strong>Fiverr client</strong><span>Folk CRM audit · Argentina</span><a href="#folk-audit" class="review-link" data-open="folk-audit">See the project →</a></figcaption>
+                </figure>
+            </div>
         </div>
     </section>
 
     <!-- HOW I WORK -->
-    <section class="process-section">
+    <section class="process">
         <div class="container">
-            <div class="process-label" id="processLabel">How I Work</div>
-            <div class="process-steps" id="processSteps"></div>
-        </div>
-    </section>
-
-    <!-- FILTERS -->
-    <section class="filter-section">
-        <div class="container">
-            <div class="filter-bar" id="filterBar">
-                <span class="filter-results" id="filterResults"></span>
+            <span class="section-label">How I work</span>
+            <h2>The same four steps behind every project above</h2>
+            <div class="steps">
+                <div class="step reveal"><h3>Discovery</h3><p>Learn how you sell today, where leads leak, and what "working" should look like.</p></div>
+                <div class="step reveal"><h3>Blueprint</h3><p>Map the pipeline, data and automations, and show the real running costs before we build.</p></div>
+                <div class="step reveal"><h3>Build &amp; test</h3><p>Set it up in your tools, test with sample records, then go live in stages.</p></div>
+                <div class="step reveal"><h3>Hand over</h3><p>Guides and video walkthroughs so your team owns it, with optional ongoing support.</p></div>
             </div>
-        </div>
-    </section>
-
-    <!-- PROJECTS GRID -->
-    <section class="projects-section">
-        <div class="container">
-            <div class="projects-grid" id="projectsGrid"></div>
         </div>
     </section>
 
     <!-- CTA -->
     <section class="cta-section">
         <div class="container">
-            <div class="cta-content reveal">
-                <span class="section-label" id="ctaLabel"></span>
-                <h2 class="section-title" id="ctaTitle"></h2>
-                <p class="section-subtitle" id="ctaSubtitle"></p>
-                <a href="#" target="_blank" class="btn-primary" id="ctaBtn">
-                    <span id="ctaBtnText">Book a Free Call</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-            </div>
+            <span class="section-label">Have a project in mind?</span>
+            <h2>Let's build the system your business needs</h2>
+            <p>Book a free call. We'll look at how leads reach you today and where a better system would pay for itself.</p>
+            <a href="book.html" class="btn-primary">Book a Free Call
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
         </div>
     </section>
+    </main>
 
-    <!-- QUICK-VIEW MODAL -->
-    <div class="modal-backdrop" id="modalBackdrop">
-        <div class="modal">
-            <button class="modal-close" id="modalClose">&times;</button>
-            <div class="modal-image" id="modalImage"></div>
-            <div class="modal-body">
-                <span class="modal-tag" id="modalTag"></span>
-                <div class="modal-industry" id="modalIndustry"></div>
-                <h2 id="modalTitle"></h2>
-                <div class="modal-tools" id="modalTools"></div>
-                <p id="modalDesc"></p>
-                <div class="modal-metric" id="modalMetric">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>
-                    <span id="modalMetricText"></span>
-                </div>
-                <a href="#" class="modal-cta" id="modalCta">
-                    Read Full Case Study
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
+    <!-- CASE-STUDY DIALOG -->
+    <dialog class="case" id="caseDialog" aria-labelledby="caseTitle">
+        <div class="case-head">
+            <div>
+                <div class="card-meta" id="caseMeta"></div>
+                <h2 id="caseTitle"></h2>
             </div>
+            <button class="case-close" id="caseClose" aria-label="Close case study">&times;</button>
         </div>
-    </div>
+        <div class="case-scroll" id="caseBody"></div>
+    </dialog>
+
+    <!-- SCREENSHOT LIGHTBOX -->
+    <dialog class="lightbox" id="lightbox" aria-label="Screenshot viewer">
+        <div class="lb-top"><span id="lbCounter"></span><button class="lb-btn" id="lbClose" aria-label="Close screenshot">&times;</button></div>
+        <div class="lb-stage">
+            <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous screenshot">&#8592;</button>
+            <img id="lbImg" alt="">
+            <button class="lb-btn lb-next" id="lbNext" aria-label="Next screenshot">&#8594;</button>
+        </div>
+        <div class="lb-caption" id="lbCaption"></div>
+    </dialog>
 
     <!-- FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-left" id="footerLeft"></div>
-                <div class="footer-socials" id="footerSocials"></div>
+                <div class="footer-left"><strong>Damilare Babalola</strong><br>&copy; <span id="year">2026</span> — All rights reserved.<br><a href="privacy.html" class="footer-legal">Privacy Policy</a></div>
+                <div class="footer-socials">
+                    <a class="social-icon" href="https://x.com/Dami_Market" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a class="social-icon" href="https://www.linkedin.com/in/damidigitalmarket" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                    <a class="social-icon" href="https://www.instagram.com/damidigital_market/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                    <a class="social-icon" href="https://www.facebook.com/itz.oluwadamilare.9277" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                    <a class="social-icon" href="https://tiktok.com/@damidigitalmarket" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+                    <a class="social-icon" href="https://www.upwork.com/freelancers/~01b8622274bfad81b9?viewMode=1" target="_blank" rel="noopener" aria-label="Upwork"><svg viewBox="0 0 24 24"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg></a>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- COOKIE BANNER -->
-    <div class="cookie-banner" id="cookieBanner">
-        <div class="cookie-banner-text">
-            <strong>We use cookies for analytics.</strong> By continuing, you help me understand which content is useful. You can decline — it won't affect anything on the site.
-        </div>
+    <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie consent">
+        <div class="cookie-banner-text"><strong>We use cookies for analytics.</strong> By continuing, you help me understand which content is useful. You can decline — it won't affect anything on the site.</div>
         <div class="cookie-banner-actions">
             <button class="cookie-btn" id="cookieDecline">Decline</button>
             <button class="cookie-btn primary" id="cookieAccept">Accept</button>
         </div>
     </div>
 
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="site-data.js"></script>
-    <script src="forms.js"></script>
-
     <script>
-    // Social icon SVGs
-    const SOCIAL_ICONS = {
-        twitter: '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>',
-        linkedin: '<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>',
-        instagram: '<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>',
-        facebook: '<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>',
-        tiktok: '<path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>',
-        upwork: '<path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/>'
-    };
-
-    const arrowSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-    const trendSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>';
-
-    // ============================================================
-    // SHARED: Apply favicon, OG tags, schema.org to <head>
-    // ============================================================
-    function applyMetaTags(d, pageTitle, pageDesc) {
-        if (!d) return;
-        const head = document.head;
-        const title = pageTitle || d.meta?.title || '';
-        const desc = pageDesc || d.meta?.description || '';
-
-        // Favicon
-        if (d.meta?.faviconUrl) {
-            let fav = head.querySelector('link[rel="icon"]');
-            if (!fav) { fav = document.createElement('link'); fav.setAttribute('rel', 'icon'); head.appendChild(fav); }
-            fav.setAttribute('href', d.meta.faviconUrl);
-        }
-
-        function setMeta(selector, attrs, value) {
-            if (!value) return;
-            let el = head.querySelector(selector);
-            if (!el) {
-                el = document.createElement('meta');
-                Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
-                head.appendChild(el);
-            }
-            el.setAttribute('content', value);
-        }
-
-        const ogImage = d.meta?.ogImage || d.about?.photoUrl || '';
-        setMeta('meta[property="og:title"]', { property: 'og:title' }, title);
-        setMeta('meta[property="og:description"]', { property: 'og:description' }, desc);
-        setMeta('meta[property="og:type"]', { property: 'og:type' }, 'website');
-        setMeta('meta[property="og:image"]', { property: 'og:image' }, ogImage);
-        setMeta('meta[property="og:url"]', { property: 'og:url' }, window.location.href);
-        setMeta('meta[name="twitter:card"]', { name: 'twitter:card' }, 'summary_large_image');
-        setMeta('meta[name="twitter:title"]', { name: 'twitter:title' }, title);
-        setMeta('meta[name="twitter:description"]', { name: 'twitter:description' }, desc);
-        setMeta('meta[name="twitter:image"]', { name: 'twitter:image' }, ogImage);
-    }
-
-    // ============================================================
-    // GA4 ANALYTICS (with cookie consent)
-    // ============================================================
-    function setupAnalytics(d) {
-        const ga4Id = d.meta?.ga4MeasurementId;
-        if (!ga4Id || !/^G-[A-Z0-9]+$/.test(ga4Id)) return;
-        const cookieBannerEnabled = d.meta?.cookieBannerEnabled !== false;
-        let consent = null;
-        try { consent = localStorage.getItem('ga_consent'); } catch(e) {}
-        if (consent === 'accepted') loadGA4(ga4Id);
-        else if (consent === 'declined') return;
-        else if (cookieBannerEnabled) showCookieBanner(ga4Id);
-        else loadGA4(ga4Id);
-    }
-    function loadGA4(id) {
-        if (window.__ga4Loaded) return;
-        window.__ga4Loaded = true;
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
-        document.head.appendChild(script);
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function(){ window.dataLayer.push(arguments); };
-        window.gtag('js', new Date());
-        window.gtag('config', id, { anonymize_ip: true });
-
-        // Microsoft Clarity (same project as the venue pages)
-        if (!window.__clarityLoaded) {
-            window.__clarityLoaded = true;
-            (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yf64xgsi54");
-        }
-    }
-    function showCookieBanner(id) {
-        const banner = document.getElementById('cookieBanner');
-        if (!banner) return;
-        banner.classList.add('visible');
-        document.getElementById('cookieAccept').addEventListener('click', () => {
-            try { localStorage.setItem('ga_consent', 'accepted'); } catch(e) {}
-            banner.classList.remove('visible');
-            loadGA4(id);
+    (function () {
+        // ---------- Theme, nav, mobile menu ----------
+        const root = document.documentElement;
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+            try { localStorage.setItem('theme', next); } catch (e) {}
         });
-        document.getElementById('cookieDecline').addEventListener('click', () => {
-            try { localStorage.setItem('ga_consent', 'declined'); } catch(e) {}
-            banner.classList.remove('visible');
-        });
-    }
+        const navbar = document.getElementById('navbar');
+        const filters = document.getElementById('filters');
+        const onScroll = () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            filters.classList.toggle('stuck', filters.getBoundingClientRect().top <= 74);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        const mobileNav = document.getElementById('mobileNav');
+        document.getElementById('navHamburger').addEventListener('click', () => mobileNav.classList.add('active'));
+        document.getElementById('mobileNavClose').addEventListener('click', () => mobileNav.classList.remove('active'));
+        mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileNav.classList.remove('active')));
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ============================================================
-    // RENDER PROJECTS PAGE FROM DATA
-    // ============================================================
-    function renderProjectsPage(data) {
-        const pp = data.projectsPage;
-        const footer = data.footer;
-        const nav = data.nav;
-
-        // Meta
-        document.title = pp.meta.title;
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', pp.meta.description);
-        applyMetaTags(data, pp.meta.title, pp.meta.description);
-
-        // Theme
-        try { const t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.setAttribute('data-theme', data.theme.defaultTheme); } catch(e) {}
-        // Brand accent is #0066FE and lives in CSS. Only a genuinely custom accent
-        // chosen in admin may override it -- never the retired teal, which
-        // published Firestore documents still contain and which would otherwise
-        // undo the rebrand at runtime, on the live site only.
-        const __brandAccent = (data.theme.accentColor || '').trim().toUpperCase();
-        if (__brandAccent && __brandAccent !== '#00D4AA' && __brandAccent !== '#0066FE') {
-            document.documentElement.style.setProperty('--accent', __brandAccent);
-            document.documentElement.style.setProperty('--accent-dim', __brandAccent + '22');
-            document.documentElement.style.setProperty('--accent-glow', __brandAccent + '55');
-            document.documentElement.style.setProperty('--accent-text', __brandAccent);
-        }
-
-        // Nav
-        document.getElementById('navLogo').innerHTML = nav.logo + '<span>.</span>';
-        const bookBtn = document.getElementById('navBookBtn');
-        const _bookHref = (data.bookingPage && data.bookingPage.enabled !== false) ? 'book.html' : nav.bookingUrl;
-        bookBtn.href = _bookHref; bookBtn.textContent = nav.bookingText;
-        if (_bookHref === 'book.html') { bookBtn.removeAttribute('target'); bookBtn.removeAttribute('rel'); }
-        const mBookBtn = document.getElementById('mobileBookBtn');
-        mBookBtn.href = _bookHref; mBookBtn.textContent = nav.bookingText;
-        if (_bookHref === 'book.html') { mBookBtn.removeAttribute('target'); mBookBtn.removeAttribute('rel'); }
-
-        // Header
-        document.getElementById('pageHeaderTitle').textContent = pp.header.title;
-        document.getElementById('pageHeaderSubtitle').textContent = pp.header.subtitle;
-        document.getElementById('visibleCount').textContent = pp.items.length;
-
-        // Stats bar
-        let statsHtml = '';
-        pp.stats.forEach((s, i) => {
-            if (i > 0) statsHtml += '<div class="stat-divider"></div>';
-            statsHtml += `<div class="stat-item">
-                <div class="stat-number" data-target="${s.number}" data-suffix="${s.suffix}">0${s.suffix}</div>
-                <div class="stat-label">${s.label}</div>
-            </div>`;
-        });
-        document.getElementById('statsBar').innerHTML = statsHtml;
-
-        // Process
-        document.getElementById('processLabel').textContent = pp.process.label;
-        let processHtml = '';
-        pp.process.steps.forEach((step, i) => {
-            processHtml += `<div class="process-step">
-                <div class="process-step-icon">${step.icon}</div>
-                <div class="process-step-text">
-                    <div class="process-step-title">${step.title}</div>
-                    <div class="process-step-desc">${step.description}</div>
-                </div>
-            </div>`;
-            if (i < pp.process.steps.length - 1) {
-                processHtml += `<div class="process-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>`;
-            }
-        });
-        document.getElementById('processSteps').innerHTML = processHtml;
-
-        // Filters
-        const filterBar = document.getElementById('filterBar');
-        const filterResults = document.getElementById('filterResults');
-        let filtersHtml = '';
-        pp.filters.forEach((f, i) => {
-            filtersHtml += `<button class="filter-btn${i === 0 ? ' active' : ''}" data-filter="${f.id}">${f.label}</button>`;
-        });
-        // Rebuild, never prepend. This function runs twice on every page load
-        // (once from cache/SITE_DATA, once when Firestore responds), so
-        // insertAdjacentHTML stacked a second full set of filter buttons.
-        filterBar.innerHTML = filtersHtml;
-        if (filterResults) filterBar.appendChild(filterResults);
-
-        // Projects
-        document.getElementById('projectsGrid').innerHTML = pp.items.map(p => {
-            const imgHtml = p.image
-                ? `<img src="${p.image}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async">`
-                : `<div class="project-image-placeholder">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                    <span>Project Screenshot</span></div>`;
-            const caseUrl = p.caseStudyId ? `case-study.html?id=${encodeURIComponent(p.caseStudyId)}` : '#';
-            const toolsHtml = p.tools.map(t => `<span class="project-tool-tag">${escapeHtml(t)}</span>`).join('');
-            return `<div class="project-card" data-category="${p.category}">
-                <div class="project-image">
-                    <span class="project-tag">${escapeHtml(p.tag)}</span>
-                    ${imgHtml}
-                </div>
-                <div class="project-content">
-                    <div class="project-industry">${escapeHtml(p.industry)}</div>
-                    <h3>${escapeHtml(p.title)}</h3>
-                    <div class="project-tools">${toolsHtml}</div>
-                    <p>${escapeHtml(p.description)}</p>
-                    <div class="project-metric">${trendSvg} ${escapeHtml(p.metric)}</div>
-                    <a href="${caseUrl}" class="project-link">View Case Study ${arrowSvg}</a>
-                </div>
-            </div>`;
-        }).join('');
-
-        // CTA
-        document.getElementById('ctaLabel').innerHTML = `<span>${escapeHtml(pp.cta.sectionLabel)}</span>`;
-        // Manually set section-label text correctly
-        document.getElementById('ctaLabel').textContent = pp.cta.sectionLabel;
-        document.getElementById('ctaTitle').textContent = pp.cta.title;
-        document.getElementById('ctaSubtitle').textContent = pp.cta.subtitle;
-        document.getElementById('ctaBtnText').textContent = pp.cta.buttonText;
-        document.getElementById('ctaBtn').href = pp.cta.buttonUrl;
-
-        // Footer
-        document.getElementById('footerLeft').innerHTML = `<strong>${escapeHtml(footer.name)}</strong><br>&copy; ${footer.year} — All rights reserved.<br><a href="privacy.html" class="footer-legal">Privacy Policy</a>`;
-        document.getElementById('footerSocials').innerHTML = footer.socials.map(s =>
-            `<a href="${s.url}" target="_blank" class="social-icon" aria-label="${escapeHtml(s.platform)}"><svg viewBox="0 0 24 24" fill="currentColor">${SOCIAL_ICONS[s.icon] || ''}</svg></a>`
-        ).join('');
-
-        // Init interactions after render
-        initInteractions();
-
-        // Analytics
-        setupAnalytics(data);
-        if (typeof window.__loadTawkTo === "function") window.__loadTawkTo(data);
-    }
-
-    function escapeHtml(s) {
-        if (s == null) return '';
-        return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    function initInteractions() {
-        // Counter animation
-        // Re-observed on every render on purpose: the Firestore render replaces
-        // the stat nodes, so a one-time guard here would leave them stuck at 0
-        // if the user had already scrolled past.
-        const statsBar = document.getElementById('statsBar');
-        if (statsBar) {
-            if (window.__statsObserver) window.__statsObserver.disconnect();
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(e => {
-                    if (e.isIntersecting) {
-                        e.target.querySelectorAll('[data-target]').forEach(counter => {
-                            if (counter.dataset.animated) return;
-                            counter.dataset.animated = '1';
-                            const t = parseInt(counter.dataset.target), s = counter.dataset.suffix || '', d = 3000, start = performance.now();
-                            function ease(x) { return 1 - Math.pow(1 - x, 3); }
-                            function tick(now) { const p = Math.min((now - start) / d, 1); counter.textContent = Math.floor(ease(p) * t) + s; if (p < 1) requestAnimationFrame(tick); else counter.textContent = t + s; }
-                            requestAnimationFrame(tick);
-                        });
-                        obs.unobserve(e.target);
-                    }
-                });
-            }, { threshold: 0.3 });
-            window.__statsObserver = obs;
-
-            // If the re-render happened after the user already scrolled past the
-            // bar, the observer will never fire — fill in the final values now.
-            if (statsBar.getBoundingClientRect().bottom < 0) {
-                statsBar.querySelectorAll('[data-target]').forEach(c => {
-                    c.dataset.animated = '1';
-                    c.textContent = c.dataset.target + (c.dataset.suffix || '');
-                });
-            }
-            obs.observe(statsBar);
-        }
-
-        // Auto-inject hover overlays
-        document.querySelectorAll('.project-card').forEach(card => {
-            const imageDiv = card.querySelector('.project-image');
-            const metricEl = card.querySelector('.project-metric');
-            const metricText = metricEl ? metricEl.textContent.trim() : '';
-            const overlay = document.createElement('div');
-            overlay.classList.add('project-image-overlay');
-            overlay.innerHTML = `<div class="overlay-metric">${metricText}</div>
-                <span class="overlay-cta">Quick View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>`;
-            imageDiv.appendChild(overlay);
-            overlay.addEventListener('click', (e) => {
-                e.preventDefault(); e.stopPropagation();
-                openModal(card);
-            });
-        });
-
-        // Modal
-        const modalBackdrop = document.getElementById('modalBackdrop');
-        const modalClose = document.getElementById('modalClose');
-        function openModal(card) {
-            const tag = card.querySelector('.project-tag')?.textContent || '';
-            const industry = card.querySelector('.project-industry')?.textContent || '';
-            const title = card.querySelector('.project-content h3')?.textContent || '';
-            const desc = card.querySelector('.project-content p')?.textContent || '';
-            const metric = card.querySelector('.project-metric')?.textContent.trim() || '';
-            const link = card.querySelector('.project-link')?.href || '#';
-            const img = card.querySelector('.project-image img');
-            const tools = card.querySelectorAll('.project-tool-tag');
-            document.getElementById('modalTag').textContent = tag;
-            document.getElementById('modalIndustry').textContent = industry;
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalDesc').textContent = desc;
-            document.getElementById('modalMetricText').textContent = metric;
-            document.getElementById('modalCta').href = link;
-            const modalImg = document.getElementById('modalImage');
-            modalImg.innerHTML = img ? `<img src="${img.src}" alt="${escapeHtml(title)}">` : `<div style="color:var(--text-muted);font-size:0.85rem;">Project Screenshot</div>`;
-            const modalTools = document.getElementById('modalTools');
-            modalTools.innerHTML = '';
-            tools.forEach(t => {
-                const span = document.createElement('span');
-                span.classList.add('modal-tool-tag');
-                span.textContent = t.textContent;
-                modalTools.appendChild(span);
-            });
-            modalBackdrop.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeModal() {
-            modalBackdrop.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        // These elements are NOT rebuilt between renders, and this function runs
-        // once per render (cache, then Firestore). Bind them a single time or
-        // every listener stacks another copy for the life of the page.
-        if (!window.__modalBound) {
-            window.__modalBound = true;
-            modalClose.addEventListener('click', closeModal);
-            modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-        }
-
-        // Filter
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const cards = document.querySelectorAll('.project-card');
-        const visibleCountEl = document.getElementById('visibleCount');
-        const filterResultsEl = document.getElementById('filterResults');
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const filter = btn.dataset.filter;
-                let visibleCount = 0, delay = 0;
-                cards.forEach(card => {
-                    const match = filter === 'all' || card.dataset.category === filter;
-                    if (match) {
-                        card.classList.remove('hiding');
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(20px) scale(0.97)';
-                        card.style.position = ''; card.style.visibility = ''; card.style.pointerEvents = '';
-                        setTimeout(() => {
-                            card.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0) scale(1)';
-                        }, delay);
-                        delay += 70; visibleCount++;
-                    } else {
-                        card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-                        card.style.opacity = '0'; card.style.transform = 'scale(0.95)';
-                        setTimeout(() => {
-                            card.classList.add('hiding');
-                            card.style.position = 'absolute'; card.style.visibility = 'hidden'; card.style.pointerEvents = 'none';
-                        }, 250);
-                    }
-                });
-                visibleCountEl.textContent = visibleCount;
-                filterResultsEl.textContent = filter === 'all' ? '' : `Showing: ${btn.textContent}`;
-            });
-        });
-    }
-
-    // Theme / nav / mobile (static elements)
-    document.getElementById('themeToggle').addEventListener('click', () => {
-        const n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', n);
-        try { localStorage.setItem('theme', n); } catch(e) {}
-    });
-    window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
-    document.getElementById('navHamburger').addEventListener('click', () => document.getElementById('mobileNav').classList.add('active'));
-    document.getElementById('mobileNavClose').addEventListener('click', () => document.getElementById('mobileNav').classList.remove('active'));
-    function closeMobileNav() { document.getElementById('mobileNav').classList.remove('active'); }
-
-    // ============================================================
-    // BOOT — Instant render from bundled/cached data, then refresh from Firestore
-    // ============================================================
-    const FIRESTORE_CACHE_KEY = 'siteContentCache';
-
-    function dismissSplash() {
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                const splash = document.getElementById('initialSplash');
-                if (splash) splash.classList.add('loaded');
-                setTimeout(() => { if (splash) splash.remove(); }, 500);
-            });
-        });
-    }
-
-    function bootSite() {
-        // Step 1: Render IMMEDIATELY from best available source
-        let renderedFromCache = false;
-        let initialRender = null;
-        try {
-            const cached = localStorage.getItem(FIRESTORE_CACHE_KEY);
-            if (cached) {
-                const parsed = JSON.parse(cached);
-                if (parsed.projectsPage) { initialRender = parsed; renderedFromCache = true; }
-            }
-        } catch(e) {}
-        if (!initialRender && typeof SITE_DATA !== 'undefined' && SITE_DATA.projectsPage) {
-            initialRender = SITE_DATA;
-        }
-
-        if (initialRender) {
-            renderProjectsPage(initialRender);
-            dismissSplash();
+        // ---------- Reveal on scroll ----------
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver(entries => entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+            }), { threshold: 0.08 });
+            revealEls.forEach(el => io.observe(el));
         } else {
-            setTimeout(dismissSplash, 1500);
+            revealEls.forEach(el => el.classList.add('visible'));
         }
 
-        // Step 2: Fetch fresh from Firestore in background
-        const oldCacheJson = renderedFromCache ? localStorage.getItem(FIRESTORE_CACHE_KEY) : null;
-        try {
-            firebase.initializeApp(firebaseConfig);
-            firebase.firestore().collection(SITE_DOC_PATH.collection).doc(SITE_DOC_PATH.doc).get()
-                .then(doc => {
-                    if (!doc.exists) return;
-                    const fresh = doc.data();
-                    const freshJson = JSON.stringify(fresh);
-                    if (freshJson !== oldCacheJson && fresh.projectsPage) {
-                        renderProjectsPage(fresh);
-                    }
-                    try { localStorage.setItem(FIRESTORE_CACHE_KEY, freshJson); } catch(e) {}
-                })
-                .catch(err => console.warn('Firestore fetch failed:', err));
-        } catch(e) {
-            console.warn('Firebase init failed:', e);
+        const cards = Array.from(document.querySelectorAll('.card'));
+
+        // ---------- Screenshot counts (badge on card + count in case study) ----------
+        const camSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>';
+        cards.forEach(card => {
+            const n = card.querySelectorAll('.case-full .gallery figure').length;
+            const count = card.querySelector('.case-full h3 .count');
+            if (count) count.textContent = n + ' screenshots · click to enlarge';
+            if (n > 0) {
+                const badge = document.createElement('span');
+                badge.className = 'shots-badge';
+                badge.innerHTML = camSvg + n + ' screens';
+                card.querySelector('.card-media').appendChild(badge);
+            }
+        });
+
+        // ---------- Filters ----------
+        const btns = Array.from(document.querySelectorAll('.filter-btn'));
+        const matches = (card, f) => f === 'all' || card.dataset.category.split(' ').includes(f);
+        btns.forEach(b => { b.querySelector('.n').textContent = cards.filter(c => matches(c, b.dataset.filter)).length; });
+        cards.forEach(c => { if (c.classList.contains('featured')) c.dataset.featured = '1'; });
+        function applyFilter(f) {
+            btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === f)));
+            cards.forEach(c => {
+                const show = matches(c, f);
+                c.hidden = !show;
+                // A featured card spans both columns only when the full list is showing
+                c.classList.toggle('featured', show && f === 'all' && c.dataset.featured === '1');
+                if (show) c.classList.add('visible');
+            });
         }
-    }
-    bootSite();
+        btns.forEach(b => b.addEventListener('click', () => {
+            applyFilter(b.dataset.filter);
+            if (filters.getBoundingClientRect().top > 80) return;
+            window.scrollTo({ top: window.scrollY + document.getElementById('projectsGrid').getBoundingClientRect().top - 150 });
+        }));
+
+        // ---------- Case-study dialog ----------
+        const dialog = document.getElementById('caseDialog');
+        const caseMeta = document.getElementById('caseMeta');
+        const caseTitle = document.getElementById('caseTitle');
+        const caseBody = document.getElementById('caseBody');
+        let lastFocus = null;
+
+        function openCase(card, push) {
+            lastFocus = document.activeElement;
+            caseMeta.innerHTML = card.querySelector('.card-meta').innerHTML;
+            caseTitle.textContent = card.querySelector('h2').textContent;
+            caseBody.innerHTML = card.querySelector('.case-full').innerHTML;
+            caseBody.scrollTop = 0;
+            // Shortcut to the screenshots for people who scan rather than read
+            const oldJump = caseTitle.parentNode.querySelector('.jump-shots');
+            if (oldJump) oldJump.remove();
+            const nShots = caseBody.querySelectorAll('.gallery figure').length;
+            if (nShots) {
+                const jump = document.createElement('button');
+                jump.type = 'button';
+                jump.className = 'jump-shots';
+                jump.innerHTML = camSvg + 'View ' + nShots + ' screenshots ↓';
+                jump.addEventListener('click', () => {
+                    const g = caseBody.querySelector('.gallery');
+                    caseBody.scrollTo({ top: g.offsetTop - caseBody.offsetTop - 60, behavior: 'smooth' });
+                });
+                caseTitle.after(jump);
+            }
+            if (typeof dialog.showModal === 'function') dialog.showModal(); else dialog.setAttribute('open', '');
+            document.body.style.overflow = 'hidden';
+            if (push && history.replaceState) history.replaceState(null, '', '#' + card.id);
+        }
+        function closeCase() {
+            if (dialog.open) { if (typeof dialog.close === 'function') dialog.close(); else dialog.removeAttribute('open'); }
+        }
+        dialog.addEventListener('close', () => {
+            document.body.style.overflow = '';
+            if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+            if (lastFocus) lastFocus.focus();
+        });
+        document.getElementById('caseClose').addEventListener('click', closeCase);
+        dialog.addEventListener('click', e => { if (e.target === dialog) closeCase(); });
+
+        cards.forEach(card => {
+            card.querySelector('.card-cta').addEventListener('click', () => openCase(card, true));
+            card.querySelector('.card-media').addEventListener('click', () => openCase(card, true));
+        });
+
+        // ---------- Lightbox for screenshots ----------
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lbImg');
+        const lbCaption = document.getElementById('lbCaption');
+        const lbCounter = document.getElementById('lbCounter');
+        let shots = [], idx = 0;
+        function showShot(i) {
+            idx = (i + shots.length) % shots.length;
+            const fig = shots[idx];
+            const img = fig.querySelector('img');
+            lbImg.src = img.getAttribute('src');
+            lbImg.alt = img.alt;
+            lbCaption.textContent = fig.querySelector('figcaption').textContent;
+            lbCounter.textContent = (idx + 1) + ' / ' + shots.length;
+            const many = shots.length > 1;
+            document.getElementById('lbPrev').hidden = !many;
+            document.getElementById('lbNext').hidden = !many;
+        }
+        caseBody.addEventListener('click', e => {
+            const btn = e.target.closest('.shot');
+            if (!btn) return;
+            shots = Array.from(caseBody.querySelectorAll('.gallery figure'));
+            showShot(shots.indexOf(btn.closest('figure')));
+            if (typeof lb.showModal === 'function') lb.showModal(); else lb.setAttribute('open', '');
+        });
+        const closeLb = () => { if (lb.open) lb.close(); };
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        document.getElementById('lbPrev').addEventListener('click', () => showShot(idx - 1));
+        document.getElementById('lbNext').addEventListener('click', () => showShot(idx + 1));
+        lb.addEventListener('click', e => { if (e.target === lb || e.target.classList.contains('lb-stage')) closeLb(); });
+        lb.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight') { e.preventDefault(); showShot(idx + 1); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); showShot(idx - 1); }
+        });
+        // Swipe on touch screens
+        let touchX = null;
+        lb.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+        lb.addEventListener('touchend', e => {
+            if (touchX === null) return;
+            const dx = e.changedTouches[0].clientX - touchX;
+            if (Math.abs(dx) > 50) showShot(idx + (dx < 0 ? 1 : -1));
+            touchX = null;
+        });
+
+        document.querySelectorAll('.review-link').forEach(a => a.addEventListener('click', e => {
+            const card = document.getElementById(a.dataset.open);
+            if (!card) return;
+            e.preventDefault();
+            openCase(card, true);
+        }));
+
+        // Deep links: projects.html#techfix opens that case study
+        const hashCard = location.hash && document.getElementById(location.hash.slice(1));
+        if (hashCard && hashCard.classList.contains('card')) {
+            hashCard.scrollIntoView();
+            openCase(hashCard, false);
+        }
+
+        // ---------- GA4 + Clarity, only after consent (same IDs as the rest of the site) ----------
+        const GA4_ID = 'G-HHK9X44DPC';
+        function loadAnalytics() {
+            if (window.__ga4Loaded) return;
+            window.__ga4Loaded = true;
+            const s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_ID;
+            document.head.appendChild(s);
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function () { window.dataLayer.push(arguments); };
+            window.gtag('js', new Date());
+            window.gtag('config', GA4_ID, { anonymize_ip: true });
+            (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', 'yf64xgsi54');
+        }
+        let consent = null;
+        try { consent = localStorage.getItem('ga_consent'); } catch (e) {}
+        if (consent === 'accepted') loadAnalytics();
+        else if (consent !== 'declined') {
+            const banner = document.getElementById('cookieBanner');
+            banner.classList.add('visible');
+            document.getElementById('cookieAccept').addEventListener('click', () => {
+                try { localStorage.setItem('ga_consent', 'accepted'); } catch (e) {}
+                banner.classList.remove('visible');
+                loadAnalytics();
+            });
+            document.getElementById('cookieDecline').addEventListener('click', () => {
+                try { localStorage.setItem('ga_consent', 'declined'); } catch (e) {}
+                banner.classList.remove('visible');
+            });
+        }
+    })();
     </script>
-
 </body>
 </html>
