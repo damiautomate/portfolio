@@ -695,7 +695,7 @@
     // overwrite them. Edit these three lists to change the homepage.
     // ============================================================
     const HOME_STATS = [
-        { number: 11, suffix: '', label: 'Client Projects' },
+        { number: 12, suffix: '', label: 'Client Projects' },
         { number: 6, suffix: '', label: 'Countries Served' },
         { number: 5, suffix: '.0 ★', label: 'Fiverr Rating' }
     ];
@@ -704,7 +704,7 @@
         title: 'Real projects, real results',
         subtitle: 'Recent builds for paying clients. Open any one for the full case study and real screenshots.',
         viewAllUrl: 'projects.html',
-        viewAllText: 'See all 11 projects',
+        viewAllText: 'See all 12 projects',
         items: [
             { id: 'healthy-little-cooks', tag: 'CRM + Outreach', image: 'assets/projects/hlc/01-dashboard.webp',
               title: 'School Outreach CRM — Healthy Little Cooks',
@@ -729,7 +729,7 @@
     const HOME_TESTIMONIALS = [
         { stars: 5,
           quote: 'What Damilare built for us exceeded every expectation. We went from juggling spreadsheets and phone notes to having a system that practically runs itself. Every tour booking flows straight into our CRM, payments are tracked automatically, and our clients get professional emails at every step without us lifting a finger.',
-          name: 'Olaoluwa M. Oreniwa', role: 'CEO, NJS Royale Event Centre · Nigeria', initials: 'OO' },
+          name: 'Olaoluwa M. Oreniwa', role: 'NJS Royale Event Centre · Nigeria', initials: 'OO' },
         { stars: 5,
           quote: "We had a fantastic experience working with Damilare. Looking forward to continuing to work together for our ongoing projects. I didn't know how much I didn't realize was wrong with my system until working with him. It was a great overall experience.",
           name: 'Kim', role: 'Healthy Little Cooks · United States · via Fiverr', initials: 'K' },
@@ -826,11 +826,11 @@
         document.getElementById('projectsTitle').textContent = hp.title;
         document.getElementById('projectsSubtitle').textContent = hp.subtitle;
         document.getElementById('projectsGrid').innerHTML = hp.items.map((p, i) => {
-            const url = hp.viewAllUrl + '#' + p.id;
+            const url = 'case-studies/' + p.id + '.html';
             return `<a href="${url}" class="project-card reveal reveal-delay-${(i%2)+1}" style="display:block;">
                 <div class="project-image"><span class="project-tag">${p.tag}</span><img src="${p.image}" alt="${p.title}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:top left;"></div>
                 <div class="project-content"><h3>${p.title}</h3><p>${p.description}</p>
-                <span class="project-link">View case study &amp; screens ${arrowSvg}</span></div></a>`;
+                <span class="project-link">Read the case study ${arrowSvg}</span></div></a>`;
         }).join('');
         document.getElementById('projectsCta').innerHTML = `<a href="${hp.viewAllUrl}" class="btn-secondary">${hp.viewAllText} ${arrowSvg}</a>`;
 

@@ -261,6 +261,11 @@
         .review-link { margin-top: 0.45rem; color: var(--accent-text); font-weight: 600; font-size: 0.8rem; }
         @media (max-width: 960px) { .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
         @media (max-width: 600px) { .reviews-grid { grid-template-columns: 1fr; } }
+        .card-actions { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem; }
+        .card-actions .card-cta { margin-top: 0; }
+        .card-full { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.85rem; border-radius: 8px; border: 1px solid var(--border); font-size: 0.82rem; font-weight: 600; color: var(--text); transition: border-color 0.2s, background 0.2s; }
+        .card-full:hover { border-color: var(--accent-text); background: var(--accent-dim); }
+        .case-full-link { display: inline-flex; align-items: center; gap: 0.4rem; margin: 0.6rem 0 0 0.5rem; padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--accent); color: #fff; font-size: 0.8rem; font-weight: 600; }
         .card-cta {
             margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 0.45rem;
             padding: 0.25rem 0; background: none; border: none; color: var(--accent-text); font-size: 0.88rem; font-weight: 600; cursor: pointer;
@@ -490,10 +495,10 @@
             <p class="lede">CRM builds, migrations, dashboards, outreach engines and automations in Folk, Zoho, Brevo, Make, n8n and GoHighLevel, each one shipped for a paying client. Open any project for the full story: the problem, what I built, what changed, and real screenshots of the work.</p>
 
             <div class="proof-row" role="list">
-                <div class="proof" role="listitem"><strong>11</strong><span>Client projects</span></div>
+                <div class="proof" role="listitem"><strong>12</strong><span>Client projects</span></div>
                 <div class="proof" role="listitem"><strong>6</strong><span>Countries — US, UK, UAE, India, Nigeria, Argentina</span></div>
                 <div class="proof" role="listitem"><strong>5.0 ★</strong><span>Every Fiverr review is 5 stars</span></div>
-                <div class="proof" role="listitem"><strong>70+</strong><span>Real screenshots from the builds</span></div>
+                <div class="proof" role="listitem"><strong>90+</strong><span>Real screenshots from the builds</span></div>
             </div>
         </div>
     </header>
@@ -530,7 +535,7 @@
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>7–8 meetings booked</strong> from the first sequence wave. The winning email pulled a <strong>14% reply rate</strong>, about 2.5× the other version.</span></div>
                         <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "I didn't know how much I didn't realize was wrong with my system until working with him."<cite>Kim, Healthy Little Cooks · 5-star Fiverr review</cite></blockquote>
                         <div class="tools"><span class="tool">Folk CRM</span><span class="tool">Email sequences</span><span class="tool">Google Workspace</span><span class="tool">Dashboards</span><span class="tool">SOPs &amp; training</span></div>
-                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/healthy-little-cooks.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -562,6 +567,8 @@
                             <figure><button class="shot" type="button"><img src="assets/projects/hlc/06-segment-tags.webp" alt="Folk schools view with tag options such as PTA/PTO, Judy Center, Title 1 and Head Start" loading="lazy"></button><figcaption>Segment tags that drive who gets which sequence</figcaption></figure>
                             <figure><button class="shot" type="button"><img src="assets/projects/hlc/07-team-guide-cover.webp" alt="Cover page of the team guide How the System Works and Your Part in It" loading="lazy"></button><figcaption>The 35-page team guide I wrote for the client</figcaption></figure>
                             <figure><button class="shot" type="button"><img src="assets/projects/hlc/08-team-guide-bulk-move.webp" alt="Annotated guide page explaining how to bulk-move a batch of contacts" loading="lazy"></button><figcaption>Inside the guide: annotated, step-by-step procedures</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/hlc/09-ab-subject-plan.webp" alt="A/B subject line plan" loading="lazy"></button><figcaption>The A/B plan, with the client's own edit</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/hlc/10-client-approval.webp" alt="Client approval message" loading="lazy"></button><figcaption>Client sign-off before anything was sent</figcaption></figure>
                         </div>
                         <p class="privacy-note">Contact names and emails are blurred to protect the client's contacts.</p>
                     </div>
@@ -579,9 +586,9 @@
                         <h2>Event venue CRM: from enquiry to venue tour to paid booking</h2>
                         <p class="card-summary">Zoho CRM and Zoho Bookings set up so every tour request, booking and deposit across three halls moves through one pipeline, with automatic stage changes and payment reminders.</p>
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>9+ workflow automations</strong> and <strong>30+ email templates</strong> covering every step from tour booking to final payment.</span></div>
-                        <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "We went from juggling spreadsheets and phone notes to having a system that practically runs itself."<cite>Olaoluwa M. Oreniwa, CEO, NJS Royale</cite></blockquote>
+                        <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "We went from juggling spreadsheets and phone notes to having a system that practically runs itself."<cite>Olaoluwa M. Oreniwa, NJS Royale Event Centre</cite></blockquote>
                         <div class="tools"><span class="tool">Zoho CRM</span><span class="tool">Zoho Bookings</span><span class="tool">Workflow rules</span><span class="tool">Email templates</span></div>
-                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/njs-royale.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -603,7 +610,7 @@
                             <li>Clients get professional, timely emails at every milestone, without anyone typing them.</li>
                         </ul>
                         <h3>In the client's words</h3>
-                        <blockquote class="quote big"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "What Damilare built for us exceeded every expectation. We went from juggling spreadsheets and phone notes to having a system that practically runs itself. Every tour booking flows straight into our CRM, payments are tracked automatically, and our clients get professional emails at every step without us lifting a finger."<cite>Olaoluwa M. Oreniwa, CEO, NJS Royale Event Centre</cite></blockquote>
+                        <blockquote class="quote big"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "What Damilare built for us exceeded every expectation. We went from juggling spreadsheets and phone notes to having a system that practically runs itself. Every tour booking flows straight into our CRM, payments are tracked automatically, and our clients get professional emails at every step without us lifting a finger."<cite>Olaoluwa M. Oreniwa, NJS Royale Event Centre</cite></blockquote>
                         <h3>Tools</h3>
                         <div class="tools"><span class="tool">Zoho CRM</span><span class="tool">Zoho Bookings</span><span class="tool">Workflow rules</span><span class="tool">Layout rules</span><span class="tool">Email templates</span></div>
                         <h3>Screens <span class="count"></span></h3>
@@ -636,7 +643,7 @@
                         <p class="card-summary">AI agents answer customers on the channel they use, collect the repair details and open the job in GoHighLevel. From there, a 7-stage pipeline keeps the customer updated automatically.</p>
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Every chat becomes a <strong>tracked repair job</strong>, and customers get an update at <strong>every stage</strong> without staff typing a word.</span></div>
                         <div class="tools"><span class="tool">n8n</span><span class="tool">OpenAI</span><span class="tool">WhatsApp API</span><span class="tool">Meta API</span><span class="tool">GoHighLevel</span></div>
-                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/techfix.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -669,6 +676,9 @@
                             <figure><button class="shot" type="button"><img src="assets/projects/techfix/09-quote-approval-workflow.webp" alt="GoHighLevel quote approval workflow" loading="lazy"></button><figcaption>Quote / cost approval workflow</figcaption></figure>
                             <figure><button class="shot" type="button"><img src="assets/projects/techfix/10-repair-approved-workflow.webp" alt="GoHighLevel repair approved workflow" loading="lazy"></button><figcaption>Repair approved: webhook, customer email, staff task</figcaption></figure>
                             <figure><button class="shot" type="button"><img src="assets/projects/techfix/11-automatic-customer-updates.webp" alt="GoHighLevel conversations showing automatic customer updates" loading="lazy"></button><figcaption>Automatic customer updates in the GHL inbox</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/13-messenger-conversation.webp" alt="Messenger conversation with the bot" loading="lazy"></button><figcaption>A test conversation: the bot gathers the repair details</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/14-contacts-tagged-by-source.webp" alt="Contacts tagged by source" loading="lazy"></button><figcaption>Contacts tagged by source channel</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/techfix/15-staff-notifications.webp" alt="Staff notifications" loading="lazy"></button><figcaption>Staff notifications for every new ticket and stage</figcaption></figure>
                         </div>
                         <p class="privacy-note">Customer contact details are blurred.</p>
                     </div>
@@ -688,7 +698,7 @@
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>849 leads tracked</strong> year to date across macro, county, attorney and PT/clinic dashboards, refined over <strong>3 rounds of client feedback</strong>.</span></div>
                         <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "Very talented and will use again!"<cite>Josh Barnes, CollisionCam · 5-star Fiverr review</cite></blockquote>
                         <div class="tools"><span class="tool">Zoho Analytics</span><span class="tool">Zoho CRM</span><span class="tool">KPI dashboards</span><span class="tool">Data modelling</span></div>
-                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/collisioncam.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -738,7 +748,7 @@
                         <p class="card-summary">A clean Zoho CRM for a relationship-led sales team: a lead board, a deal pipeline that follows the real KYC-to-first-transaction journey, guided stage changes and automatic next steps.</p>
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Every prospect follows the same path, from <strong>qualified → KYC → approved → first transaction → active client</strong>, with the next action set automatically.</span></div>
                         <div class="tools"><span class="tool">Zoho CRM</span><span class="tool">Blueprint</span><span class="tool">Workflow rules</span><span class="tool">Pipelines</span></div>
-                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/cudium.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -790,7 +800,7 @@
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>2,800+ records</strong> from two old CRMs consolidated. Every new web lead lands in Folk with its source.</span></div>
                         <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "Excellent work and responsive to my whole brief."<cite>Treehouse Life (UK) · 5-star Fiverr review · ongoing collaboration</cite></blockquote>
                         <div class="tools"><span class="tool">Make</span><span class="tool">Folk CRM</span><span class="tool">Framer</span><span class="tool">Webhooks</span></div>
-                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/treehouse-life.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -818,6 +828,7 @@
                             <figure><button class="shot" type="button"><img src="assets/projects/treehouse/04-framer-contacts.webp" alt="Folk Framer Contacts group with test submissions" loading="lazy"></button><figcaption>Test submissions landing in Folk</figcaption></figure>
                             <figure><button class="shot" type="button"><img src="assets/projects/treehouse/05-ghl-import.webp" alt="Folk import complete: 1,825 records" loading="lazy"></button><figcaption>1,825 GoHighLevel contacts imported</figcaption></figure>
                             <figure><button class="shot" type="button"><img src="assets/projects/treehouse/06-pipedrive-import.webp" alt="Folk import complete: 1,036 records" loading="lazy"></button><figcaption>1,036 Pipedrive records imported</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/treehouse/07-folk-groups.webp" alt="Folk groups" loading="lazy"></button><figcaption>Organised groups in one workspace</figcaption></figure>
                         </div>
                         <p class="privacy-note">Contact data in the background is blurred.</p>
                     </div>
@@ -853,7 +864,7 @@
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Email lists <strong>reconciled 100%</strong> against the CRM and the sending domain fully authenticated. The one-off build became a <strong>monthly retainer</strong>.</span></div>
                         <blockquote class="quote"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span> "His expertise has been incredibly important to our development of our CRM and mailshot strategy."<cite>Octopus Intelligence (UK) · 5-star Fiverr review</cite></blockquote>
                         <div class="tools"><span class="tool">Folk CRM</span><span class="tool">Brevo</span><span class="tool">Make</span><span class="tool">Python</span><span class="tool">DNS / deliverability</span></div>
-                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/octopus-intelligence.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -887,6 +898,9 @@
                             <figure><button class="shot" type="button"><img src="assets/projects/octopus/05-brevo-webhook-events.webp" alt="Brevo outbound webhook with unsubscribed, hard and soft bounce events enabled" loading="lazy"></button><figcaption>Hygiene loop: unsubscribe and bounce events sent back to Folk</figcaption></figure>
                             <figure><button class="shot" type="button"><img src="assets/projects/octopus/06-setup-guide-cover.webp" alt="Cover of the account setup guide" loading="lazy"></button><figcaption>Client setup guide I wrote for the three accounts</figcaption></figure>
                             <figure><button class="shot" type="button"><img src="assets/projects/octopus/07-setup-guide-folk.webp" alt="Setup guide page for Folk" loading="lazy"></button><figcaption>Step-by-step plan selection, so there are no surprise costs</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/08-dns-records.webp" alt="DNS records" loading="lazy"></button><figcaption>DNS records for the sending subdomain</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/09-setup-cost-overview.webp" alt="Setup cost overview" loading="lazy"></button><figcaption>Every tool, plan and price on one page</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/octopus/10-handover-checklist.webp" alt="Hand-over checklist" loading="lazy"></button><figcaption>Checklist before access is shared</figcaption></figure>
                         </div>
                         <p class="privacy-note">Prospect, deal and contact names are blurred to protect the client's pipeline.</p>
                     </div>
@@ -905,7 +919,7 @@
                         <p class="card-summary">Years of Zoho Invoice history synced into Zoho Analytics and turned into dashboards that show revenue trends, best customers, top products and which clinics have stopped ordering.</p>
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Every customer labelled <strong>active, at risk or lapsed</strong> from their last order date, ready for win-back campaigns.</span></div>
                         <div class="tools"><span class="tool">Zoho Invoice</span><span class="tool">Zoho Analytics</span><span class="tool">SQL</span><span class="tool">Dashboards</span></div>
-                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/petscript.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -939,22 +953,8 @@
                 <!-- ===================== PAYASSURED ===================== -->
                 <article class="card reveal" data-category="finance" id="payassured">
                     <div class="card-media">
-                        <div class="diagram d-audit" role="img" aria-label="Review summary: 610 journals balanced, 899 bank lines matched, 14 findings: 2 critical, 6 high, 5 medium, 1 low">
-                            <span class="d-title">Zoho Books review — summary</span>
-                            <div class="stat-row">
-                                <div class="node check"><i>✓</i><span><b>610</b><small>manual journals balanced</small></span></div>
-                                <div class="node check"><i>✓</i><span><b>899</b><small>bank lines matched</small></span></div>
-                            </div>
-                            <div class="node">
-                                <b style="margin-bottom:0.45rem;">14 findings, ranked</b>
-                                <div class="bars">
-                                    <div class="bar crit"><span>Critical</span><div class="track"><div class="fill" style="width:33%"></div></div><b>2</b></div>
-                                    <div class="bar high"><span>High</span><div class="track"><div class="fill" style="width:100%"></div></div><b>6</b></div>
-                                    <div class="bar"><span>Medium</span><div class="track"><div class="fill" style="width:83%"></div></div><b>5</b></div>
-                                    <div class="bar"><span>Low</span><div class="track"><div class="fill" style="width:17%"></div></div><b>1</b></div>
-                                </div>
-                            </div>
-                        </div>
+                        <img src="assets/projects/payassured/05-hdfc-899-matched.webp" alt="Zoho Books HDFC bank account with 899 transactions matched and zero uncategorized" width="1600" height="738" loading="lazy">
+                        <span class="media-label">Zoho Books · 899 bank lines matched</span>
                     </div>
                     <div class="card-body">
                         <div class="card-meta"><span class="client">Payassured</span><span class="dot"></span><span>Fintech / lending</span><span class="dot"></span><span>India · 2026</span></div>
@@ -962,7 +962,7 @@
                         <p class="card-summary">An independent review of a freshly migrated Zoho Books organisation: what was right, what was wrong, and the exact order to fix it so the books can be signed off.</p>
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>14 issues found and ranked</strong>, with a step-by-step remediation plan to reach sign-off.</span></div>
                         <div class="tools"><span class="tool">Zoho Books</span><span class="tool">Bank reconciliation</span><span class="tool">GST / TDS</span></div>
-                        <button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/payassured.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -973,7 +973,7 @@
                             <li><strong>Confirmed what was solid:</strong> all 610 manual journals balance, and all 899 bank-statement lines were imported and matched.</li>
                             <li><strong>Found 14 issues</strong> (2 critical, 6 high, 5 medium, 1 low): accounts under the wrong statement headings, missing opening balances on two bank accounts, sales and purchase invoices stuck in draft, and a period-end reconciliation that was never formally completed.</li>
                             <li><strong>Wrote a findings and remediation report</strong> with the fix order (structure → sub-ledgers → tax → lock the reconciliation).</li>
-                            <li><strong>Made a plain-English call cheat sheet</strong> for GST/TDS on invoices and recording payments, then walked the team through it on a call.</li>
+                            <li><strong>A follow-up call</strong> to set up GST and TDS on invoices and show the team how to record payments already received.</li>
                         </ul>
                         <h3>What changed</h3>
                         <ul>
@@ -983,10 +983,14 @@
                         <div class="tools"><span class="tool">Zoho Books</span><span class="tool">Bank reconciliation</span><span class="tool">GST / TDS</span><span class="tool">Financial reporting</span></div>
                         <h3>Screens <span class="count"></span></h3>
                         <div class="gallery">
-                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/01-call-cheat-sheet.webp" alt="Zoho Books call cheat sheet explaining GST and TDS" loading="lazy"></button><figcaption>Call cheat sheet: GST and TDS explained with one worked example</figcaption></figure>
-                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/02-call-cheat-sheet-steps.webp" alt="Cheat sheet page with steps to record a payment against an invoice" loading="lazy"></button><figcaption>Click-by-click steps for recording payments</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/03-client-request.webp" alt="Client message asking for a review of their Tally to Zoho migration" loading="lazy"></button><figcaption>The ask: "review the work and point out anything that needs correcting"</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/04-banking-overview.webp" alt="Zoho Books banking overview with cash, HDFC and two Kotak accounts" loading="lazy"></button><figcaption>Banking overview: four accounts reviewed</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/05-hdfc-899-matched.webp" alt="HDFC account with 899 matched transactions and zero uncategorized" loading="lazy"></button><figcaption>HDFC: all 899 statement lines matched, 0 uncategorized</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/06-hdfc-reconciled.webp" alt="Reconciled journal transactions in Zoho Books" loading="lazy"></button><figcaption>Matched journal entries checked line by line</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/07-books-dashboard.webp" alt="Zoho Books home dashboard with receivables, payables and cash flow" loading="lazy"></button><figcaption>Books dashboard: receivables showing zero because invoices were still in draft</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/payassured/08-client-follow-up.webp" alt="Client follow-up asking for help with TDS and GST on invoices and recording payments" loading="lazy"></button><figcaption>Follow-up call booked on TDS, GST and recording payments</figcaption></figure>
                         </div>
-                        <p class="privacy-note">The full review report is confidential to the client, so it isn't shown here.</p>
+                        <p class="privacy-note">Names, phone numbers and account balances are blurred. The full review report is confidential to the client.</p>
                     </div>
                 </article>
 
@@ -1016,7 +1020,7 @@
                         <p class="card-summary">A believable, fully populated demo business that a Zoho partner can open in any sales call to show inventory, VAT and quote-to-cash working end to end.</p>
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>A reusable demo with a <strong>live quote → order → invoice trail</strong> and a 5-minute demo script.</span></div>
                         <div class="tools"><span class="tool">Zoho Inventory</span><span class="tool">Zoho Books</span><span class="tool">Zoho One</span></div>
-                        <button class="card-cta" type="button">Read case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/optimize-my-data.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The problem</h3>
@@ -1039,6 +1043,53 @@
                 </article>
 
 
+                <!-- ===================== AUTOSPAREPARTS ===================== -->
+                <article class="card reveal" data-category="finance" id="autospareparts">
+                    <div class="card-media">
+                        <img src="assets/projects/autospareparts/04-stock-by-warehouse.webp" alt="Zoho Inventory stock locations across three warehouses" width="1280" height="587" loading="lazy">
+                        <span class="media-label">Zoho Inventory · Proof of concept</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta"><span class="client">Auto spare parts distributor</span><span class="dot"></span><span>via a Zoho partner</span><span class="dot"></span><span>India · 2026</span></div>
+                        <h2>From seven disconnected tools to one Zoho system: architecture and a working demo</h2>
+                        <p class="card-summary">A solution design to move a two-entity parts distributor off Tally, a warehouse system and Excel onto Zoho, backed by a live Zoho Inventory proof of concept with warehouses, barcodes and mobile invoicing.</p>
+                        <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>A clear plan for <strong>7 tools → 1 platform</strong>, proven with a working demo of the warehouse-to-invoice flow.</span></div>
+                        <div class="tools"><span class="tool">Zoho Inventory</span><span class="tool">Zoho Books</span><span class="tool">Zoho CRM</span><span class="tool">Solution design</span></div>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study &amp; see screens <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/autospareparts.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+                    </div>
+                    <div class="case-full">
+                        <h3>The problem</h3>
+                        <p>An auto spare parts distributor with two GST entities, several warehouses and a field sales team ran on seven tools that didn't talk to each other: Tally for accounts, a warehouse system feeding Tally, two manufacturer portals (Honda and Bajaj), a mobile sales app, barcode middleware and Excel for reporting. Staff re-keyed data and rebuilt management reports by hand.</p>
+                        <h3>What I did</h3>
+                        <ul>
+                            <li><strong>Mapped every system</strong> and decided its fate: replace (Tally, Excel reporting, the warehouse system and scanning middleware), retire (the Tally mobile app) or keep standalone (the Honda and Bajaj manufacturer portals, which must stay).</li>
+                            <li><strong>Designed the target architecture:</strong> two Zoho Books organisations (one per GST entity), Zoho Inventory for multi-warehouse stock using the existing barcodes, Zoho CRM for reps, telecallers and team leaders, Zoho Analytics for consolidated reporting and Zoho Flow to remove re-keying.</li>
+                            <li><strong>Avoided a fragile integration:</strong> rather than syncing two ways with the manufacturer portals, Zoho becomes the single source of truth, with an optional one-way export where a portal accepts imports.</li>
+                            <li><strong>Built a working Zoho Inventory proof of concept:</strong> a parts catalogue with Honda and Bajaj SKUs, stock across Head Office, Mumbai and Pune, FIFO valuation, barcode labels, warehouse-specific invoices with payments, and invoicing on the mobile app by scanning a part's barcode.</li>
+                            <li><strong>Wrote the implementation proposal</strong> for the Zoho partner: a two-phase plan (finance and inventory backbone, then sales, reporting and go-live), deliverables, assumptions and fixed pricing.</li>
+                        </ul>
+                        <h3>What changed</h3>
+                        <ul>
+                            <li>The business could see exactly how its day-to-day work (stock, invoicing, scanning) would run in Zoho before committing to the migration.</li>
+                        </ul>
+                        <h3>Tools</h3>
+                        <div class="tools"><span class="tool">Zoho Inventory</span><span class="tool">Zoho Inventory mobile</span><span class="tool">Zoho Books</span><span class="tool">Zoho CRM</span><span class="tool">Zoho Analytics</span><span class="tool">Zoho Flow</span></div>
+                        <h3>Screens <span class="count"></span></h3>
+                        <div class="gallery">
+                            <figure><button class="shot" type="button"><img src="assets/projects/autospareparts/02-parts-catalogue.webp" alt="Zoho Inventory item list with Honda and Bajaj part SKUs" loading="lazy"></button><figcaption>Parts catalogue with OE-brand SKUs (Honda, Bajaj)</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/autospareparts/03-item-details.webp" alt="Zoho Inventory item details for an oil filter with brand, manufacturer and FIFO valuation" loading="lazy"></button><figcaption>Item setup: brand, manufacturer, FIFO stock valuation</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/autospareparts/04-stock-by-warehouse.webp" alt="Stock locations for Head Office, Warehouse A Mumbai and Warehouse B Pune" loading="lazy"></button><figcaption>Stock split across Head Office, Mumbai and Pune warehouses</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/autospareparts/05-invoice-by-warehouse.webp" alt="New invoice with the Pune warehouse selected as location" loading="lazy"></button><figcaption>Invoices raised from a specific warehouse</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/autospareparts/06-tax-invoice.webp" alt="Paid tax invoice generated in Zoho Inventory" loading="lazy"></button><figcaption>Branded tax invoice, paid and ready to share</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/autospareparts/07-barcode-label.webp" alt="Printable barcode label for a brake pad set" loading="lazy"></button><figcaption>Barcode labels generated from the SKU</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/autospareparts/08-mobile-scan-item.webp" alt="Zoho Inventory mobile app adding an invoice line by scanning a barcode" loading="lazy"></button><figcaption>Mobile: scan a part's barcode straight onto an invoice</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/autospareparts/09-mobile-paid-invoice.webp" alt="Paid invoice on the Zoho Inventory mobile app" loading="lazy"></button><figcaption>Mobile: invoice completed and paid on the spot</figcaption></figure>
+                            <figure><button class="shot" type="button"><img src="assets/projects/autospareparts/01-inventory-dashboard.webp" alt="Zoho Inventory dashboard with top selling items" loading="lazy"></button><figcaption>Inventory dashboard</figcaption></figure>
+                        </div>
+                        <p class="privacy-note">Screens are from the proof-of-concept demo, built with sample parts and customers.</p>
+                    </div>
+                </article>
+
                 <!-- ===================== FOLK SYSTEM AUDIT ===================== -->
                 <article class="card reveal" data-category="crm" id="folk-audit">
                     <div class="card-media">
@@ -1053,7 +1104,7 @@
                         <p class="card-summary">A focused audit of an existing Folk CRM setup in a live consultation: what's working, what's slowing the team down, and what to fix first.</p>
                         <div class="outcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>A clear, prioritised fix list in one session, and a <strong>5-star review</strong>.</span></div>
                         <div class="tools"><span class="tool">Folk CRM</span><span class="tool">System audit</span><span class="tool">Consulting</span></div>
-                        <button class="card-cta" type="button">Read case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                        <div class="card-actions"><button class="card-cta" type="button">Read case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button><a class="card-full" href="case-studies/folk-audit.html">Full case study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
                     </div>
                     <div class="case-full">
                         <h3>The engagement</h3>
@@ -1092,7 +1143,7 @@
                 <figure class="review reveal">
                     <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
                     <blockquote>"What Damilare built for us exceeded every expectation. We went from juggling spreadsheets and phone notes to having a system that practically runs itself."</blockquote>
-                    <figcaption><strong>Olaoluwa M. Oreniwa</strong><span>CEO, NJS Royale Event Centre · Nigeria</span><a href="#njs-royale" class="review-link" data-open="njs-royale">See the project →</a></figcaption>
+                    <figcaption><strong>Olaoluwa M. Oreniwa</strong><span>NJS Royale Event Centre · Nigeria</span><a href="#njs-royale" class="review-link" data-open="njs-royale">See the project →</a></figcaption>
                 </figure>
                 <figure class="review reveal">
                     <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
@@ -1276,6 +1327,8 @@
             // Shortcut to the screenshots for people who scan rather than read
             const oldJump = caseTitle.parentNode.querySelector('.jump-shots');
             if (oldJump) oldJump.remove();
+            const oldFull = caseTitle.parentNode.querySelector('.case-full-link');
+            if (oldFull) oldFull.remove();
             const nShots = caseBody.querySelectorAll('.gallery figure').length;
             if (nShots) {
                 const jump = document.createElement('button');
@@ -1288,6 +1341,11 @@
                 });
                 caseTitle.after(jump);
             }
+            const fullLink = document.createElement('a');
+            fullLink.className = 'case-full-link';
+            fullLink.href = 'case-studies/' + card.id + '.html';
+            fullLink.textContent = 'Read the full case study →';
+            (caseTitle.parentNode.querySelector('.jump-shots') || caseTitle).after(fullLink);
             if (typeof dialog.showModal === 'function') dialog.showModal(); else dialog.setAttribute('open', '');
             document.body.style.overflow = 'hidden';
             if (push && history.replaceState) history.replaceState(null, '', '#' + card.id);
